@@ -20,9 +20,9 @@ namespace BikeSparesInventorySystem.Data.Repositories
 
         TSource Get<TKey>(Func<TSource, TKey> keySelector, TKey byValue);
 
-        List<TSource> GetAll();
+        IEnumerable<TSource> GetAll();
 
-        List<TSource> GetAllSorted<TKey>(Func<TSource, TKey> keySelector, SortDirection direction);
+        IEnumerable<TSource> GetAllSorted<TKey>(Func<TSource, TKey> keySelector, SortDirection direction);
 
         void Update(TSource item);
         //
