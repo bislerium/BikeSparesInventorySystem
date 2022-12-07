@@ -50,8 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\Services\" />
-      <Folder Include="Data\Repositories\" />
+      <Folder Include="Data\Providers\" />
     </ItemGroup>
 
 </Project>
