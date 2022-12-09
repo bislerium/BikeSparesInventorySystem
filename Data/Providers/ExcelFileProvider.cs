@@ -1,19 +1,32 @@
 ﻿using BikeSparesInventorySystem.Data.Models;
+using Ganss.Excel;
 
 namespace BikeSparesInventorySystem.Data.Providers
 {
     internal class ExcelFileProvider<TSource> : IFileProvider<TSource> where TSource : IModel
     {
-        public string FilePath { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string FilePath { get; set; }
 
-        public List<TSource> Read()
+        private ExcelMapper _excelMapper;
+        private ICollection<TSource> _sourceData;
+
+        public ICollection<TSource> Read()
         {
-            throw new NotImplementedException();
+            using var stream = File.OpenRead(FilePath);
+            return _sourceData = new ExcelMapper(stream).Fetch<TSource>().ToList();
         }
 
-        public bool Write(TSource data)
+        public void Write(TSource data)
         {
-            throw new NotImplementedException();
+            _excelMapper = new ExcelMapper("products.xlsx");
+            _ = _sourceData.Append(data);
+            _excelMapper.Save(FilePath);
+        }
+
+        public void Write(ICollection<TSource> data)
+        {
+            var stream = File.OpenWrite(FilePath);
+            new ExcelMapper().Save(stream, data, nameof(TSource));
         }
     }
 }

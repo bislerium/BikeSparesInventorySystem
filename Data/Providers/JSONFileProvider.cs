@@ -1,19 +1,36 @@
 ﻿using BikeSparesInventorySystem.Data.Models;
+using NPOI.Util;
+using System.Text.Json;
 
 namespace BikeSparesInventorySystem.Data.Providers
 {
     internal class JSONFileProvider<TSource> : IFileProvider<TSource> where TSource : IModel
     {
-        public string FilePath { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string FilePath { get; set; }
 
-        public List<TSource> Read()
+        public ICollection<TSource> Read()
         {
-            throw new NotImplementedException();
+            using var stream = File.OpenRead(FilePath);
+            return JsonSerializer.Deserialize<IEnumerable<TSource>>(stream).ToList();
         }
 
-        public bool Write(TSource data)
+        public void Write(TSource data)
         {
-            throw new NotImplementedException();
+            using (var fs = new FileStream(FilePath, FileMode.OpenOrCreate))
+            {
+                
+                byte[] content = JsonSerializer.SerializeToUtf8Bytes(data);
+                fs.Seek(-1, SeekOrigin.End);
+                fs.Write(content, 0, content.Length); // include a leading comma character if required
+                //fs.Write(squareBracketByte, 0, 1);
+                //fs.SetLength(fs.Position); //Only needed if new content may be smaller than old
+            }
+        }
+
+        public void Write(ICollection<TSource> data)
+        {
+            using var stream = File.Create(FilePath);
+            JsonSerializer.Serialize(stream, data);
         }
     }
 }

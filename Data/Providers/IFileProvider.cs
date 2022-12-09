@@ -6,8 +6,10 @@ namespace BikeSparesInventorySystem.Data.Providers
     {
         string FilePath { get; set; }
 
-        List<TSource> Read();
+        ICollection<TSource> Read();
 
-        bool Write(TSource data);
+        void Write(TSource data);
+
+        void Write(ICollection<TSource> data);
     }
 }
