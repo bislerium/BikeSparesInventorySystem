@@ -20,7 +20,7 @@ namespace BikeSparesInventorySystem.Data.Services
         {
             if (_userRepository.HasUserName(username)) throw new Exception(message: "Username already exists!");
             User user = new() { 
-                Username = username,
+                UserName = username,
                 PasswordHash = Hasher.HashSecret(password),
                 Role = userRole,
                 CreatedAt= DateTime.UtcNow,
@@ -31,7 +31,7 @@ namespace BikeSparesInventorySystem.Data.Services
 
         public bool Login(string userName, string password)
         {
-            _user = _userRepository.Get(x => x.Username, userName);
+            _user = _userRepository.Get(x => x.UserName, userName);
             if (_user == null) return false;
             return Hasher.VerifyHash(password, User.PasswordHash);
         }

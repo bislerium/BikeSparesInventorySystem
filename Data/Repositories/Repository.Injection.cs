@@ -1,10 +1,4 @@
 ﻿using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Providers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BikeSparesInventorySystem.Data.Repositories
 {

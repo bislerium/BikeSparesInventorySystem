@@ -1,4 +1,6 @@
-﻿namespace BikeSparesInventorySystem.Data.Models
+﻿using System.Text.Json;
+
+namespace BikeSparesInventorySystem.Data.Models
 {
     internal class Spare : IModel
     {
@@ -13,5 +15,7 @@
         public decimal Price { get; set; }
 
         public int AvailableQuantity { get; set; }
+
+        public override string ToString() => JsonSerializer.Serialize(this);
     }
 }

@@ -51,6 +51,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Bogus" Version="34.0.2" />
       <PackageReference Include="CsvHelper" Version="30.0.1" />
       <PackageReference Include="ExcelMapper" Version="5.2.471" />
     </ItemGroup>
