@@ -1,11 +1,16 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
+using BikeSparesInventorySystem.Data.Providers;
 using System.Linq;
 
 namespace BikeSparesInventorySystem.Data.Repositories
 {
     internal class Repository<TSource> : IRepository<TSource> where TSource : IModel
     {
+        
+        public Repository(IFileProvider<TSource> fileProvider) => _sourceData = fileProvider.Read();
+
+
         readonly ICollection<TSource> _sourceData;
 
         public int Count => _sourceData.Count;
@@ -30,7 +35,5 @@ namespace BikeSparesInventorySystem.Data.Repositories
         };
 
         public bool Remove(TSource item) => _sourceData.Remove(item);
-
-        public void Update(TSource item) => _sourceData.Add(item);
     }
 }

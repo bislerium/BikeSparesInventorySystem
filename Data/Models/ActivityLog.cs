@@ -2,6 +2,14 @@
 {
     internal class ActivityLog : IModel
     {
-        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Guid Id { get; set; } = new();
+
+        public int Quantity { get; set; }
+
+        public Guid TakenBy { get; set; }
+
+        public Guid ApprovedBy { get; set; }
+
+        public DateTime TakenOut { get; set; }
     }
 }

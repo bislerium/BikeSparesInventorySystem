@@ -24,7 +24,6 @@ namespace BikeSparesInventorySystem.Data.Repositories
 
         ICollection<TSource> GetAllSorted<TKey>(Func<TSource, TKey> keySelector, SortDirection direction);
 
-        void Update(TSource item);
         //
         // Summary:
         //     Removes the first occurrence of a specific object from the System.Collections.Generic.ICollection`1.

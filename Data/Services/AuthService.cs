@@ -11,7 +11,7 @@ namespace BikeSparesInventorySystem.Data.Services
         private User _user;
         public User User { get => _user; }
 
-        public AuthService( Repository<User> userRepository)
+        public AuthService(Repository<User> userRepository)
         {
             _userRepository = userRepository;
         }

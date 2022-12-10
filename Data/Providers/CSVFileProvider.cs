@@ -5,7 +5,7 @@ using System.Globalization;
 
 namespace BikeSparesInventorySystem.Data.Providers
 {
-    internal class CSVFileProvider<TSource> : IFileProvider<TSource> where TSource : IModel
+    internal class CsvFileProvider<TSource> : IFileProvider<TSource> where TSource : IModel
     {
         public string FilePath { get; set; }
 
@@ -28,9 +28,9 @@ namespace BikeSparesInventorySystem.Data.Providers
             Write(csvWriter, data);
         }
 
-        public void Write(TSource data) => CSVFileProvider<TSource>.Write(FilePath, data);
+        public void Write(TSource data) => CsvFileProvider<TSource>.Write(FilePath, data);
 
-        public void Write(ICollection<TSource> data) => CSVFileProvider<TSource>.Write(FilePath, data);
+        public void Write(ICollection<TSource> data) => CsvFileProvider<TSource>.Write(FilePath, data);
 
         public static void Write(CsvWriter csvWriter, TSource data) => csvWriter.WriteRecord(data);
 

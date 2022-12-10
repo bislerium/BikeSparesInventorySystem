@@ -10,18 +10,19 @@ namespace BikeSparesInventorySystem.Data.Utils
         const int KEY_SIZE = 32;
         static readonly HashAlgorithmName ALGORITHM = HashAlgorithmName.SHA256;
 
-        public static string HashSecret(string input, HashAlgorithmName hashAlgorithm = ALGORITHM, int saltSize = SALT_SIZE, int iterations = ITERATIONS, int keySize = KEY_SIZE)
+        public static string HashSecret(string input, HashAlgorithmName? hashAlgorithm = null, int saltSize = SALT_SIZE, int iterations = ITERATIONS, int keySize = KEY_SIZE)
         {
 
-            byte[] salt = RandomNumberGenerator.GetBytes(saltSize);
-            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(input, salt, iterations, hashAlgorithm, keySize);
+            byte[] salt = RandomNumberGenerator.GetBytes(saltSize);            
+            var algorithm = hashAlgorithm ?? ALGORITHM;
+            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(input, salt, iterations, algorithm, keySize);
 
             return string.Join(
                 SEGMENT_DELIMITER,
                 Convert.ToHexString(hash),
                 Convert.ToHexString(salt),
                 iterations,
-                hashAlgorithm
+                algorithm
             );
         }
 

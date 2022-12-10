@@ -4,11 +4,11 @@ namespace BikeSparesInventorySystem.Data.Models
 {
     internal class InventoryContext
     {
-        internal Repository<ActivityLog> ActivityLogs { get; }
-        internal Repository<Spare> Spares { get; }
-        internal Repository<User> Users { get;  }
+        internal IRepository<ActivityLog> ActivityLogs { get; }
+        internal IRepository<Spare> Spares { get; }
+        internal IRepository<User> Users { get;  }
 
-        public InventoryContext(Repository<ActivityLog> activityLogs, Repository<Spare> spares, Repository<User> users)
+        public InventoryContext(IRepository<ActivityLog> activityLogs, IRepository<Spare> spares, IRepository<User> users)
         {
             ActivityLogs = activityLogs;
             Spares = spares;

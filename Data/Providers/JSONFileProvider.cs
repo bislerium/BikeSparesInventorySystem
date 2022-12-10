@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace BikeSparesInventorySystem.Data.Providers
 {
-    internal class JSONFileProvider<TSource> : IFileProvider<TSource> where TSource : IModel
+    internal class JsonFileProvider<TSource> : IFileProvider<TSource> where TSource : IModel
     {
         public string FilePath { get; set; }
 
