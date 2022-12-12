@@ -1,17 +1,17 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Data.Providers;
+using Microsoft.Extensions.FileProviders;
 using System.Linq;
+using System.Threading.Tasks.Dataflow;
 
 namespace BikeSparesInventorySystem.Data.Repositories
 {
-    internal class Repository<TSource> : IRepository<TSource> where TSource : IModel
+    internal class Repository<TSource> : RepositoryIO<TSource>, IRepository<TSource> where TSource : IModel
     {
-        
-        public Repository(IFileProvider<TSource> fileProvider) => _sourceData = fileProvider.Read();
-
-
-        readonly ICollection<TSource> _sourceData;
+        public Repository(FileProvider<TSource> fileProvider) : base(fileProvider)
+        {
+        }
 
         public virtual int Count => _sourceData.Count;
 

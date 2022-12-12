@@ -4,6 +4,7 @@ using BikeSparesInventorySystem.Data.Providers;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Data.Repositories;
 using BikeSparesInventorySystem.Data.Services;
+using BikeSparesInventorySystem.Data.Utils;
 
 namespace BikeSparesInventorySystem;
 
@@ -20,18 +21,25 @@ public static class MauiProgram
 			});
 
 		builder.Services.AddMauiBlazorWebView();
-		#if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
-#endif
-		
-		builder.Services.AddCsvFileProvider();
-/*		builder.Services.AddExcelFileProvider();
-		builder.Services.AddJsonFileProvider();*/
 
-		builder.Services.AddRepository();
+		#if DEBUG
+			builder.Services.AddBlazorWebViewDeveloperTools();
+		#endif
+
+        builder.Services.AddCsvFileProvider();
+        // builder.Services.AddExcelFileProvider();
+        // builder.Services.AddJsonFileProvider();
+
+		builder.Services.AddSeeder();
+
+        builder.Services.AddRepository();
 
 		builder.Services.AddAuth();
 
-		return builder.Build();
+		var mauiApp = builder.Build();
+
+		mauiApp.Services.GetService<SeederService>().Seed();
+
+		return mauiApp;
 	}
 }

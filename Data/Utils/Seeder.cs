@@ -6,35 +6,8 @@ using Bogus;
 
 namespace BikeSparesInventorySystem.Data.Utils
 {
-    internal class Seeder
+    internal static class Seeder
     {
-        internal int MinUsers { get; set; } = 6;
-        internal int MaxUsers { get; set; } = 10;
-        internal int MinSpares { get; set; } = 12;
-        internal int MaxSpares { get; set; } = 24;
-        internal int MinActivityLogs { get; set; } = 30;
-        internal int MaxActivityLogs { get; set; } = 80;
-
-        private readonly IFileProvider<User> _userFileProvider;
-        private readonly IFileProvider<Spare> _spareFileProvider;
-        private readonly IFileProvider<ActivityLog> _activityLogFileProvider;
-
-        public Seeder(IFileProvider<User> userFileProvider, IFileProvider<Spare> spareFileProvider, IFileProvider<ActivityLog> activityLogFileProvider)
-        {
-            _userFileProvider = userFileProvider;
-            _spareFileProvider = spareFileProvider;
-            _activityLogFileProvider = activityLogFileProvider;
-        }
-
-        public void Seed() {
-            var users = GenerateUsers(MinUsers, MaxUsers);
-            var spares = GenerateSpares(MinSpares, MaxSpares);
-            var ActivityLogs = GenerateActivityLogs(users, spares, MinActivityLogs, MaxActivityLogs);
-            _userFileProvider.Write(users);
-            _spareFileProvider.Write(spares);
-            _activityLogFileProvider.Write(ActivityLogs);
-        }        
-
         public static ICollection<User> GenerateUsers(int min, int max)
         {
             var adminIDs = new List<Guid>();

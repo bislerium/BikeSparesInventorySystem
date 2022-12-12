@@ -11,9 +11,9 @@ namespace BikeSparesInventorySystem.Data.Providers
     {
         public static IServiceCollection AddCsvFileProvider(this IServiceCollection services)
         {
-            return services.AddSingleton<IFileProvider<User>, CsvFileProvider<User>>()
-                .AddSingleton<IFileProvider<Spare>, CsvFileProvider<Spare>>()
-                .AddSingleton<IFileProvider<ActivityLog>, CsvFileProvider<ActivityLog>>();
+            return services.AddSingleton<FileProvider<User>, CsvFileProvider<User>>()
+                .AddSingleton<FileProvider<Spare>, CsvFileProvider<Spare>>()
+                .AddSingleton<FileProvider<ActivityLog>, CsvFileProvider<ActivityLog>>();
         }
     }
 }

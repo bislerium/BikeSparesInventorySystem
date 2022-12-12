@@ -6,9 +6,9 @@ namespace BikeSparesInventorySystem.Data.Providers
     {
         public static IServiceCollection AddExcelFileProvider(this IServiceCollection services)
         {
-            return services.AddSingleton<IFileProvider<User>, ExcelFileProvider<User>>()
-                .AddSingleton<IFileProvider<Spare>, ExcelFileProvider<Spare>>()
-                .AddSingleton<IFileProvider<ActivityLog>, ExcelFileProvider<ActivityLog>>();
+            return services.AddSingleton<FileProvider<User>, ExcelFileProvider<User>>()
+                .AddSingleton<FileProvider<Spare>, ExcelFileProvider<Spare>>()
+                .AddSingleton<FileProvider<ActivityLog>, ExcelFileProvider<ActivityLog>>();
         }
     }
 }

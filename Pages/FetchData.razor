@@ -1,13 +1,13 @@
 ﻿@page "/fetchdata"
 
-@using BikeSparesInventorySystem.Data
+@*@using BikeSparesInventorySystem.Data
 @inject WeatherForecastService ForecastService
-
+*@
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+@*@if (forecasts == null)
 {
 	<p><em>Loading...</em></p>
 }
@@ -43,4 +43,4 @@ else
 	{
 		forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
 	}
-}
+}*@

@@ -11,9 +11,9 @@ namespace BikeSparesInventorySystem.Data.Providers
     {
         public static IServiceCollection AddJsonFileProvider(this IServiceCollection services)
         {
-            return services.AddSingleton<IFileProvider<User>, JsonFileProvider<User>>()
-                .AddSingleton<IFileProvider<Spare>, JsonFileProvider<Spare>>()
-                .AddSingleton<IFileProvider<ActivityLog>, JsonFileProvider<ActivityLog>>();
+            return services.AddSingleton<FileProvider<User>, JsonFileProvider<User>>()
+                .AddSingleton<FileProvider<Spare>, JsonFileProvider<Spare>>()
+                .AddSingleton<FileProvider<ActivityLog>, JsonFileProvider<ActivityLog>>();
         }
     }
 }
