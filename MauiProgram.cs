@@ -10,7 +10,7 @@ namespace BikeSparesInventorySystem;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
+	public static MauiApp CreateMauiAppAsync()
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
@@ -38,7 +38,7 @@ public static class MauiProgram
 
 		var mauiApp = builder.Build();
 
-		mauiApp.Services.GetService<SeederService>().Seed();
+		// mauiApp.Services.GetService<SeederService>().Seed();
 
 		return mauiApp;
 	}

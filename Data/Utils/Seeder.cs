@@ -1,7 +1,6 @@
 ﻿
 using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Providers;
 using Bogus;
 
 namespace BikeSparesInventorySystem.Data.Utils

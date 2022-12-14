@@ -7,22 +7,40 @@ namespace BikeSparesInventorySystem.Data.Repositories
     {
         protected internal ICollection<TSource> _sourceData;
 
-        readonly FileProvider<TSource> _fileProvider;
+        private readonly FileProvider<TSource> _fileProvider;
 
         internal RepositoryIO(FileProvider<TSource> fileProvider) => _fileProvider = fileProvider;
 
-        public virtual async Task LoadAsync() => _sourceData = await _fileProvider.ReadAsync();
+        public virtual async Task LoadAsync()
+        {
+            try
+            {
+                _sourceData = await _fileProvider.ReadAsync();
+            } catch
+            {
+                _sourceData = new List<TSource>();
+                throw;
+            }
+            
+        }
 
         public virtual async Task LoadAsync(string path, bool writeToPath = false)
         {
-            if (writeToPath)
+            try
             {
-                _fileProvider.FilePath = path;
-                _sourceData = await _fileProvider.ReadAsync();
-            }
-            else
+                if (writeToPath)
+                {
+                    _fileProvider.FilePath = path;
+                    _sourceData = await _fileProvider.ReadAsync();
+                }
+                else
+                {
+                    _sourceData = await _fileProvider.ReadAsync(path);
+                }
+            } catch 
             {
-                _sourceData = await _fileProvider.ReadAsync(path);
+                _sourceData = new List<TSource>();
+                throw;
             }
         }
 
