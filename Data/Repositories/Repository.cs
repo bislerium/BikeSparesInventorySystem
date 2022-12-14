@@ -1,9 +1,6 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Data.Providers;
-using Microsoft.Extensions.FileProviders;
-using System.Linq;
-using System.Threading.Tasks.Dataflow;
 
 namespace BikeSparesInventorySystem.Data.Repositories
 {

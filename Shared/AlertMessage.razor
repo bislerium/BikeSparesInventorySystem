@@ -1,0 +1,10 @@
+﻿<div class="alert alert-@Type" role="alert">
+    <span class='oi oi-@(Type == "warning" || Type == "danger" ? "warning" : "info")' /> @Message
+</div>
+
+@code {
+    [Parameter]
+    public string Type { get; set; }
+    [Parameter]
+    public string Message { get; set; }
+}
