@@ -19,7 +19,7 @@ namespace BikeSparesInventorySystem.Data.Repositories
             } catch
             {
                 _sourceData = new List<TSource>();
-                throw;
+                // throw;
             }
             
         }
@@ -40,7 +40,7 @@ namespace BikeSparesInventorySystem.Data.Repositories
             } catch 
             {
                 _sourceData = new List<TSource>();
-                throw;
+                // throw;
             }
         }
 

@@ -1,4 +1,7 @@
 ﻿@page "/login"
+@layout EmptyLayout
+@inject BikeSparesInventorySystem.Data.Services.AuthService _authService
+@inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
 
 <div class="login-body">
     <div class="form-login">
@@ -8,7 +11,7 @@
             @if (_isInitialUserCreated)
             {
                 <div class="alert alert-info" role="alert">
-                    Initial user created! (username/password = "@_username")
+                    Initial user created!
                 </div>
             }
 

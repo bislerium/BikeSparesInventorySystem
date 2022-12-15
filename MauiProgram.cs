@@ -26,20 +26,22 @@ public static class MauiProgram
 			builder.Services.AddBlazorWebViewDeveloperTools();
 		#endif
 
-        builder.Services.AddCsvFileProvider();
+        // builder.Services.AddCsvFileProvider();
         // builder.Services.AddExcelFileProvider();
-        // builder.Services.AddJsonFileProvider();
+         builder.Services.AddJsonFileProvider();
 
-		builder.Services.AddSeeder();
+		//builder.Services.AddSeeder();
 
         builder.Services.AddRepository();
 
 		builder.Services.AddAuth();
 
-		var mauiApp = builder.Build();
+		var app = builder.Build();
 
-		// mauiApp.Services.GetService<SeederService>().Seed();
+		app.Services.GetService<Repository<User>>().LoadAsync().Wait();
+		app.Services.GetService<Repository<Spare>>().LoadAsync().Wait();
+		app.Services.GetService<Repository<ActivityLog>>().LoadAsync().Wait();
 
-		return mauiApp;
+		return app;
 	}
 }

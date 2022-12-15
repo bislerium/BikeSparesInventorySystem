@@ -5,14 +5,6 @@ namespace BikeSparesInventorySystem.Pages
 {
     public partial class ChangePassword
     {
-        private readonly AuthService _authService;
-        private readonly NavigationManager _navigationManager;
-
-        internal ChangePassword(AuthService authService, NavigationManager navigationManager)
-        {
-            _authService = authService;
-            _navigationManager = navigationManager;
-        }
 
         private string _currentPassword { get; set; }
         private string _newPassword { get; set; }
@@ -35,5 +27,4 @@ namespace BikeSparesInventorySystem.Pages
         }
     }
 
-}
 }

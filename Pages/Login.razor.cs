@@ -6,14 +6,6 @@ namespace BikeSparesInventorySystem.Pages
 {
     public partial class Login
     {
-        private readonly AuthService _authService;
-        private readonly NavigationManager _navigationManager;        
-
-        internal Login(AuthService authService, NavigationManager navigationManager)
-        {
-            _authService = authService;
-            _navigationManager = navigationManager;
-        }
         
         private string _username { get; set; }
         private string _password { get; set; }
@@ -39,7 +31,7 @@ namespace BikeSparesInventorySystem.Pages
                 _errorMessage = null;
                 if (_authService.Login(_username, _password))
                 {
-                    _navigationManager.NavigateTo(_authService.User.HasInitialPassword ? "/change-password" : "/");
+                    _navigationManager.NavigateTo(_authService.CurrentUser.HasInitialPassword ? "/change-password" : "/");
                 } else
                 {
                     _errorMessage = "Incorrect username or password!";

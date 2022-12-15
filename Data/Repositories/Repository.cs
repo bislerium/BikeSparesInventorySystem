@@ -7,7 +7,7 @@ namespace BikeSparesInventorySystem.Data.Repositories
     internal class Repository<TSource> : RepositoryIO<TSource>, IRepository<TSource> where TSource : IModel
     {
         public Repository(FileProvider<TSource> fileProvider) : base(fileProvider)
-        {
+        {            
         }
 
         public virtual int Count => _sourceData.Count;

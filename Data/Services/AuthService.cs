@@ -9,7 +9,7 @@ namespace BikeSparesInventorySystem.Data.Services
     {
         private readonly Repository<User> _userRepository;
         private User _user;
-        public User User { get => _user; }
+        public User CurrentUser { get => _user; }
 
         public AuthService(Repository<User> userRepository)
         {
@@ -20,6 +20,7 @@ namespace BikeSparesInventorySystem.Data.Services
         public string SeedInitialUser()
         {
             if (_userRepository.GetAll().Count != 0) return null;
+            if (_userRepository.Contains(x => x.Role, UserRole.Admin)) return null;
             string username = "admin", pleaseChange = "Please Change!";
             User user = new ()
             {
@@ -53,7 +54,7 @@ namespace BikeSparesInventorySystem.Data.Services
         {
             _user = _userRepository.Get(x => x.UserName, userName);
             if (_user == null) return false;
-            return Hasher.VerifyHash(password, User.PasswordHash);
+            return Hasher.VerifyHash(password, CurrentUser.PasswordHash);
         }
 
         public void ChangePassword(string oldPassword, string newPassword)
