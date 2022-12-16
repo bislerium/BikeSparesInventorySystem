@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.WebView.Maui;
-using BikeSparesInventorySystem.Data;
-using BikeSparesInventorySystem.Data.Providers;
-using BikeSparesInventorySystem.Data.Models;
+﻿using BikeSparesInventorySystem.Data.Providers;
 using BikeSparesInventorySystem.Data.Repositories;
 using BikeSparesInventorySystem.Data.Services;
-using BikeSparesInventorySystem.Data.Utils;
 
 namespace BikeSparesInventorySystem;
 
@@ -27,21 +23,15 @@ public static class MauiProgram
 		#endif
 
         // builder.Services.AddCsvFileProvider();
-        // builder.Services.AddExcelFileProvider();
-         builder.Services.AddJsonFileProvider();
-
-		//builder.Services.AddSeeder();
+         builder.Services.AddExcelFileProvider();
+        // builder.Services.AddJsonFileProvider();
 
         builder.Services.AddRepository();
 
-		builder.Services.AddAuth();
+        builder.Services.AddSeeder();
 
-		var app = builder.Build();
+        builder.Services.AddAuth();
 
-		app.Services.GetService<Repository<User>>().LoadAsync().Wait();
-		app.Services.GetService<Repository<Spare>>().LoadAsync().Wait();
-		app.Services.GetService<Repository<ActivityLog>>().LoadAsync().Wait();
-
-		return app;
+		return  builder.Build();
 	}
 }

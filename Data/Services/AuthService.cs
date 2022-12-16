@@ -16,7 +16,6 @@ namespace BikeSparesInventorySystem.Data.Services
             _userRepository = userRepository;
         }
 
-
         public string SeedInitialUser()
         {
             if (_userRepository.GetAll().Count != 0) return null;

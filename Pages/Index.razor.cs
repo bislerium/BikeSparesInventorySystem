@@ -1,14 +1,18 @@
-﻿using BikeSparesInventorySystem.Data.Services;
-using Microsoft.AspNetCore.Components;
-
-namespace BikeSparesInventorySystem.Pages
+﻿namespace BikeSparesInventorySystem.Pages
 {
     public partial class Index
     {        
     
-        protected override void OnInitialized()
+
+        protected override async Task OnInitializedAsync()
         {
-            if (_authService.CurrentUser == null)
+            // await _seederService.SeedAsync();
+
+            await _userRepository.LoadAsync();
+            await _spareRepository.LoadAsync();
+            await _activityLogRepository.LoadAsync();
+            
+            if (_authService.CurrentUser is null)
             {
                 _navigationManager.NavigateTo("/login");
             }

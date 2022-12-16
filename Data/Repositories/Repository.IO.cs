@@ -44,6 +44,8 @@ namespace BikeSparesInventorySystem.Data.Repositories
             }
         }
 
+        public virtual void Load(ICollection<TSource> sourceData) => _sourceData = sourceData;
+
         public virtual async Task FlushAsync() => await _fileProvider.WriteAsync(_sourceData);
 
         public virtual async Task FlushAsync(string path, bool readFromPath = false)

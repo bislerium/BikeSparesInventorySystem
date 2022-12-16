@@ -14,9 +14,6 @@ namespace BikeSparesInventorySystem.Data.Utils
                 Environment.CurrentDirectory,
                 "AppData"
             );
-            System.Diagnostics.Debug.WriteLine( "---------" );
-            System.Diagnostics.Debug.WriteLine( path );
-            System.Diagnostics.Debug.WriteLine( "---------" );
             return @"D:\";
         }
 

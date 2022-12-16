@@ -1,5 +1,12 @@
 ﻿@page "/"
 @layout EmptyLayout
-@inject BikeSparesInventorySystem.Data.Services.AuthService _authService
+@using BikeSparesInventorySystem.Data.Models;
 @inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
+@inject BikeSparesInventorySystem.Data.Services.AuthService _authService
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<User> _userRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> _spareRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> _activityLogRepository;
+@inject BikeSparesInventorySystem.Data.Services.SeederService _seederService;
+
+<h1> Loading ... </h1>
 
