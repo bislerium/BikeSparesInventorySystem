@@ -2,6 +2,7 @@
 using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using Bogus;
+using System;
 
 namespace BikeSparesInventorySystem.Data.Utils
 {
@@ -12,6 +13,7 @@ namespace BikeSparesInventorySystem.Data.Utils
             var adminIDs = new List<Guid>();
             DateTime dateTime = DateTime.Now.Subtract(TimeSpan.FromDays(365));
             var userFaker = new Faker<User>()
+                .RuleFor(x => x.Id, y => Guid.NewGuid())
                 .RuleFor(x => x.FullName, y => y.Name.FullName())                
                 .RuleFor(x => x.UserName, (y, z) =>
                 {
@@ -38,6 +40,7 @@ namespace BikeSparesInventorySystem.Data.Utils
         public static ICollection<Spare> GenerateSpares(int min, int max)
         {
             var spareFaker = new Faker<Spare>()
+                .RuleFor(x => x.Id, y => Guid.NewGuid())
                 .RuleFor(x => x.Name, y => y.Lorem.Word())
                 .RuleFor(x => x.Description, y => y.Lorem.Sentences(5))
                 .RuleFor(x => x.Company, y => y.Company.CompanyName())
@@ -50,6 +53,7 @@ namespace BikeSparesInventorySystem.Data.Utils
         {
             var adminUsers = users.Where(x => x.Role == UserRole.Admin).ToList();
             var activityLogFaker = new Faker<ActivityLog>()
+                .RuleFor(x => x.Id, y => Guid.NewGuid())
                 .RuleFor(x => x.SpareID, y => y.PickRandom(spares).Id)
                 .RuleFor(x => x.Quantity, y => y.Random.Int(min:1, max: 111))
                 .RuleFor(x => x.TakenBy, y => y.PickRandom(users).Id)

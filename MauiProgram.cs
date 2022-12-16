@@ -1,6 +1,7 @@
 ﻿using BikeSparesInventorySystem.Data.Providers;
 using BikeSparesInventorySystem.Data.Repositories;
 using BikeSparesInventorySystem.Data.Services;
+using MudBlazor.Services;
 
 namespace BikeSparesInventorySystem;
 
@@ -22,8 +23,10 @@ public static class MauiProgram
 			builder.Services.AddBlazorWebViewDeveloperTools();
 		#endif
 
-        // builder.Services.AddCsvFileProvider();
-         builder.Services.AddExcelFileProvider();
+        builder.Services.AddMudServices();
+
+        builder.Services.AddCsvFileProvider();
+        // builder.Services.AddExcelFileProvider();
         // builder.Services.AddJsonFileProvider();
 
         builder.Services.AddRepository();
