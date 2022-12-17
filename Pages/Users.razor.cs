@@ -31,6 +31,8 @@ namespace BikeSparesInventorySystem.Pages
             elementBeforeEdit = ((User)element).Clone() as User;            
         }
 
+        private string getName(Guid id) => id.Equals(Guid.Empty) ? "N/A" : UserRepository.Get(x => x.Id, id).UserName;        
+
         private void ResetItemToOriginalValues(object element)
         {            
             ((User)element).UserName = elementBeforeEdit.UserName;
@@ -42,6 +44,8 @@ namespace BikeSparesInventorySystem.Pages
         private bool FilterFunc(User element)
         {
             if (string.IsNullOrWhiteSpace(searchString))
+                return true;
+            if (element.Id.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
                 return true;
             if (element.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                 return true;

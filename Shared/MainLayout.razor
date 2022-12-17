@@ -15,11 +15,11 @@
         <MudText>@Title</MudText>
         <MudSpacer />
         <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
-            <MudIcon Icon="@Icons.Material.Rounded.AccountCircle" Color="AuthService.CurrentUser.Role == UserRole.Admin ? Color.Tertiary : Color.Inherit" />
+            <MudAvatar Color="@(AuthService.CurrentUser.Role == UserRole.Admin ? Color.Warning : Color.Default)" Variant="Variant.Filled">@AuthService.CurrentUser.UserName.First()</MudAvatar>
             <MudTooltip Text="@Enum.GetName(AuthService.CurrentUser.Role)">
                 <MudText Typo="Typo.body1">@AuthService.CurrentUser.FullName</MudText>
             </MudTooltip>
-            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Logout" Color="Color.Error" Size="Size.Small" OnClick="Logout">Logout</MudButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" OnClick="Logout" />
         </MudStack>        
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">

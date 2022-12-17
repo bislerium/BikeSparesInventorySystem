@@ -5,28 +5,23 @@
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
 @inject ISnackbar Snackbar
 
-<MudTable Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<Spare,bool>(FilterFunc)"
+<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<Spare,bool>(FilterFunc)"
           @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
+          OnPreviewEditClick="@(() => SpareDescTracks[selectedItem1.Id] = false)"
+          RowsPerPage="20"
           OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
           IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
     <ToolBarContent>        
         <MudSpacer />
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
     </ToolBarContent>
     <ColGroup>
-        @if (applyButtonPosition.DisplayApplyButtonAtStart() || (editButtonPosition.DisplayEditButtonAtStart() && editTrigger == TableEditTrigger.EditButton))
-        {
-                <col style="width:50px;" />
-        }
-        <col style="width:50px;" />
-        <col style="width:80px;" />
-        <col style="width:50%;" />
         <col />
         <col />
-        @if (applyButtonPosition.DisplayApplyButtonAtEnd() || (editButtonPosition.DisplayEditButtonAtEnd() && editTrigger == TableEditTrigger.EditButton))
-        {
-                <col style="width:50px;" />
-        }
+        <col width="400" />
+        <col />
+        <col />
+        <col/>
     </ColGroup>
     <HeaderContent>
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
@@ -37,11 +32,13 @@
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">AvailableQuantity</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="ID">@context.Id</MudTd>
+        <MudTd DataLabel="ID">
+            <MudChip>@context.Id</MudChip>
+            </MudTd>
         <MudTd DataLabel="Spare Name">@context.Name</MudTd>
         <MudTd>
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress())">
-                @((showDescription == true) ? "Hide" : "Show") Description
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(@context.Id))">
+                @((getShow(@context.Id)) ? "Hide" : "Show") Description
             </MudButton>
         </MudTd>      
         <MudTd DataLabel="Company">@context.Company</MudTd>
@@ -49,9 +46,13 @@
         <MudTd DataLabel="Available Quantity">@context.AvailableQuantity</MudTd>
     </RowTemplate>
     <ChildRowContent>
-        @if (showDescription)
+        @if (getShow(@context.Id))
         {
-            <MudText>@context.Description</MudText>
+            <td colspan="6">
+                <MudContainer MaxWidth="MaxWidth.Medium">                    
+                    <MudText Style="padding: 40px">@context.Description</MudText>                            
+                </MudContainer>
+            </td>
         }
     </ChildRowContent>
     <RowEditingTemplate>
@@ -60,7 +61,7 @@
             <MudTextField @bind-Value="@context.Name" Required />
         </MudTd>
         <MudTd DataLabel="Description">
-            <MudTextField Lines="5" @bind-Value="@context.Description" Required />
+            <MudTextField Lines="6" @bind-Value="@context.Description" Required />
         </MudTd>
         <MudTd DataLabel="Company">
             <MudTextField @bind-Value="@context.Company" Required/>
@@ -73,7 +74,7 @@
         </MudTd>       
     </RowEditingTemplate>
     <PagerContent>
-        <MudTablePager />
+        <MudTablePager PageSizeOptions="new int[] { 20, 45, 65, 100}" />
     </PagerContent>
     <EditButtonContent Context="button">
         <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
