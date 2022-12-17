@@ -2,31 +2,22 @@
 @layout EmptyLayout
 @inject BikeSparesInventorySystem.Data.Services.AuthService _authService
 @inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
+@inject ISnackbar SnackBar;
 
 <div class="login-body">
     <div class="form-login">
         <form class="text-center" @onsubmit="LoginHandler">
             <img class="mb-4" src="/appicon.png" alt="" height="72">
             <h1 class="h3 mb-3 fw-normal">Please Login</h1>
-            @if (_isInitialUserCreated)
-            {
-                <div class="alert alert-info" role="alert">
-                    Initial user created!
-                </div>
-            }
 
             <div class="form-floating">
-                <input type="text" class="form-control username" @bind="_username" placeholder="Username" />
+                <input type="text" class="form-control username" @bind="_username" placeholder="Username" required />
                 <label for="floatingInput">Username</label>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control password" @bind="_password" placeholder="Password" />
+                <input type="password" class="form-control password" @bind="_password" placeholder="Password" required />
                 <label for="floatingPassword">Password</label>
             </div>
-            @if (_errorMessage is not null)
-            {
-                <AlertMessage Type="danger" Message="@_errorMessage" />
-            }
             <button class="w-100 btn btn-lg btn-primary" type="submit">
                 <span class="oi oi-account-login"></span> Login
             </button>

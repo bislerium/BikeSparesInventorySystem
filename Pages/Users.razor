@@ -1,1 +1,94 @@
 ﻿@page "/users"
+
+@using MudBlazor
+@using BikeSparesInventorySystem.Data.Models;
+@using BikeSparesInventorySystem.Data.Enums;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
+@inject ISnackbar Snackbar
+
+<MudTable Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<User,bool>(FilterFunc)"
+          @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
+          OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+          IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
+    <ToolBarContent>        
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <ColGroup>
+        @if (applyButtonPosition.DisplayApplyButtonAtStart() || (editButtonPosition.DisplayEditButtonAtStart() && editTrigger == TableEditTrigger.EditButton))
+        {
+            <col style="width:50px;" />
+        }
+        <col style="width:50px;" />
+        <col style="width:80px;" />
+        <col style="width:50%;" />
+        <col />
+        <col />
+        @if (applyButtonPosition.DisplayApplyButtonAtEnd() || (editButtonPosition.DisplayEditButtonAtEnd() && editTrigger == TableEditTrigger.EditButton))
+        {
+            <col style="width:50px;" />
+        }
+    </ColGroup>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.UserName)">User Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.FullName)">Full Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.PasswordHash)">Password Hash</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Role)">Role</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.HasInitialPassword)">Initial Password</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedAt)">Created At</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedBy)">Created By</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="ID">@context.Id</MudTd>
+        <MudTd DataLabel="User Name">@context.UserName</MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="Full Name">@context.FullName</MudTd>
+        <MudTd DataLabel="Password Hash">@context.PasswordHash</MudTd>
+        <MudTd DataLabel="Role">
+            @if (@context.Role == UserRole.Admin)
+            {
+                <MudChip Color="Color.Primary">Admin</MudChip>
+            } else
+            {
+                <MudChip Color="Color.Secondary">Staff</MudChip>
+            }
+        </MudTd>
+        <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
+        <MudTd DataLabel="Created At">@context.CreatedAt</MudTd>
+        <MudTd DataLabel="Created By">@context.CreatedBy</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="ID">@context.Id</MudTd>
+        <MudTd DataLabel="User Name">
+            <MudTextField @bind-Value="@context.UserName" Required />
+        </MudTd>
+        <MudTd DataLabel="Email">
+            <MudTextField @bind-Value="@context.Email" Required/>
+        </MudTd>
+        <MudTd DataLabel="Full Name">
+            <MudTextField @bind-Value="@context.FullName" Required />
+        </MudTd>
+        <MudTd DataLabel="Password Hash">@context.PasswordHash</MudTd>
+        <MudTd DataLabel="Role">
+            <MudSelect @bind-Value="@context.Role" Label="State">
+                @foreach (UserRole item in Enum.GetValues(typeof(UserRole)))
+                {
+                    <MudSelectItem Value="@item">@Enum.GetName(typeof(UserRole), item)</MudSelectItem>
+                }
+            </MudSelect>         
+        </MudTd>
+        <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
+        <MudTd DataLabel="Created At">@context.CreatedAt</MudTd>
+        <MudTd DataLabel="Created By">@context.CreatedBy</MudTd>        
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>
+
+

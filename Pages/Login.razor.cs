@@ -1,6 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Services;
-using Microsoft.AspNetCore.Components;
+﻿using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages
 {
@@ -9,7 +7,6 @@ namespace BikeSparesInventorySystem.Pages
         
         private string _username { get; set; }
         private string _password { get; set; }
-        private bool _isInitialUserCreated { get; set; } = false;
 
         private string _errorMessage;
 
@@ -18,7 +15,7 @@ namespace BikeSparesInventorySystem.Pages
             string username = _authService.SeedInitialUser();
             if (username is not null)
             {
-                _isInitialUserCreated= true;
+                SnackBar.Add("Initial user created!", Severity.Info);
                 _username = username;
                 _password = username;
             }
@@ -31,7 +28,15 @@ namespace BikeSparesInventorySystem.Pages
                 _errorMessage = null;
                 if (_authService.Login(_username, _password))
                 {
-                    _navigationManager.NavigateTo(_authService.CurrentUser.HasInitialPassword ? "/change-password" : "/");
+                    if (_authService.CurrentUser.HasInitialPassword)
+                    {
+                        SnackBar.Add("Please Change the password!", Severity.Warning);
+                        _navigationManager.NavigateTo("/change-password");
+                    }
+                    else
+                    {
+                        _navigationManager.NavigateTo("/");
+                    }
                 } else
                 {
                     _errorMessage = "Incorrect username or password!";
@@ -42,6 +47,7 @@ namespace BikeSparesInventorySystem.Pages
                 _errorMessage = e.Message;
                 Console.WriteLine(e);
             }
+            SnackBar.Add(_errorMessage, Severity.Error);
         }
     }
 }

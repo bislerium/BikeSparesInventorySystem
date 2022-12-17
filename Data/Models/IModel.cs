@@ -1,7 +1,6 @@
-﻿namespace BikeSparesInventorySystem.Data.Models
+﻿namespace BikeSparesInventorySystem.Data.Models;
+
+internal interface IModel
 {
-    internal interface IModel
-    {
-        Guid Id { get; set; }
-    }
+    Guid Id { get; set; }
 }

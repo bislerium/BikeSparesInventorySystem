@@ -1,25 +1,23 @@
-﻿namespace BikeSparesInventorySystem.Pages
-{
-    public partial class Index
-    {        
-    
+﻿namespace BikeSparesInventorySystem.Pages;
 
-        protected override async Task OnInitializedAsync()
+public partial class Index
+{        
+
+    protected override async Task OnInitializedAsync()
+    {
+        // await _seederService.SeedAsync();
+
+        await _userRepository.LoadAsync();
+        await _spareRepository.LoadAsync();
+        await _activityLogRepository.LoadAsync();
+
+        if (_authService.CurrentUser is null)
         {
-            // await _seederService.SeedAsync();
-
-            await _userRepository.LoadAsync();
-            await _spareRepository.LoadAsync();
-            await _activityLogRepository.LoadAsync();
-
-            if (_authService.CurrentUser is null)
-            {
-                _navigationManager.NavigateTo("/login");
-            }
-            else
-            {
-                _navigationManager.NavigateTo("/inventory");
-            }
+            _navigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            _navigationManager.NavigateTo("/inventory");
         }
     }
 }

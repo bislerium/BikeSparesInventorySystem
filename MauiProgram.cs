@@ -1,6 +1,7 @@
 ﻿using BikeSparesInventorySystem.Data.Providers;
 using BikeSparesInventorySystem.Data.Repositories;
 using BikeSparesInventorySystem.Data.Services;
+using MudBlazor;
 using MudBlazor.Services;
 
 namespace BikeSparesInventorySystem;
@@ -23,7 +24,13 @@ public static class MauiProgram
 			builder.Services.AddBlazorWebViewDeveloperTools();
 		#endif
 
-        builder.Services.AddMudServices();
+        builder.Services.AddMudServices(config =>
+		{
+            config.SnackbarConfiguration.VisibleStateDuration = 4000;
+            config.SnackbarConfiguration.HideTransitionDuration = 200;
+            config.SnackbarConfiguration.ShowTransitionDuration = 200;
+            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomEnd;
+        });
 
         builder.Services.AddCsvFileProvider();
         // builder.Services.AddExcelFileProvider();

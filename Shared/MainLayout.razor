@@ -1,12 +1,31 @@
-﻿@inherits LayoutComponentBase
+﻿@using BikeSparesInventorySystem.Data.Enums;
+@inherits LayoutComponentBase
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
+@inject NavigationManager NavigationManager;
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <NavMenu/>
-	<MudMainContent>
-		@Body
-	</MudMainContent>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText>@Title</MudText>
+        <MudSpacer />
+        <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudIcon Icon="@Icons.Material.Rounded.AccountCircle" Color="AuthService.CurrentUser.Role == UserRole.Admin ? Color.Tertiary : Color.Inherit" />
+            <MudTooltip Text="@Enum.GetName(AuthService.CurrentUser.Role)">
+                <MudText Typo="Typo.body1">@AuthService.CurrentUser.FullName</MudText>
+            </MudTooltip>
+            <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Logout" Color="Color.Error" Size="Size.Small" OnClick="Logout">Logout</MudButton>
+        </MudStack>        
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
 </MudLayout>
