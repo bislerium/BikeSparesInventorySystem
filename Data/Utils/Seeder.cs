@@ -41,10 +41,17 @@ internal static class Seeder
         var adminUsers = users.Where(x => x.Role == UserRole.Admin).ToList();
         var activityLogFaker = new Faker<ActivityLog>()
             .RuleFor(x => x.SpareID, y => y.PickRandom(spares).Id)
-            .RuleFor(x => x.Quantity, y => y.Random.Int(min = 1, max = 111))
-            .RuleFor(x => x.TakenBy, y => y.PickRandom(users).Id)
-            .RuleFor(x => x.ApprovedBy, y => y.PickRandom(adminUsers).Id)
-            .RuleFor(x => x.TakenOut, y => y.Date.Recent());
+            .RuleFor(x => x.Quantity, y => y.Random.Int(min = 1, max = 111))            
+            .RuleFor(x => x.TakenOut, y => y.Date.Recent())
+            .FinishWith((x,y) => {
+                var user = x.PickRandom(users);
+                y.TakenBy = user.Id;
+                y.ApprovedBy = user.Role == UserRole.Admin 
+                ? user.Id 
+                : x.Random.Bool()
+                ? x.PickRandom(adminUsers).Id 
+                : Guid.Empty;
+            });
         return activityLogFaker.GenerateBetween(min, max);
     }
 }

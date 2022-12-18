@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 
 namespace BikeSparesInventorySystem.Data.Models;
 
-internal class ActivityLog : IModel
+internal class ActivityLog : IModel, ICloneable
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -15,6 +16,19 @@ internal class ActivityLog : IModel
     public Guid ApprovedBy { get; set; }
 
     public DateTime TakenOut { get; set; }
+
+    public object Clone()
+    {
+        return new ActivityLog
+        {
+            Id = Id,
+            SpareID = SpareID,
+            Quantity = Quantity,
+            TakenBy = TakenBy,
+            ApprovedBy = ApprovedBy,
+            TakenOut = TakenOut,
+        };
+    }
 
     public override string ToString() => JsonSerializer.Serialize(this);
 }

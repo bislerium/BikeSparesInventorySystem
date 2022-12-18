@@ -68,4 +68,11 @@ public partial class Inventory
     private void ShowBtnPress(Guid id) =>  SpareDescTracks[id] = !SpareDescTracks[id];
 
     private bool getShow(Guid id) => SpareDescTracks[id];
+
+    private string getLastTakenOut(Guid id)
+    {
+        var log = ActivityLogRepository.GetAll().Where(x => x.SpareID == id).ToList();
+        return log.Count == 0 ? null : log.Max(x => x.TakenOut).ToString();
+    }
+    
 }

@@ -1,0 +1,60 @@
+﻿@page "/activity-logs"
+
+@using MudBlazor
+@using BikeSparesInventorySystem.Data.Models;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
+         SortLabel="Sort By" HorizontalScrollbar="true">
+    <ToolBarContent>
+        <MudStack Row="true">
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Filled.Upload">Import</MudButton>
+        <MudMenu StartIcon="@Icons.Filled.Download" EndIcon="@Icons.Filled.KeyboardArrowDown" Label="Export" Color="Color.Primary" Variant="Variant.Outlined" FullWidth="true">
+            <MudMenuItem>.csv</MudMenuItem>
+            <MudMenuItem>.json</MudMenuItem>
+            <MudMenuItem>.xlsx</MudMenuItem>
+        </MudMenu>
+        </MudStack>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.SpareID)">Spare</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Quantity)">Quantity</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.TakenBy)">Taken By</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ApprovedBy)">Approved By</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.TakenOut)">Taken Out</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
+        <MudTd DataLabel="Spare">
+            <MudStack Row="true" Spacing="0">
+            <MudChip>@context.SpareID</MudChip>
+            <MudChip>@getSpareName(context.SpareID)</MudChip>
+            </MudStack>
+        </MudTd>
+        <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
+        <MudTd DataLabel="Taken By"><AdminChip user="getUser(context.TakenBy)"/></MudTd>
+        <MudTd DataLabel="Approved By">@if (context.ApprovedBy.Equals(Guid.Empty))
+            {
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Filled.Approval" OnClick="() => approve(context.Id)" Label="Approve" Size="Size.Small"/>
+            } else
+            {
+                <MudChip Color="Color.Warning">@getUser(context.ApprovedBy).Item2</MudChip>              
+            }
+        </MudTd>
+        <MudTd DataLabel="Taken Out">@context.TakenOut</MudTd>        
+    </RowTemplate>    
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>

@@ -3,7 +3,9 @@
 @using MudBlazor
 @using BikeSparesInventorySystem.Data.Models;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
 @inject ISnackbar Snackbar
+@inject IDialogService DialogService
 
 <MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<Spare,bool>(FilterFunc)"
           @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
@@ -22,6 +24,7 @@
         <col />
         <col />
         <col/>
+        <col/>
     </ColGroup>
     <HeaderContent>
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
@@ -29,7 +32,8 @@
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Company)">Company</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">AvailableQuantity</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">Available Quantity</MudTableSortLabel></MudTh>
+        <MudTh>Last Taken Out</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="ID">
@@ -44,6 +48,7 @@
         <MudTd DataLabel="Company">@context.Company</MudTd>
         <MudTd DataLabel="Price">@context.Price</MudTd>
         <MudTd DataLabel="Available Quantity">@context.AvailableQuantity</MudTd>
+        <MudTd DataLabel="Last Taken Out">@getLastTakenOut(context.Id)</MudTd>
     </RowTemplate>
     <ChildRowContent>
         @if (getShow(@context.Id))
@@ -71,7 +76,8 @@
         </MudTd>
         <MudTd DataLabel="Available Quantity">
             <MudTextField @bind-Value="@context.AvailableQuantity" Required />
-        </MudTd>       
+        </MudTd>
+        <MudTd DataLabel="Last Taken Out">@getLastTakenOut(context.Id)</MudTd>
     </RowEditingTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new int[] { 20, 45, 65, 100}" />
