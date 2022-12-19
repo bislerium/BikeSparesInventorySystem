@@ -10,14 +10,15 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText>@Title</MudText>
+    <MudAppBar Style="background-color: white" Elevation="0">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Primary" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudText  Style="font-weight: bold; font-size: 16px" Color="Color.Primary">@Title</MudText>
         <MudSpacer />
         <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
-            <MudAvatar Color="@(AuthService.CurrentUser.Role == UserRole.Admin ? Color.Warning : Color.Default)" Variant="Variant.Filled">@AuthService.CurrentUser.UserName.First()</MudAvatar>
             <MudTooltip Text="@Enum.GetName(AuthService.CurrentUser.Role)">
-                <MudText Typo="Typo.body1">@AuthService.CurrentUser.FullName</MudText>
+                <MudChip Icon="@Icons.Material.Filled.AccountCircle" Color="@(AuthService.CurrentUser.Role == UserRole.Admin ? Color.Warning : Color.Default)">                
+                <MudText Typo="Typo.body1">@AuthService.CurrentUser.FullName</MudText>                
+            </MudChip>
             </MudTooltip>
             <MudIconButton Icon="@Icons.Material.Filled.Logout" Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" OnClick="Logout" />
         </MudStack>        

@@ -38,11 +38,13 @@ internal static class Seeder
 
     public static ICollection<ActivityLog> GenerateActivityLogs(ICollection<User> users, ICollection<Spare> spares, int min, int max)
     {
+        var endDate = DateTime.Now;
+        var startDate = endDate.Subtract(TimeSpan.FromDays(365 * 2));
         var adminUsers = users.Where(x => x.Role == UserRole.Admin).ToList();
         var activityLogFaker = new Faker<ActivityLog>()
             .RuleFor(x => x.SpareID, y => y.PickRandom(spares).Id)
             .RuleFor(x => x.Quantity, y => y.Random.Int(min = 1, max = 111))            
-            .RuleFor(x => x.TakenOut, y => y.Date.Recent())
+            .RuleFor(x => x.TakenOut, y => y.Date.Between(startDate, endDate))
             .FinishWith((x,y) => {
                 var user = x.PickRandom(users);
                 y.TakenBy = user.Id;

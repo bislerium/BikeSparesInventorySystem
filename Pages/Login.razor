@@ -2,8 +2,10 @@
 @layout EmptyLayout
 @inject BikeSparesInventorySystem.Data.Services.AuthService _authService
 @inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
+@inject BikeSparesInventorySystem.Data.Services.SeederService _seederService;
 @inject ISnackbar SnackBar;
 
+<MudButton OnClick="@SeedData">Seed</MudButton>
 <div class="login-body">
     <div class="form-login">
         <form class="text-center" @onsubmit="LoginHandler">

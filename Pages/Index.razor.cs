@@ -4,9 +4,7 @@ public partial class Index
 {        
 
     protected override async Task OnInitializedAsync()
-    {
-        // await _seederService.SeedAsync();
-
+    { 
         await _userRepository.LoadAsync();
         await _spareRepository.LoadAsync();
         await _activityLogRepository.LoadAsync();
@@ -17,7 +15,7 @@ public partial class Index
         }
         else
         {
-            _navigationManager.NavigateTo("/inventory");
+            _navigationManager.NavigateTo("/dashboard");
         }
     }
 }

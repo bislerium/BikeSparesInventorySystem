@@ -1,4 +1,5 @@
 ﻿using BikeSparesInventorySystem.Data.Services;
+using BikeSparesInventorySystem.Shared;
 using Microsoft.AspNetCore.Components;
 
 namespace BikeSparesInventorySystem.Pages
@@ -10,6 +11,11 @@ namespace BikeSparesInventorySystem.Pages
         private string _newPassword { get; set; }
         private string _errorMessage;
         private string _successMessage;
+
+        protected override void OnInitialized()
+        {
+            MainLayout.Title = "Change Password";
+        }
 
         private void ChangePasswordHandler()
         {

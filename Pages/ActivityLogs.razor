@@ -10,18 +10,21 @@
 @inject IDialogService DialogService
 
 <MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
-         SortLabel="Sort By" HorizontalScrollbar="true">
+         SortLabel="Sort By" HorizontalScrollbar="true" >
     <ToolBarContent>
         <MudStack Row="true">
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Filled.Upload">Import</MudButton>
-        <MudMenu StartIcon="@Icons.Filled.Download" EndIcon="@Icons.Filled.KeyboardArrowDown" Label="Export" Color="Color.Primary" Variant="Variant.Outlined" FullWidth="true">
-            <MudMenuItem>.csv</MudMenuItem>
-            <MudMenuItem>.json</MudMenuItem>
-            <MudMenuItem>.xlsx</MudMenuItem>
-        </MudMenu>
+            <MudMenu StartIcon="@Icons.Filled.Download" EndIcon="@Icons.Filled.KeyboardArrowDown" Label="Export" Color="Color.Primary" Variant="Variant.Outlined" FullWidth="true">
+                <MudMenuItem>.csv</MudMenuItem>
+                <MudMenuItem>.json</MudMenuItem>
+                <MudMenuItem>.xlsx</MudMenuItem>
+            </MudMenu>            
         </MudStack>
         <MudSpacer />
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+        <MudStack Row="true">
+            <MudTextField @bind-Value="searchString" Label="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Class="mt-0" Clearable="true"></MudTextField>
+            <MudTextField T="string" Class="mt-0" Label="Filter by Month" InputType="InputType.Month" Clearable="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.FilterAlt" ValueChanged="(a) => onchanged(a)" />
+        </MudStack>
     </ToolBarContent>
     <HeaderContent>
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
@@ -36,17 +39,17 @@
         <MudTd DataLabel="Spare">
             <MudStack Row="true" Spacing="0">
             <MudChip>@context.SpareID</MudChip>
-            <MudChip>@getSpareName(context.SpareID)</MudChip>
+            <MudChip>@GetSpareName(context.SpareID)</MudChip>
             </MudStack>
         </MudTd>
         <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
-        <MudTd DataLabel="Taken By"><AdminChip user="getUser(context.TakenBy)"/></MudTd>
+        <MudTd DataLabel="Taken By"><AdminChip user="GetUser(context.TakenBy)"/></MudTd>
         <MudTd DataLabel="Approved By">@if (context.ApprovedBy.Equals(Guid.Empty))
             {
-                <MudFab Color="Color.Primary" StartIcon="@Icons.Filled.Approval" OnClick="() => approve(context.Id)" Label="Approve" Size="Size.Small"/>
+                <MudFab Color="Color.Primary" StartIcon="@Icons.Filled.Approval" OnClick="() => Approve(context.Id)" Label="Approve" Size="Size.Small"/>
             } else
             {
-                <MudChip Color="Color.Warning">@getUser(context.ApprovedBy).Item2</MudChip>              
+                <MudChip Color="Color.Warning">@GetUser(context.ApprovedBy).Item2</MudChip>              
             }
         </MudTd>
         <MudTd DataLabel="Taken Out">@context.TakenOut</MudTd>        

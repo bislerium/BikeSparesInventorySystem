@@ -49,5 +49,11 @@ namespace BikeSparesInventorySystem.Pages
             }
             SnackBar.Add(_errorMessage, Severity.Error);
         }
+
+        private async Task SeedData()
+        {
+            await _seederService.SeedAsync();
+            SnackBar.Add("Seeding Succesfull", Severity.Success);
+        }
     }
 }
