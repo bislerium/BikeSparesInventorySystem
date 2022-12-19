@@ -1,4 +1,5 @@
 ﻿using MudBlazor;
+using BikeSparesInventorySystem.Shared.Dialogs;
 
 namespace BikeSparesInventorySystem.Shared;
 

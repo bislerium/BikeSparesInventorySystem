@@ -1,7 +1,6 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Shared;
-using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages;
@@ -79,7 +78,7 @@ public partial class ActivityLogs
 
                 var options = new DialogOptions() { CloseOnEscapeKey = true };
 
-                var dialog = await DialogService.ShowAsync<Dialog>("Approve", parameters, options);
+                var dialog = await DialogService.ShowAsync<Shared.Dialogs.Dialog>("Approve", parameters, options);
                 var result = await dialog.Result;
 
                 if (!result.Cancelled)

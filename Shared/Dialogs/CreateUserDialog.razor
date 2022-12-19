@@ -1,0 +1,25 @@
+﻿@inject ISnackbar Snackbar
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form" @bind-IsValid="@success">
+            <MudTextField T="string" @bind-Value="@UserName" Label="Username" Required="true" Validation="@(new Func<string, IEnumerable<string>>(UserNameValidation))" RequiredError="User name is required!" />
+            <MudTextField T="string" @bind-Value="@Email" Label="Email" Required="true" RequiredError="Email is required!"
+                          Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
+            <MudTextField T="string" @bind-Value="@FullName" Label="Fullname" Required="true" RequiredError="User name is required!" />
+            <div class="d-flex">
+                <MudRadioGroup T="string" @bind-SelectedOption="@Role" Required="true" RequiredError="User Role is required!">
+                    <MudRadio Option="@("Admin")">Admin</MudRadio>
+                    <MudRadio Option="@("Staff")">Staff</MudRadio>
+                </MudRadioGroup>
+            </div>            
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="AddUser">Add</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=> form.Reset())" Class="mx-2">Reset</MudButton>
+        <MudButton OnClick="Cancel">Cancel</MudButton>        
+    </DialogActions>
+</MudDialog>

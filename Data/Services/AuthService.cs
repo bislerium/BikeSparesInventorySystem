@@ -35,18 +35,19 @@ internal class AuthService
         return username;
     }
 
-    public void Register(string username, UserRole userRole, string password)
+    public void Register(string username, string email, string fullname, UserRole role)
     {
         if (_userRepository.HasUserName(username)) throw new Exception(message: "Username already exists!");
         User user = new() { 
             UserName = username,
-            PasswordHash = Hasher.HashSecret(password),
-            Role = userRole,
-            CreatedAt= DateTime.UtcNow,
+            Email = email,
+            FullName = fullname,
+            PasswordHash = Hasher.HashSecret(username),
+            Role = role,
             CreatedBy = _user.Id,
         };
         _userRepository.Add(user);
-        _userRepository.FlushAsync().Wait();
+        //_userRepository.FlushAsync().Wait();
     }
 
     public bool Login(string userName, string password)

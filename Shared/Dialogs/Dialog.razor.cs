@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace BikeSparesInventorySystem.Shared;
+namespace BikeSparesInventorySystem.Shared.Dialogs;
 
 public partial class Dialog
 {    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
