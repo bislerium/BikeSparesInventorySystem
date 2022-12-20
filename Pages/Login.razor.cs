@@ -18,6 +18,10 @@ namespace BikeSparesInventorySystem.Pages
                 SnackBar.Add("Initial user created!", Severity.Info);
                 _username = username;
                 _password = username;
+            }            
+            foreach (var i in UserRepository.GetAll())
+            {
+                System.Diagnostics.Debug.WriteLine($"Username: {i.UserName} | Initial passord: {i.HasInitialPassword}");
             }
         }
 

@@ -67,12 +67,25 @@ public partial class Inventory
 
     private void ShowBtnPress(Guid id) =>  SpareDescTracks[id] = !SpareDescTracks[id];
 
-    private bool getShow(Guid id) => SpareDescTracks[id];
+    private bool getShow(Guid id)
+    {
+        if (SpareDescTracks.ContainsKey(id))
+        {
+            return SpareDescTracks[id];            
+        } else
+        {
+            return SpareDescTracks[id] = false;
+        }
+    }
 
     private string getLastTakenOut(Guid id)
     {
         var log = ActivityLogRepository.GetAll().Where(x => x.SpareID == id).ToList();
         return log.Count == 0 ? null : log.Max(x => x.TakenOut).ToString();
     }
-    
+
+    private async Task AddDialog()
+    {
+        await DialogService.ShowAsync<Shared.Dialogs.AddSpareDialog>("Add Spare");
+    }
 }

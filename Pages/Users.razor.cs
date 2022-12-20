@@ -60,9 +60,8 @@ public partial class Users
         return false;
     }
 
-    private async Task CreateDialog()
+    private async Task AddDialog()
     {
-        var options = new DialogOptions() { CloseOnEscapeKey = true };
-        await DialogService.ShowAsync<Shared.Dialogs.CreateUserDialog>("Add User", options);
+        await DialogService.ShowAsync<Shared.Dialogs.AddUserDialog>("Add User");
     }
 }

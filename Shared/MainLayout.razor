@@ -1,9 +1,7 @@
 ﻿@using BikeSparesInventorySystem.Data.Enums;
 @inherits LayoutComponentBase
 @inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
-@inject NavigationManager NavigationManager;
-@inject IDialogService DialogService
-@inject ISnackbar Snackbar
+
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -17,11 +15,12 @@
         <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
             <MudTooltip Text="@Enum.GetName(AuthService.CurrentUser.Role)">
                 <MudChip Icon="@Icons.Material.Filled.AccountCircle" Color="@(AuthService.CurrentUser.Role == UserRole.Admin ? Color.Warning : Color.Default)">                
-                <MudText Typo="Typo.body1">@AuthService.CurrentUser.FullName</MudText>                
-            </MudChip>
+                    <MudText Typo="Typo.body1">@AuthService.CurrentUser.FullName</MudText>                
+                </MudChip>
             </MudTooltip>
-            <MudIconButton Icon="@Icons.Material.Filled.Logout" Variant="Variant.Filled" Color="Color.Error" Size="Size.Small" OnClick="Logout" />
-        </MudStack>        
+            <SyncDataFAB />
+            <LogoutButton />
+        </MudStack>  
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu/>
