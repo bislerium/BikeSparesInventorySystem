@@ -12,7 +12,20 @@
           OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
           IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
     <ToolBarContent>
-        <MudFab StartIcon="@Icons.Filled.Add" Color="Color.Primary" Label="Add User" DisableElevation="true" OnClick="AddDialog"/>
+        <MudFab StartIcon="@Icons.Filled.Add" Color="Color.Primary" Label="Add User" DisableElevation="true" OnClick="AddDialog" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <MudStack Row="true">            
+            <MudFileUpload T="IBrowserFile" Accept=".json, .csv, .xlsx" FilesChanged="UploadFile">
+                <ButtonTemplate>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" HtmlTag="label" StartIcon="@Icons.Filled.Upload" for="@context">Import</MudButton>
+                </ButtonTemplate>
+            </MudFileUpload>
+            <MudMenu StartIcon="@Icons.Filled.Download" EndIcon="@Icons.Filled.KeyboardArrowDown" Label="Export" Color="Color.Primary" Variant="Variant.Outlined" FullWidth="true">
+                <MudMenuItem>.csv</MudMenuItem>
+                <MudMenuItem>.json</MudMenuItem>
+                <MudMenuItem>.xlsx</MudMenuItem>
+            </MudMenu>
+        </MudStack>
         <MudSpacer />
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
     </ToolBarContent>

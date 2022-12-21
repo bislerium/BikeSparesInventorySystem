@@ -1,5 +1,8 @@
 ﻿using BikeSparesInventorySystem.Data.Models;
+using BikeSparesInventorySystem.Data.Providers;
+using BikeSparesInventorySystem.Data.Utils;
 using BikeSparesInventorySystem.Shared;
+using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages;
@@ -19,7 +22,8 @@ public partial class Users
     private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
     private TableEditButtonPosition editButtonPosition = TableEditButtonPosition.End;
     private TableEditTrigger editTrigger = TableEditTrigger.RowClick;
-    private IEnumerable<User> Elements = new List<User>();      
+    private IEnumerable<User> Elements = new List<User>();    
+
     protected override void OnInitialized()
     {
         Elements = UserRepository.GetAll();
@@ -63,5 +67,20 @@ public partial class Users
     private async Task AddDialog()
     {
         await DialogService.ShowAsync<Shared.Dialogs.AddUserDialog>("Add User");
+    }
+
+    private async Task UploadFile(IBrowserFile file)
+    {
+        try
+        {
+            var provider = Explorer.GetFileProvider<User>(file.Name);
+            await UserRepository.LoadAsync(provider, file.OpenReadStream(Explorer.MAX_ALLOWED_IMPORT_SIZE));
+            Snackbar.Add($"Imported {file.Name} File!", Severity.Success);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+        //TODO upload the files to the server
     }
 }

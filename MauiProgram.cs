@@ -33,9 +33,9 @@ public static class MauiProgram
             config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomStart;
         });
 
-        builder.Services.AddCsvFileProvider();
+        // builder.Services.AddCsvFileProvider();
         // builder.Services.AddExcelFileProvider();
-        // builder.Services.AddJsonFileProvider();
+         builder.Services.AddJsonFileProvider();
 
         builder.Services.AddRepository();
 

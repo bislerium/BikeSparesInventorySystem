@@ -44,6 +44,18 @@ namespace BikeSparesInventorySystem.Data.Repositories
             }
         }
 
+        public virtual async Task LoadAsync(FileProvider<TSource> fileProvider, Stream stream)
+        {
+            try
+            {
+                 _sourceData = await fileProvider.ReadAsync(stream);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public virtual void Load(ICollection<TSource> sourceData) => _sourceData = sourceData;
 
         public virtual async Task FlushAsync() => await _fileProvider.WriteAsync(_sourceData);
@@ -59,6 +71,6 @@ namespace BikeSparesInventorySystem.Data.Repositories
             {
                 await _fileProvider.WriteAsync(path, _sourceData);
             }
-        }
+        }        
     }
 }

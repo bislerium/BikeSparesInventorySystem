@@ -29,6 +29,11 @@ public partial class Dashboard
                     {
                         Text = "Inventory Items",
                         Display = true,
+                        Font = new PSC.Blazor.Components.Chartjs.Models.Common.Font()
+                        {
+                            Weight = "bold",
+                            Size = 20
+                        },
                         Position = Position.Top                        
                     },
 
@@ -78,7 +83,7 @@ public partial class Dashboard
         var ApprovedDeductionQuantitySet = new BarDataset()
         {
             Data = new List<decimal>(),
-            BackgroundColor= new () { "rgb(179, 150, 219)" },
+            BackgroundColor= new () { "rgb(0, 163, 68)" },
             Label = "Approved Deduction (Taken Out)",           
         };
 
@@ -92,14 +97,14 @@ public partial class Dashboard
         var PendingDeductionQuantitySet = new BarDataset()
         {
             Data = new List<decimal>(),
-            BackgroundColor = new() { "rgb(255, 45, 13)" },
+            BackgroundColor = new() { "rgb(252, 152, 0)" },
             Label = "Pending Deduction (On Hold)"
         };
 
         var DisapprovedDeductionQuantitySet = new BarDataset()
         {
             Data = new List<decimal>(),
-            BackgroundColor = new() { "rgb(137, 49, 168)" },
+            BackgroundColor = new() { "rgb(255, 45, 13)" },
             Label = "Disapproved Deduction",
         };
 

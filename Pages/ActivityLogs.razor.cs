@@ -45,10 +45,14 @@ public partial class ActivityLogs
             return true;
         if (element.Quantity.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
+        if (element.Action.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
         if (element.ActedBy.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         var takenByUser = GetUserName(element.ActedBy);
         if (takenByUser is not null  && takenByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.ApprovalStatus.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         if (element.Approver.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
