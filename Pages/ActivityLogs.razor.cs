@@ -2,6 +2,7 @@
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Shared;
 using MudBlazor;
+using NPOI.SS.Formula.Functions;
 
 namespace BikeSparesInventorySystem.Pages;
 
@@ -43,14 +44,14 @@ public partial class ActivityLogs
             return true;
         if (element.Quantity.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.TakenBy.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.ActedBy.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        var takenByUser = GetUserName(element.TakenBy);
+        var takenByUser = GetUserName(element.ActedBy);
         if (takenByUser is not null  && takenByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.ApprovedBy.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Approver.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        var approvedByUser = GetUserName(element.ApprovedBy);
+        var approvedByUser = GetUserName(element.Approver);
         if (approvedByUser is not null && approvedByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         if (element.TakenOut.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
@@ -60,42 +61,11 @@ public partial class ActivityLogs
 
     private async Task Approve(Guid id)
     {
-        var currentDateTime = DateTime.Now;
-        var currentTime = currentDateTime.TimeOfDay;
-        var currentDate = currentDateTime.Date;
-        string errorMessage = null;
-        if (!(currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday))
+        var parameters = new DialogParameters
         {
-            if (currentTime.Hours >= 9 && currentTime.Hours <= 12 + 4)
-            {
-                var log = ActivityLogRepository.Get(x => x.Id, id);
-                var parameters = new DialogParameters
-                    {
-                        { "ContentText", $"{GetSpareName(log.SpareID)} is going to be stocked out by {log.Quantity}, Do you really want to approve?" },
-                        { "ButtonText", "Approve" },
-                        { "Color", MudBlazor.Color.Warning }
-                    };
-
-                var options = new DialogOptions() { CloseOnEscapeKey = true };
-
-                var dialog = await DialogService.ShowAsync<Shared.Dialogs.Dialog>("Approve", parameters, options);
-                var result = await dialog.Result;
-
-                if (!result.Cancelled)
-                {
-                    log.ApprovedBy = AuthService.CurrentUser.Id;
-                    Snackbar.Add("Approved!", Severity.Success);
-                }
-                return;
-            } else
-            {
-                errorMessage = "Approval outside 9AM to 4PM restricted!";
-            }
-        } else
-        {
-            errorMessage = "Approval in weekends restricted!";
-        }
-        Snackbar.Add(errorMessage, Severity.Error);
+            { "ActivityID", id }
+        };
+        await DialogService.ShowAsync<Shared.Dialogs.ApproveDialog>("Approve", parameters);
     }
 
     void onchanged(string a)

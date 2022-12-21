@@ -1,0 +1,16 @@
+﻿@inject ISnackbar Snackbar
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
+
+<MudDialog>
+    <DialogContent>
+        <MudText>@activityLog.Quantity @spare.Name is going to be taken out from the inventory. Are you sure to approve?</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Secondary" Variant="Variant.Filled" OnClick="Approve">Approve</MudButton>
+        <MudButton Color="Color.Warning" Variant="Variant.Filled" OnClick="Disapprove">Disapprove</MudButton>
+    </DialogActions>
+</MudDialog>

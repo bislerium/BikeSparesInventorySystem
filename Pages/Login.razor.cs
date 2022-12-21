@@ -8,8 +8,6 @@ namespace BikeSparesInventorySystem.Pages
         private string _username { get; set; }
         private string _password { get; set; }
 
-        private string _errorMessage;
-
         protected override void OnInitialized()
         {
             string username = _authService.SeedInitialUser();
@@ -18,15 +16,21 @@ namespace BikeSparesInventorySystem.Pages
                 SnackBar.Add("Initial user created!", Severity.Info);
                 _username = username;
                 _password = username;
-            }            
+            }
+            OnConsoleWriteUserNames();
+        }
+
+        private void OnConsoleWriteUserNames()
+        {
             foreach (var i in UserRepository.GetAll())
             {
-                System.Diagnostics.Debug.WriteLine($"Username: {i.UserName} | Initial passord: {i.HasInitialPassword}");
+                System.Diagnostics.Debug.WriteLine($"{i.UserName} | {i.HasInitialPassword} | {i.Role}");
             }
         }
 
         private void LoginHandler()
         {
+            string _errorMessage;
             try
             {
                 _errorMessage = null;
@@ -57,6 +61,7 @@ namespace BikeSparesInventorySystem.Pages
         private async Task SeedData()
         {
             await _seederService.SeedAsync();
+            OnConsoleWriteUserNames();
             SnackBar.Add("Seeding Succesfull", Severity.Success);
         }
     }

@@ -14,7 +14,7 @@
     </DialogContent>
     <DialogActions>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@AddSpare">Add</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=> form.Reset())" Class="mx-2">Reset</MudButton>
+        <MudButton Variant="Variant.Filled" DisableElevation="true" OnClick="@(()=> form.Reset())" Class="mx-2">Reset</MudButton>
         <MudButton OnClick="Cancel">Cancel</MudButton>        
     </DialogActions>
 </MudDialog>

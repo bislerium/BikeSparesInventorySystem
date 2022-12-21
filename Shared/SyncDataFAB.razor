@@ -3,6 +3,6 @@
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository
 @inject ISnackbar Snackbar
 
-<MudTooltip Text="Save">
-    <MudFab Icon="@Icons.Filled.Save" IconColor="Color.Primary" DisableElevation="true" IconSize="Size.Small" Size="Size.Small" Disabled="@IsSaving" OnClick="@SaveData" />
+<MudTooltip Text="Sync to Disk">
+    <MudFab Icon="@Icons.Filled.Sync" IconColor="Color.Primary" DisableElevation="true" IconSize="Size.Small" Size="Size.Small" Disabled="@IsSaving" OnClick="@SaveData" />
 </MudTooltip>

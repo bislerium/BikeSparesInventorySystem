@@ -30,8 +30,10 @@
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.SpareID)">Spare</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Quantity)">Quantity</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.TakenBy)">Taken By</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ApprovedBy)">Approved By</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Action)">Action</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ActedBy)">Acted By</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ApprovalStatus)">Approval Status</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Approver)">Approver</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.TakenOut)">Taken Out</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
@@ -43,13 +45,15 @@
             </MudStack>
         </MudTd>
         <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
-        <MudTd DataLabel="Taken By"><AdminChip user="GetUser(context.TakenBy)"/></MudTd>
-        <MudTd DataLabel="Approved By">@if (context.ApprovedBy.Equals(Guid.Empty))
+        <MudTd DataLabel="Action">@context.Action</MudTd>
+        <MudTd DataLabel="Acted By"><AdminChip user="GetUser(context.ActedBy)"/></MudTd>
+        <MudTd DataLabel="Is Approved">@context.ApprovalStatus</MudTd>
+        <MudTd DataLabel="Approved By">@if (context.Approver.Equals(Guid.Empty))
             {
-                <MudFab Color="Color.Primary" StartIcon="@Icons.Filled.Approval" OnClick="() => Approve(context.Id)" Label="Approve" Size="Size.Small"/>
+                <MudFab Color="Color.Primary" DisableElevation="true" StartIcon="@Icons.Filled.Approval" IconSize="Size.Small" OnClick="() => Approve(context.Id)" Label="Approve" Size="Size.Small"/>
             } else
             {
-                <MudChip Color="Color.Warning">@GetUser(context.ApprovedBy).Item2</MudChip>              
+                @GetUser(context.Approver).Item2          
             }
         </MudTd>
         <MudTd DataLabel="Taken Out">@context.TakenOut</MudTd>        

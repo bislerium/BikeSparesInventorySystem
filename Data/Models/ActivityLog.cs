@@ -1,4 +1,4 @@
-﻿using System;
+﻿using BikeSparesInventorySystem.Data.Enums;
 using System.Text.Json;
 
 namespace BikeSparesInventorySystem.Data.Models;
@@ -11,9 +11,13 @@ internal class ActivityLog : IModel, ICloneable
 
     public int Quantity { get; set; }
 
-    public Guid TakenBy { get; set; }
+    public InventoryAction Action { get; set; }
 
-    public Guid ApprovedBy { get; set; }
+    public Guid ActedBy { get; set; }
+
+    public ApprovalStatus ApprovalStatus { get; set; } 
+
+    public Guid Approver { get; set; }
 
     public DateTime TakenOut { get; set; }
 
@@ -24,8 +28,10 @@ internal class ActivityLog : IModel, ICloneable
             Id = Id,
             SpareID = SpareID,
             Quantity = Quantity,
-            TakenBy = TakenBy,
-            ApprovedBy = ApprovedBy,
+            Action= Action,
+            ActedBy = ActedBy,
+            ApprovalStatus= ApprovalStatus,
+            Approver = Approver,
             TakenOut = TakenOut,
         };
     }

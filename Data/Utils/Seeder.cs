@@ -47,12 +47,18 @@ internal static class Seeder
             .RuleFor(x => x.TakenOut, y => y.Date.Between(startDate, endDate))
             .FinishWith((x,y) => {
                 var user = x.PickRandom(users);
-                y.TakenBy = user.Id;
-                y.ApprovedBy = user.Role == UserRole.Admin 
-                ? user.Id 
-                : x.Random.Bool()
-                ? x.PickRandom(adminUsers).Id 
-                : Guid.Empty;
+                if (user.Role == UserRole.Admin)
+                {
+                    y.Action = x.PickRandom<InventoryAction>();
+                    y.ApprovalStatus =  ApprovalStatus.Approve;
+                    y.Approver = user.Id;
+                } else
+                {
+                    y.Action = InventoryAction.Add;
+                    y.ApprovalStatus = x.PickRandom<ApprovalStatus>();
+                    y.Approver = y.ApprovalStatus == ApprovalStatus.Pending ? Guid.Empty : x.PickRandom(adminUsers).Id;
+                }
+                y.ActedBy = user.Id;
             });
         return activityLogFaker.GenerateBetween(min, max);
     }

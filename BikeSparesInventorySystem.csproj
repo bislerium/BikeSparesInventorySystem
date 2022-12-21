@@ -55,6 +55,7 @@
       <PackageReference Include="CsvHelper" Version="30.0.1" />
       <PackageReference Include="ExcelMapper" Version="5.2.472" />
       <PackageReference Include="MudBlazor" Version="6.1.5" />
+      <PackageReference Include="PSC.Blazor.Components.Chartjs" Version="6.0.35" />
     </ItemGroup>
 
 </Project>
