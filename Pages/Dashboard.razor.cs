@@ -75,11 +75,11 @@ public partial class Dashboard
             }
         };
 
-        var TakenOutQuantitySet = new BarDataset()
+        var ApprovedDeductionQuantitySet = new BarDataset()
         {
             Data = new List<decimal>(),
             BackgroundColor= new () { "rgb(179, 150, 219)" },
-            Label = "Taken Out",           
+            Label = "Approved Deduction (Taken Out)",           
         };
 
         var AvailableQuantitySet = new BarDataset()
@@ -89,27 +89,39 @@ public partial class Dashboard
             Label = "Available"
         };
 
-        var OnHoldQuantitySet = new BarDataset()
+        var PendingDeductionQuantitySet = new BarDataset()
         {
             Data = new List<decimal>(),
             BackgroundColor = new() { "rgb(255, 45, 13)" },
-            Label = "On Hold"
+            Label = "Pending Deduction (On Hold)"
         };
+
+        var DisapprovedDeductionQuantitySet = new BarDataset()
+        {
+            Data = new List<decimal>(),
+            BackgroundColor = new() { "rgb(137, 49, 168)" },
+            Label = "Disapproved Deduction",
+        };
+
 
         foreach (var group in ActivityLogRepository.GetAll().GroupBy(x => x.SpareID).ToList())
         {
             var l = SpareRepository.Get(x => x.Id, group.Key).Name;
-            var takenOut = group.Where(x => !x.Approver.Equals(Guid.Empty)).Sum(x => x.Quantity);
-            var onHold = group.Where(x => x.Approver.Equals(Guid.Empty)).Sum(x => x.Quantity);
-
+            var approved = group.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Approve && x.Action == Data.Enums.InventoryAction.Deduct).Sum(x => x.Quantity);
+            var pending = group.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Pending && x.Action == Data.Enums.InventoryAction.Deduct).Sum(x => x.Quantity);
+            var disapproved = group.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Disapprove && x.Action == Data.Enums.InventoryAction.Deduct).Sum(x => x.Quantity);
+            
             Config.Data.Labels.Add(l);
-            TakenOutQuantitySet.Data.Add(takenOut);
-            OnHoldQuantitySet.Data.Add(onHold);
+
+            ApprovedDeductionQuantitySet.Data.Add(approved);
+            PendingDeductionQuantitySet.Data.Add(pending);
+            DisapprovedDeductionQuantitySet.Data.Add(disapproved);
             AvailableQuantitySet.Data.Add(SpareRepository.Get(x => x.Id, group.Key).AvailableQuantity);
         }
 
-        Config.Data.Datasets.Add(TakenOutQuantitySet);
-        Config.Data.Datasets.Add(OnHoldQuantitySet);
+        Config.Data.Datasets.Add(ApprovedDeductionQuantitySet);
+        Config.Data.Datasets.Add(PendingDeductionQuantitySet);
         Config.Data.Datasets.Add(AvailableQuantitySet);
+        Config.Data.Datasets.Add(DisapprovedDeductionQuantitySet);
     }
 }

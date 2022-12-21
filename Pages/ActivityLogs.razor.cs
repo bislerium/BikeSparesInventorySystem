@@ -1,8 +1,8 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Shared;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using NPOI.SS.Formula.Functions;
 
 namespace BikeSparesInventorySystem.Pages;
 
@@ -16,6 +16,7 @@ public partial class ActivityLogs
     private bool canCancelEdit = true;
     private string searchString = "";
     private IEnumerable<ActivityLog> Elements = new List<ActivityLog>();
+
     protected override void OnInitialized()
     {
         Elements = ActivityLogRepository.GetAll();
@@ -64,11 +65,13 @@ public partial class ActivityLogs
         var parameters = new DialogParameters
         {
             { "ActivityID", id }
-        };
-        await DialogService.ShowAsync<Shared.Dialogs.ApproveDialog>("Approve", parameters);
+        };        
+        await DialogService.ShowAsync<Shared.Dialogs.ApproveDialog>("Approval", parameters);
     }
 
-    void onchanged(string a)
+
+
+    void Onchanged(string a)
     {
         var repo = ActivityLogRepository.GetAll();
         if (string.IsNullOrEmpty(a))
@@ -79,5 +82,4 @@ public partial class ActivityLogs
         var yearMonth = a.Split('-');
         Elements = repo.Where(x=> x.TakenOut.Year == int.Parse(yearMonth[0]) && x.TakenOut.Month == int.Parse(yearMonth[1])).ToList();
     }
-    
 }

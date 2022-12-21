@@ -1,4 +1,6 @@
-﻿<MudChip DisableRipple="true" Color="user.Item1 ? Color.Warning : Color.Default">@user.Item2</MudChip>
+﻿<MudChip Variant="Variant.Outlined" Icon="@Icons.Material.Filled.AccountCircle" Color="@(user.Item1 ? Color.Warning : Color.Default)">
+    @user.Item2
+</MudChip>
 
 @code {
     [Parameter]

@@ -29,7 +29,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
         private void Approve()
         {
             if (Validate()) {
-                activityLog.Approver = AuthService.CurrentUser.Id;
+                activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Approve;
                 Snackbar.Add("Approved!", Severity.Success);
             }
         }
@@ -39,11 +39,10 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
             if (Validate())
             {
                 spare.AvailableQuantity += activityLog.Quantity;
+                activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Disapprove;                
                 Snackbar.Add("Disapproved!", Severity.Success);
             }
         }
-
-        // private ActivityLog GetActivityLog() => ActivityLogRepository.Get(x => x.Id, ActivityID);
 
         private bool Validate()
         {
@@ -58,12 +57,16 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
             {
                 errorMessage = "Approval in weekends restricted!";
             }
+
             MudDialog.Close();
+
             if (errorMessage is not null) { 
                 Snackbar.Add(errorMessage, Severity.Error);
                 errorMessage = null;
                 return false;
             }
+
+            activityLog.Approver = AuthService.CurrentUser.Id;
             return true;
         }
     }

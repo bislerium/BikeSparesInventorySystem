@@ -54,7 +54,7 @@ internal static class Seeder
                     y.Approver = user.Id;
                 } else
                 {
-                    y.Action = InventoryAction.Add;
+                    y.Action = InventoryAction.Deduct;
                     y.ApprovalStatus = x.PickRandom<ApprovalStatus>();
                     y.Approver = y.ApprovalStatus == ApprovalStatus.Pending ? Guid.Empty : x.PickRandom(adminUsers).Id;
                 }

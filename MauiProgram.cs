@@ -29,6 +29,7 @@ public static class MauiProgram
             config.SnackbarConfiguration.VisibleStateDuration = 4000;
             config.SnackbarConfiguration.HideTransitionDuration = 200;
             config.SnackbarConfiguration.ShowTransitionDuration = 200;
+            config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
             config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomStart;
         });
 

@@ -23,7 +23,7 @@
         <MudSpacer />
         <MudStack Row="true">
             <MudTextField @bind-Value="searchString" Label="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Class="mt-0" Clearable="true"></MudTextField>
-            <MudTextField T="string" Class="mt-0" Label="Filter by Month" InputType="InputType.Month" Clearable="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.FilterAlt" ValueChanged="(a) => onchanged(a)" />
+            <MudTextField T="string" Class="mt-0" Label="Filter by Month" InputType="InputType.Month" Clearable="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.FilterAlt" ValueChanged="(a) => Onchanged(a)" />
         </MudStack>
     </ToolBarContent>
     <HeaderContent>
@@ -39,21 +39,31 @@
     <RowTemplate>
         <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
         <MudTd DataLabel="Spare">
-            <MudStack Row="true" Spacing="0">
-            <MudChip>@context.SpareID</MudChip>
             <MudChip>@GetSpareName(context.SpareID)</MudChip>
-            </MudStack>
         </MudTd>
         <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
         <MudTd DataLabel="Action">@context.Action</MudTd>
         <MudTd DataLabel="Acted By"><AdminChip user="GetUser(context.ActedBy)"/></MudTd>
-        <MudTd DataLabel="Is Approved">@context.ApprovalStatus</MudTd>
-        <MudTd DataLabel="Approved By">@if (context.Approver.Equals(Guid.Empty))
+        <MudTd DataLabel="Is Approved">
+            @switch (@context.ApprovalStatus)
+            {
+                case ApprovalStatus.Approve:
+                    <MudChip Size="Size.Small" Color="Color.Success"> Approved </MudChip>
+                    break;
+                case ApprovalStatus.Disapprove:
+                    <MudChip Size="Size.Small" Color="Color.Error"> Disapproved </MudChip>
+                    break;
+                case ApprovalStatus.Pending:
+                    <MudChip Size="Size.Small" Color = "Color.Warning" > Pending </MudChip >
+                    break;
+            }
+        </MudTd>
+        <MudTd DataLabel="Approved By">@if (context.ApprovalStatus == ApprovalStatus.Pending)
             {
                 <MudFab Color="Color.Primary" DisableElevation="true" StartIcon="@Icons.Filled.Approval" IconSize="Size.Small" OnClick="() => Approve(context.Id)" Label="Approve" Size="Size.Small"/>
             } else
             {
-                @GetUser(context.Approver).Item2          
+                <AdminChip user="GetUser(context.Approver)" />
             }
         </MudTd>
         <MudTd DataLabel="Taken Out">@context.TakenOut</MudTd>        
