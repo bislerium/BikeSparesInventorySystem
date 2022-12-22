@@ -15,7 +15,7 @@ internal class ActivityLog : IModel, ICloneable
 
     public Guid ActedBy { get; set; }
 
-    public ApprovalStatus ApprovalStatus { get; set; } 
+    public ApprovalStatus ApprovalStatus { get; set; }
 
     public Guid Approver { get; set; }
 
@@ -28,9 +28,9 @@ internal class ActivityLog : IModel, ICloneable
             Id = Id,
             SpareID = SpareID,
             Quantity = Quantity,
-            Action= Action,
+            Action = Action,
             ActedBy = ActedBy,
-            ApprovalStatus= ApprovalStatus,
+            ApprovalStatus = ApprovalStatus,
             Approver = Approver,
             TakenOut = TakenOut,
         };

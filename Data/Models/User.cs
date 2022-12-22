@@ -17,7 +17,8 @@ public class User : IModel, ICloneable
 
     public object Clone()
     {
-        return new User {
+        return new User
+        {
             Id = Id,
             UserName = UserName,
             Email = Email,

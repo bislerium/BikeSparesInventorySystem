@@ -15,6 +15,11 @@
           IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
     <ToolBarContent>
         <MudFab StartIcon="@Icons.Filled.Add" Color="Color.Primary" Label="Add Spare" DisableElevation="true" OnClick="AddDialog" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <MudStack Row="true">
+            <ImportButton T="Spare" />
+            <ExportButton T="Spare" />
+        </MudStack>
         <MudSpacer />
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
     </ToolBarContent>

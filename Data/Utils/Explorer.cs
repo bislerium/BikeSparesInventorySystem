@@ -1,4 +1,5 @@
-﻿using BikeSparesInventorySystem.Data.Models;
+﻿using BikeSparesInventorySystem.Data.Enums;
+using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Data.Providers;
 
 namespace BikeSparesInventorySystem.Data.Utils;
@@ -11,29 +12,28 @@ internal static class Explorer
     public static string GetAppDataDirectoryPath()
     {
         var path = Path.Combine(
-            Environment.CurrentDirectory,
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "AppData"
         );
         return @"D:\";
     }
 
-    public static FileProvider<TSource> GetFileProvider<TSource>(string fileName) where TSource : IModel
+    public static FileProvider<TSource> GetFileProvider<TSource>(FileExtension extension) where TSource : IModel
     {
-        string extension = fileName.Split(".").Last();
-        return extension.ToLower() switch
+        return extension switch
         {
-            "csv" => new CsvFileProvider<TSource>(),
-            "json" => new JsonFileProvider<TSource>(),
-            "xlsx" => new ExcelFileProvider<TSource>(),
-            _ => throw new Exception("Supports JSON, CSV or Excel(.xlsx) File Only !")
+            FileExtension.csv => new CsvFileProvider<TSource>(),
+            FileExtension.json => new JsonFileProvider<TSource>(),
+            FileExtension.xlsx => new ExcelFileProvider<TSource>(),
+            _ => throw new Exception("Supports JSON, CSV or Excel(.xlsx) File Only!")
         };
     }
 
-    private static string ApppendExtension<TSource>(string extension) => Path.Combine(GetAppDataDirectoryPath(), $"{typeof(TSource).Name}{extension}");
+    public static string GetDocumentDirectoryPath() => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    public static string GetFilePath(string Directory, string fileName) => Path.Combine(Directory, fileName);
+    public static string GetFile<TSource>(FileExtension extension) => GetFile(typeof(TSource).Name, extension);
+    public static string GetFile(string fileName, FileExtension extension) => $"{fileName}.{Enum.GetName(extension)}";
+    public static string GetDefaultExportFilePath<TSource>(FileExtension extension) => GetFilePath(GetDocumentDirectoryPath(), GetFile<TSource>(extension));
+    public static string GetDefaultFilePath<TSource>(FileExtension extension) => GetFilePath(GetAppDataDirectoryPath(), GetFile<TSource>(extension));
 
-    public static string GetCsvFilePath<TSource>() => ApppendExtension<TSource>(".csv");
-
-    public static string GetExcelFilePath<TSource>() => ApppendExtension<TSource>(".xlsx");
-
-    public static string GetJsonFilePath<TSource>() => ApppendExtension<TSource>(".json");
 }

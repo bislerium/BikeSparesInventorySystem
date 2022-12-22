@@ -1,0 +1,14 @@
+﻿@if (SpareName is null)
+{
+    <MudIcon Icon="@Icons.Material.Filled.QuestionMark" Title="Null" />
+}
+else
+{
+    <MudChip Color="Color.Info" Text="SpareName" />
+}
+
+
+@code {
+    [Parameter]
+    public string SpareName { get; set; }
+}

@@ -1,0 +1,8 @@
+﻿@inject ISnackbar Snackbar
+@typeparam T where T : IModel
+
+<MudMenu StartIcon="@Icons.Filled.Download" EndIcon="@Icons.Filled.KeyboardArrowDown" Label="Export" Color="Color.Primary" Variant="Variant.Outlined" FullWidth="true">
+    <MudMenuItem OnClick="() => ExportFile(FileExtension.csv)">.csv</MudMenuItem>
+    <MudMenuItem OnClick="() => ExportFile(FileExtension.json)">.json</MudMenuItem>
+    <MudMenuItem OnClick="() => ExportFile(FileExtension.xlsx)">.xlsx</MudMenuItem>
+</MudMenu>

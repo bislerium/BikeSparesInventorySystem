@@ -1,10 +1,10 @@
 ﻿namespace BikeSparesInventorySystem.Pages;
 
 public partial class Index
-{        
+{
 
     protected override async Task OnInitializedAsync()
-    { 
+    {
         await _userRepository.LoadAsync();
         await _spareRepository.LoadAsync();
         await _activityLogRepository.LoadAsync();

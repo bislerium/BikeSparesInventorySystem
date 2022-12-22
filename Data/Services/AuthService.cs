@@ -21,7 +21,7 @@ internal class AuthService
         if (_userRepository.GetAll().Count != 0) return null;
         if (_userRepository.Contains(x => x.Role, UserRole.Admin)) return null;
         string username = "admin", pleaseChange = "Please Change!";
-        User user = new ()
+        User user = new()
         {
             UserName = username,
             Email = pleaseChange,
@@ -38,7 +38,8 @@ internal class AuthService
     public void Register(string username, string email, string fullname, UserRole role)
     {
         if (_userRepository.HasUserName(username)) throw new Exception(message: "Username already exists!");
-        User user = new() { 
+        User user = new()
+        {
             UserName = username,
             Email = email,
             FullName = fullname,

@@ -1,6 +1,6 @@
 ﻿namespace BikeSparesInventorySystem.Data.Models;
 
-internal interface IModel
+public interface IModel
 {
     Guid Id { get; set; }
 }

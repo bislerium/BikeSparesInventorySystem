@@ -1,6 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Services;
-using BikeSparesInventorySystem.Shared;
-using Microsoft.AspNetCore.Components;
+﻿using BikeSparesInventorySystem.Shared;
 
 namespace BikeSparesInventorySystem.Pages
 {
@@ -21,7 +19,7 @@ namespace BikeSparesInventorySystem.Pages
         {
             try
             {
-                _authService.ChangePassword(_currentPassword, _newPassword);                
+                _authService.ChangePassword(_currentPassword, _newPassword);
                 _successMessage = "The password has been changed successfully.";
                 _navigationManager.NavigateTo("/");
             }

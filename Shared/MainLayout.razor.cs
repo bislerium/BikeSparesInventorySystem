@@ -9,5 +9,5 @@ public partial class MainLayout
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
-    }    
+    }
 }

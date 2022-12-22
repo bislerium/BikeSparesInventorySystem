@@ -1,7 +1,6 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Shared;
-using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages;
@@ -23,10 +22,10 @@ public partial class ActivityLogs
         MainLayout.Title = "Inventory Activity Logs";
     }
 
-    private Tuple<bool,string> GetUser(Guid id)
+    private Tuple<bool, string> GetUser(Guid id)
     {
         var user = UserRepository.Get(x => x.Id, id);
-        return new Tuple<bool, string>(user.Role == UserRole.Admin, user.UserName);
+        return new Tuple<bool, string>(user?.Role == UserRole.Admin, user?.UserName);
     }
 
     private string GetSpareName(Guid id) => SpareRepository.Get(x => x.Id, id)?.Name;
@@ -50,7 +49,7 @@ public partial class ActivityLogs
         if (element.ActedBy.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         var takenByUser = GetUserName(element.ActedBy);
-        if (takenByUser is not null  && takenByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (takenByUser is not null && takenByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         if (element.ApprovalStatus.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
@@ -69,7 +68,7 @@ public partial class ActivityLogs
         var parameters = new DialogParameters
         {
             { "ActivityID", id }
-        };        
+        };
         await DialogService.ShowAsync<Shared.Dialogs.ApproveDialog>("Approval", parameters);
     }
 
@@ -84,6 +83,6 @@ public partial class ActivityLogs
             return;
         }
         var yearMonth = a.Split('-');
-        Elements = repo.Where(x=> x.TakenOut.Year == int.Parse(yearMonth[0]) && x.TakenOut.Month == int.Parse(yearMonth[1])).ToList();
+        Elements = repo.Where(x => x.TakenOut.Year == int.Parse(yearMonth[0]) && x.TakenOut.Month == int.Parse(yearMonth[1])).ToList();
     }
 }

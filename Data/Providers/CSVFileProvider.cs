@@ -7,7 +7,7 @@ namespace BikeSparesInventorySystem.Data.Providers;
 
 internal class CsvFileProvider<TSource> : FileProvider<TSource> where TSource : IModel
 {
-    internal override string FilePath { get; set; } = Explorer.GetCsvFilePath<TSource>();
+    internal override string FilePath { get; set; } = Explorer.GetDefaultFilePath<TSource>(Enums.FileExtension.csv);
 
     internal override async Task<ICollection<TSource>> ReadAsync(string path) => await ReadAsync(File.OpenRead(path));
 
@@ -20,15 +20,15 @@ internal class CsvFileProvider<TSource> : FileProvider<TSource> where TSource : 
             List<TSource> data = new();
             await foreach (TSource r in csv.GetRecordsAsync<TSource>()) data.Add(r);
             return data;
-        } 
+        }
         catch
         {
             throw;
         }
-        finally 
-        { 
+        finally
+        {
             stream.Close();
-        }        
+        }
     }
 
     internal override async Task WriteAsync(string path, ICollection<TSource> data)

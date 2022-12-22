@@ -20,7 +20,7 @@ public partial class Inventory
     private TableEditButtonPosition editButtonPosition = TableEditButtonPosition.End;
     private TableEditTrigger editTrigger = TableEditTrigger.RowClick;
     private IEnumerable<Spare> Elements = new List<Spare>();
-    private readonly Dictionary<Guid, bool> SpareDescTracks = new ();
+    private readonly Dictionary<Guid, bool> SpareDescTracks = new();
 
     protected override void OnInitialized()
     {
@@ -65,14 +65,15 @@ public partial class Inventory
         return false;
     }
 
-    private void ShowBtnPress(Guid id) =>  SpareDescTracks[id] = !SpareDescTracks[id];
+    private void ShowBtnPress(Guid id) => SpareDescTracks[id] = !SpareDescTracks[id];
 
     private bool getShow(Guid id)
     {
         if (SpareDescTracks.ContainsKey(id))
         {
-            return SpareDescTracks[id];            
-        } else
+            return SpareDescTracks[id];
+        }
+        else
         {
             return SpareDescTracks[id] = false;
         }

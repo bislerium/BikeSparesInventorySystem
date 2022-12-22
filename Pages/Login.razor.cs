@@ -4,9 +4,9 @@ namespace BikeSparesInventorySystem.Pages
 {
     public partial class Login
     {
-        
-        private string _username { get; set; }
-        private string _password { get; set; }
+
+        private string Username { get; set; }
+        private string Password { get; set; }
 
         protected override void OnInitialized()
         {
@@ -14,8 +14,8 @@ namespace BikeSparesInventorySystem.Pages
             if (username is not null)
             {
                 SnackBar.Add("Initial user created!", Severity.Info);
-                _username = username;
-                _password = username;
+                Username = username;
+                Password = username;
             }
             OnConsoleWriteUserNames();
         }
@@ -34,7 +34,7 @@ namespace BikeSparesInventorySystem.Pages
             try
             {
                 _errorMessage = null;
-                if (_authService.Login(_username, _password))
+                if (_authService.Login(Username, Password))
                 {
                     if (_authService.CurrentUser.HasInitialPassword)
                     {
@@ -45,7 +45,8 @@ namespace BikeSparesInventorySystem.Pages
                     {
                         _navigationManager.NavigateTo("/");
                     }
-                } else
+                }
+                else
                 {
                     _errorMessage = "Incorrect username or password!";
                 }

@@ -6,7 +6,7 @@ public partial class SyncDataFAB
 {
     private bool IsSaving = false;
     private async Task SaveData()
-    {   
+    {
         if (IsSaving) return;
         IsSaving = true;
         await UserRepository.FlushAsync();

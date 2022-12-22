@@ -1,0 +1,8 @@
+﻿@inject ISnackbar Snackbar
+@typeparam T where T : IModel
+
+<MudFileUpload Class="mt-0" T="IBrowserFile" Accept=".json, .csv, .xlsx" FilesChanged="ImportFile">
+    <ButtonTemplate>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" HtmlTag="label" StartIcon="@Icons.Filled.Upload" for="@context">Import</MudButton>
+    </ButtonTemplate>
+</MudFileUpload>

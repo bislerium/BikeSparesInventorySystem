@@ -10,24 +10,25 @@ internal static class Seeder
     {
         var adminIDs = new List<Guid>();
         DateTime dateTime = DateTime.Now.Subtract(TimeSpan.FromDays(365));
-        var userFaker = new Faker<User>()                
+        var userFaker = new Faker<User>()
             .RuleFor(x => x.FullName, y => y.Name.FullName())
             .RuleFor(x => x.Role, (y, z) => adminIDs.Count == 0 ? UserRole.Admin : y.PickRandom<UserRole>())
-            .RuleFor(x => x.CreatedAt, y => dateTime = y.Date.Between(dateTime ,DateTime.Now))
-            .RuleFor(x => x.CreatedBy, y => adminIDs.Count == 0 ? Guid.Empty : y.PickRandom(adminIDs))                
-            .FinishWith((x,y) => {
+            .RuleFor(x => x.CreatedAt, y => dateTime = y.Date.Between(dateTime, DateTime.Now))
+            .RuleFor(x => x.CreatedBy, y => adminIDs.Count == 0 ? Guid.Empty : y.PickRandom(adminIDs))
+            .FinishWith((x, y) =>
+            {
                 var segment = y.FullName.Split(' ');
                 y.UserName = x.Internet.UserName(segment[0], segment[1]);
                 y.Email = x.Internet.Email(segment[0], segment[1]);
                 y.PasswordHash = Hasher.HashSecret(y.UserName);
-					if (y.Role == UserRole.Admin) adminIDs.Add(y.Id);
-				});
+                if (y.Role == UserRole.Admin) adminIDs.Add(y.Id);
+            });
         return userFaker.GenerateBetween(min, max).ToList();
     }
 
     public static ICollection<Spare> GenerateSpares(int min, int max)
     {
-        var spareFaker = new Faker<Spare>()                
+        var spareFaker = new Faker<Spare>()
             .RuleFor(x => x.Name, y => y.Lorem.Word())
             .RuleFor(x => x.Description, y => y.Lorem.Sentences(5))
             .RuleFor(x => x.Company, y => y.Company.CompanyName())
@@ -43,16 +44,18 @@ internal static class Seeder
         var adminUsers = users.Where(x => x.Role == UserRole.Admin).ToList();
         var activityLogFaker = new Faker<ActivityLog>()
             .RuleFor(x => x.SpareID, y => y.PickRandom(spares).Id)
-            .RuleFor(x => x.Quantity, y => y.Random.Int(min = 1, max = 111))            
+            .RuleFor(x => x.Quantity, y => y.Random.Int(min = 1, max = 111))
             .RuleFor(x => x.TakenOut, y => y.Date.Between(startDate, endDate))
-            .FinishWith((x,y) => {
+            .FinishWith((x, y) =>
+            {
                 var user = x.PickRandom(users);
                 if (user.Role == UserRole.Admin)
                 {
                     y.Action = x.PickRandom<InventoryAction>();
-                    y.ApprovalStatus =  ApprovalStatus.Approve;
+                    y.ApprovalStatus = ApprovalStatus.Approve;
                     y.Approver = user.Id;
-                } else
+                }
+                else
                 {
                     y.Action = InventoryAction.Deduct;
                     y.ApprovalStatus = x.PickRandom<ApprovalStatus>();

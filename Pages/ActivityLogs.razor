@@ -1,25 +1,18 @@
 ﻿@page "/activity-logs"
 
-@using MudBlazor
-@using BikeSparesInventorySystem.Data.Models;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
-@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
 @inject ISnackbar Snackbar
-@inject IDialogService DialogService
+@inject IDialogService DialogService;
 
 <MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
          SortLabel="Sort By" HorizontalScrollbar="true" >
     <ToolBarContent>
-        <MudStack Row="true">
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Filled.Upload">Import</MudButton>
-            <MudMenu StartIcon="@Icons.Filled.Download" EndIcon="@Icons.Filled.KeyboardArrowDown" Label="Export" Color="Color.Primary" Variant="Variant.Outlined" FullWidth="true">
-                <MudMenuItem>.csv</MudMenuItem>
-                <MudMenuItem>.json</MudMenuItem>
-                <MudMenuItem>.xlsx</MudMenuItem>
-            </MudMenu>            
-        </MudStack>
+            <MudStack Row="true">
+                <ImportButton T="ActivityLog" />
+                <ExportButton T="ActivityLog" />
+            </MudStack>
         <MudSpacer />
         <MudStack Row="true">
             <MudTextField @bind-Value="searchString" Label="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Class="mt-0" Clearable="true"></MudTextField>
@@ -39,7 +32,7 @@
     <RowTemplate>
         <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
         <MudTd DataLabel="Spare">
-            <MudChip>@GetSpareName(context.SpareID)</MudChip>
+            <SpareChip SpareName="@GetSpareName(context.SpareID)" />
         </MudTd>
         <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
         <MudTd DataLabel="Action">@context.Action</MudTd>
@@ -48,13 +41,13 @@
             @switch (@context.ApprovalStatus)
             {
                 case ApprovalStatus.Approve:
-                    <MudChip Size="Size.Small" Color="Color.Success"> Approved </MudChip>
+                    <MudChip Color="Color.Success"> Approved </MudChip>
                     break;
                 case ApprovalStatus.Disapprove:
-                    <MudChip Size="Size.Small" Color="Color.Error"> Disapproved </MudChip>
+                    <MudChip Color="Color.Error"> Disapproved </MudChip>
                     break;
                 case ApprovalStatus.Pending:
-                    <MudChip Size="Size.Small" Color = "Color.Warning" > Pending </MudChip >
+                    <MudChip Color = "Color.Warning" > Pending </MudChip >
                     break;
             }
         </MudTd>

@@ -3,7 +3,7 @@ using BikeSparesInventorySystem.Data.Providers;
 
 namespace BikeSparesInventorySystem.Data.Repositories
 {
-    internal abstract class RepositoryIO<TSource> where TSource: IModel
+    internal abstract class RepositoryIO<TSource> where TSource : IModel
     {
         protected internal ICollection<TSource> _sourceData;
 
@@ -16,12 +16,13 @@ namespace BikeSparesInventorySystem.Data.Repositories
             try
             {
                 _sourceData = await _fileProvider.ReadAsync();
-            } catch
+            }
+            catch
             {
                 _sourceData = new List<TSource>();
                 // throw;
             }
-            
+
         }
 
         public virtual async Task LoadAsync(string path, bool writeToPath = false)
@@ -37,18 +38,19 @@ namespace BikeSparesInventorySystem.Data.Repositories
                 {
                     _sourceData = await _fileProvider.ReadAsync(path);
                 }
-            } catch 
+            }
+            catch
             {
                 _sourceData = new List<TSource>();
                 // throw;
             }
         }
 
-        public virtual async Task LoadAsync(FileProvider<TSource> fileProvider, Stream stream)
+        public virtual async Task ImportAsync(FileProvider<TSource> fileProvider, Stream stream)
         {
             try
             {
-                 _sourceData = await fileProvider.ReadAsync(stream);
+                _sourceData = await fileProvider.ReadAsync(stream);
             }
             catch
             {
@@ -71,6 +73,8 @@ namespace BikeSparesInventorySystem.Data.Repositories
             {
                 await _fileProvider.WriteAsync(path, _sourceData);
             }
-        }        
+        }
+
+        public virtual async Task ExportAsync(FileProvider<TSource> fileProvider, string path) => await fileProvider.WriteAsync(path, _sourceData);
     }
 }

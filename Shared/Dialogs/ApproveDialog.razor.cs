@@ -19,7 +19,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
             spare = SpareRepository.Get(x => x.Id, activityLog.SpareID);
         }
 
-        private string errorMessage = null;        
+        private string errorMessage = null;
 
         private void Cancel()
         {
@@ -28,7 +28,8 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
 
         private void Approve()
         {
-            if (Validate()) {
+            if (Validate())
+            {
                 activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Approve;
                 Snackbar.Add("Approved!", Severity.Success);
             }
@@ -39,7 +40,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
             if (Validate())
             {
                 spare.AvailableQuantity += activityLog.Quantity;
-                activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Disapprove;                
+                activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Disapprove;
                 Snackbar.Add("Disapproved!", Severity.Success);
             }
         }
@@ -60,7 +61,8 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
 
             MudDialog.Close();
 
-            if (errorMessage is not null) { 
+            if (errorMessage is not null)
+            {
                 Snackbar.Add(errorMessage, Severity.Error);
                 errorMessage = null;
                 return false;

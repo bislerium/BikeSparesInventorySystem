@@ -1,6 +1,11 @@
-﻿<MudChip Variant="Variant.Outlined" Icon="@Icons.Material.Filled.AccountCircle" Color="@(user.Item1 ? Color.Warning : Color.Default)">
-    @user.Item2
-</MudChip>
+﻿@if (user.Item2 is null)
+{
+    <MudIcon Icon="@Icons.Material.Filled.QuestionMark" Title="Null" />    
+} else
+{
+    <MudChip Variant="Variant.Outlined" Icon="@Icons.Material.Filled.AccountCircle" Color="@(user.Item1 ? Color.Warning : Color.Default)" Text="@user.Item2" />
+}
+
 
 @code {
     [Parameter]

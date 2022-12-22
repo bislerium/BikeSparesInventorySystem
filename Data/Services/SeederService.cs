@@ -6,12 +6,12 @@ namespace BikeSparesInventorySystem.Data.Services;
 
 internal class SeederService
 {
-    internal int MinUsers { get; set; } = 16;
-    internal int MaxUsers { get; set; } = 24;
-    internal int MinSpares { get; set; } = 36;
-    internal int MaxSpares { get; set; } = 62;
-    internal int MinActivityLogs { get; set; } = 220;
-    internal int MaxActivityLogs { get; set; } = 660;
+    internal int MinUsers { get; set; } = 20;
+    internal int MaxUsers { get; set; } = 32;
+    internal int MinSpares { get; set; } = 38;
+    internal int MaxSpares { get; set; } = 86;
+    internal int MinActivityLogs { get; set; } = 650;
+    internal int MaxActivityLogs { get; set; } = 1200;
 
     private readonly Repository<User> _userRepository;
     private readonly Repository<Spare> _spareRepository;
