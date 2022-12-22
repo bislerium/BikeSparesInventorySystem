@@ -7,7 +7,7 @@
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 
-<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<User,bool>(FilterFunc)"
+<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<User,bool>(FilterFunc)"
           @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit" HorizontalScrollbar="true"
           OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
           IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">

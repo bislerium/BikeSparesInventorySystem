@@ -8,7 +8,6 @@ public partial class AddSpareDialog
 {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     MudForm form;
-    bool success;
 
     private string Name;
     private string Description;

@@ -1,10 +1,12 @@
-﻿using MudBlazor;
+﻿using BikeSparesInventorySystem.Data.Utils;
+using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages
 {
     public partial class Login
     {
 
+        private MudForm form;
         private string Username { get; set; }
         private string Password { get; set; }
 
@@ -17,15 +19,7 @@ namespace BikeSparesInventorySystem.Pages
                 Username = username;
                 Password = username;
             }
-            OnConsoleWriteUserNames();
-        }
-
-        private void OnConsoleWriteUserNames()
-        {
-            foreach (var i in UserRepository.GetAll())
-            {
-                System.Diagnostics.Debug.WriteLine($"{i.UserName} | {i.HasInitialPassword} | {i.Role}");
-            }
+            Seeder.OnDebugConsoleWriteUserNames(UserRepository.GetAll());
         }
 
         private void LoginHandler()
@@ -34,36 +28,37 @@ namespace BikeSparesInventorySystem.Pages
             try
             {
                 _errorMessage = null;
-                if (_authService.Login(Username, Password))
+
+                form.Validate();
+
+                if (form.IsValid)
                 {
-                    if (_authService.CurrentUser.HasInitialPassword)
+                    if (_authService.Login(Username, Password))
                     {
-                        SnackBar.Add("Please Change the password!", Severity.Warning);
-                        _navigationManager.NavigateTo("/change-password");
+                        if (_authService.CurrentUser.HasInitialPassword)
+                        {
+                            SnackBar.Add("Please change your password!", Severity.Warning);
+                            _navigationManager.NavigateTo("/change-password");
+                        }
+                        else
+                        {
+                            _navigationManager.NavigateTo("/");
+                        }
+                        return;
                     }
                     else
                     {
-                        _navigationManager.NavigateTo("/");
+                        _errorMessage = "Incorrect username or password!";
                     }
-                }
-                else
-                {
-                    _errorMessage = "Incorrect username or password!";
                 }
             }
             catch (Exception e)
             {
                 _errorMessage = e.Message;
-                Console.WriteLine(e);
             }
             SnackBar.Add(_errorMessage, Severity.Error);
         }
 
-        private async Task SeedData()
-        {
-            await _seederService.SeedAsync();
-            OnConsoleWriteUserNames();
-            SnackBar.Add("Seeding Succesfull", Severity.Success);
-        }
+
     }
 }

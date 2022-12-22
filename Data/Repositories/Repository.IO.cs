@@ -54,7 +54,7 @@ namespace BikeSparesInventorySystem.Data.Repositories
             }
             catch
             {
-                throw;
+                throw new Exception("Invalid File!");
             }
         }
 

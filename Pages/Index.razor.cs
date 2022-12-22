@@ -8,7 +8,7 @@ public partial class Index
         await _userRepository.LoadAsync();
         await _spareRepository.LoadAsync();
         await _activityLogRepository.LoadAsync();
-
+        await Task.Delay(1000);
         if (_authService.CurrentUser is null)
         {
             _navigationManager.NavigateTo("/login");

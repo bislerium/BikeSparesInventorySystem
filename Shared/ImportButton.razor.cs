@@ -21,7 +21,8 @@ namespace BikeSparesInventorySystem.Shared
                 try
                 {
                     extension = Enum.Parse<FileExtension>(file.Name.Split(".").Last());
-                } catch
+                }
+                catch
                 {
                     throw new Exception("Supports JSON, CSV or Excel(.xlsx) File Only!");
                 }

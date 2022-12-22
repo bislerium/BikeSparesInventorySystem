@@ -4,7 +4,7 @@
 
 <MudDialog>
     <DialogContent>
-        <MudForm @ref="form" @bind-IsValid="@success">
+        <MudForm @ref="form">
             <MudTextField T="string" @bind-Value="@Name" Label="Spare Name" Required="true" RequiredError="Spare name is required!" />
             <MudTextField T="string" @bind-Value="@Description" Label="Description" Required="true" RequiredError="Description is required!" Lines="5" />
             <MudTextField T="string" @bind-Value="@Company" Label="Company" Required="true" RequiredError="Company is required!" />

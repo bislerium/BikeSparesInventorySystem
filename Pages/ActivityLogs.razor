@@ -6,7 +6,7 @@
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService;
 
-<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "75vh" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
+<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
          SortLabel="Sort By" HorizontalScrollbar="true" >
     <ToolBarContent>
             <MudStack Row="true">
@@ -35,19 +35,39 @@
             <SpareChip SpareName="@GetSpareName(context.SpareID)" />
         </MudTd>
         <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
-        <MudTd DataLabel="Action">@context.Action</MudTd>
-        <MudTd DataLabel="Acted By"><AdminChip user="GetUser(context.ActedBy)"/></MudTd>
+        <MudTd DataLabel="Action">
+            @switch (@context.Action)
+            {
+                case InventoryAction.Add:
+                    <MudTooltip Text = "Add">
+                        <MudIcon Color="Color.Default" Icon="@Icons.Filled.Add" />
+                    </MudTooltip>
+                    break;
+                case InventoryAction.Deduct:
+                    <MudTooltip Text="Deduct">
+                        <MudIcon Color="Color.Default" Icon="@Icons.Filled.Remove" />
+                    </MudTooltip>
+                    break;               
+            }            
+        </MudTd>
+        <MudTd DataLabel="Acted By"><UserChip user="GetUser(context.ActedBy)"/></MudTd>
         <MudTd DataLabel="Is Approved">
             @switch (@context.ApprovalStatus)
             {
                 case ApprovalStatus.Approve:
-                    <MudChip Color="Color.Success"> Approved </MudChip>
+                    <MudTooltip Text = "Approved">
+                        <MudIcon Color="Color.Success" Icon="@Icons.Filled.Check" />
+                    </MudTooltip>
                     break;
                 case ApprovalStatus.Disapprove:
-                    <MudChip Color="Color.Error"> Disapproved </MudChip>
+                    <MudTooltip Text="Disapproved">
+                        <MudIcon Color="Color.Error" Icon="@Icons.Filled.Close" />
+                    </MudTooltip>
                     break;
                 case ApprovalStatus.Pending:
-                    <MudChip Color = "Color.Warning" > Pending </MudChip >
+                    <MudTooltip Text = "Pending">
+                        <MudIcon Color="Color.Warning" Icon="@Icons.Filled.HourglassTop" />
+                    </MudTooltip>
                     break;
             }
         </MudTd>
@@ -56,7 +76,7 @@
                 <MudFab Color="Color.Primary" DisableElevation="true" StartIcon="@Icons.Filled.Approval" IconSize="Size.Small" OnClick="() => Approve(context.Id)" Label="Approve" Size="Size.Small"/>
             } else
             {
-                <AdminChip user="GetUser(context.Approver)" />
+                <UserChip user="GetUser(context.Approver)" />
             }
         </MudTd>
         <MudTd DataLabel="Taken Out">@context.TakenOut</MudTd>        

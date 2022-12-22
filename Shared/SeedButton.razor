@@ -1,0 +1,5 @@
+﻿@inject BikeSparesInventorySystem.Data.Services.SeederService _seederService;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository
+@inject ISnackbar SnackBar;
+
+<MudButton OnClick="@SeedData">Seed</MudButton>

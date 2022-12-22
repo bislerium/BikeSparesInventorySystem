@@ -1,4 +1,5 @@
 ﻿@page "/"
+
 @layout EmptyLayout
 @using BikeSparesInventorySystem.Data.Models;
 @inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
@@ -6,7 +7,11 @@
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<User> _userRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> _spareRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> _activityLogRepository;
-@inject BikeSparesInventorySystem.Data.Services.SeederService _seederService;
 
-<h1> Loading ... </h1>
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh">
+    <MudStack AlignItems="AlignItems.Center">
+        <MudIcon Icon="@Icons.Filled.BikeScooter" Color="Color.Primary" Style="font-size:120" />
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+    </MudStack>
+</div>
 

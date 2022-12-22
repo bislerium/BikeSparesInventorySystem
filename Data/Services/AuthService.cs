@@ -67,7 +67,6 @@ internal class AuthService
 
         _user.PasswordHash = Hasher.HashSecret(newPassword);
         _user.HasInitialPassword = false;
-        _userRepository.FlushAsync().Wait();
     }
 
     public void LogOut() => _user = null;
