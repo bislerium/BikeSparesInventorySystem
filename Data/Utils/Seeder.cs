@@ -51,13 +51,13 @@ internal static class Seeder
                 var user = x.PickRandom(users);
                 if (user.Role == UserRole.Admin)
                 {
-                    y.Action = x.PickRandom<InventoryAction>();
+                    y.Action = x.PickRandom<StockAction>();
                     y.ApprovalStatus = ApprovalStatus.Approve;
                     y.Approver = user.Id;
                 }
                 else
                 {
-                    y.Action = InventoryAction.Deduct;
+                    y.Action = StockAction.Deduct;
                     y.ApprovalStatus = x.PickRandom<ApprovalStatus>();
                     y.Approver = y.ApprovalStatus == ApprovalStatus.Pending ? Guid.Empty : x.PickRandom(adminUsers).Id;
                 }

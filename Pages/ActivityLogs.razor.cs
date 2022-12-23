@@ -7,6 +7,7 @@ namespace BikeSparesInventorySystem.Pages;
 
 public partial class ActivityLogs
 {
+    private MudTable<ActivityLog> ActivityLogsTable;
     private bool dense = true;
     private bool fixed_header = true;
     private bool fixed_footer = true;

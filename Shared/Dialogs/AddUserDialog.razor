@@ -4,7 +4,7 @@
 
 <MudDialog>
     <DialogContent>
-        <MudForm @ref="form" @bind-IsValid="@success">
+        <MudForm @ref="form">
             <MudTextField T="string" @bind-Value="@UserName" Label="Username" Required="true" Validation="@(new Func<string, IEnumerable<string>>(UserNameValidation))" RequiredError="User name is required!" />
             <MudTextField T="string" @bind-Value="@Email" Label="Email" Required="true" RequiredError="Email is required!"
                           Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
@@ -18,8 +18,8 @@
         </MudForm>
     </DialogContent>
     <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="AddUser">Add</MudButton>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
         <MudButton Variant="Variant.Filled" DisableElevation="true" OnClick="@(()=> form.Reset())" Class="mx-2">Reset</MudButton>
-        <MudButton OnClick="Cancel">Cancel</MudButton>        
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="AddUser">Add</MudButton>
     </DialogActions>
 </MudDialog>

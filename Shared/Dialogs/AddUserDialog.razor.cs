@@ -9,7 +9,6 @@ public partial class AddUserDialog
 {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     MudForm form;
-    bool success;
 
     private string UserName;
     private string Email;

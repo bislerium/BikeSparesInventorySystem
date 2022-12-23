@@ -11,13 +11,13 @@ internal class ActivityLog : IModel, ICloneable
 
     public int Quantity { get; set; }
 
-    public InventoryAction Action { get; set; }
+    public StockAction Action { get; set; }
 
     public Guid ActedBy { get; set; }
 
-    public ApprovalStatus ApprovalStatus { get; set; }
+    public ApprovalStatus ApprovalStatus { get; set; } = ApprovalStatus.Pending;
 
-    public Guid Approver { get; set; }
+    public Guid Approver { get; set; } = Guid.Empty;
 
     public DateTime TakenOut { get; set; }
 

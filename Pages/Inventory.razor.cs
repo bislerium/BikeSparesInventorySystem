@@ -1,5 +1,7 @@
-﻿using BikeSparesInventorySystem.Data.Models;
+﻿using BikeSparesInventorySystem.Data.Enums;
+using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Shared;
+using BikeSparesInventorySystem.Shared.Dialogs;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages;
@@ -87,6 +89,21 @@ public partial class Inventory
 
     private async Task AddDialog()
     {
-        await DialogService.ShowAsync<Shared.Dialogs.AddSpareDialog>("Add Spare");
+        await DialogService.ShowAsync<AddSpareDialog>("Add Spare");
+    }
+
+    private void ActOnStock(Spare spare, StockAction action)
+    {
+        if (action == StockAction.Deduct && spare.AvailableQuantity == 0)
+        {
+            Snackbar.Add("Out of Stock!", Severity.Error);
+            return;
+        }
+        var parameters = new DialogParameters
+        {
+            { "StockAction", action },
+            { "SpareID",  spare.Id},
+        };
+        DialogService.Show<StockActionDialog>($"{Enum.GetName(action)} Stock", parameters);
     }
 }

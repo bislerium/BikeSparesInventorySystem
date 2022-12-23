@@ -40,6 +40,7 @@
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">Available Quantity</MudTableSortLabel></MudTh>
         <MudTh>Last Taken Out</MudTh>
+        <MudTh>Action</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="ID">
@@ -53,8 +54,26 @@
         </MudTd>      
         <MudTd DataLabel="Company">@context.Company</MudTd>
         <MudTd DataLabel="Price">Rs. @context.Price</MudTd>
-        <MudTd DataLabel="Available Quantity">@context.AvailableQuantity</MudTd>
+        <MudTd DataLabel="Available Quantity">
+            @if (@context.AvailableQuantity == 0)
+            {
+                <MudText Color="Color.Secondary">Stockout</MudText>
+            } else
+            {
+                @context.AvailableQuantity
+            }
+        </MudTd>
         <MudTd DataLabel="Last Taken Out">@getLastTakenOut(context.Id)</MudTd>
+        <MudTd DataLabel="Action">
+            <MudStack Row="true">
+                <MudTooltip Text="@($"{Enum.GetName(StockAction.Add)} Stock")">
+                    <MudIconButton Icon="@Icons.Filled.Add" Color="Color.Primary" OnClick="() => ActOnStock(context ,StockAction.Add)" />
+                </MudTooltip> 
+                <MudTooltip Text="@($"{Enum.GetName(StockAction.Deduct)} Stock")">
+                    <MudIconButton Icon="@Icons.Filled.Remove" Color="Color.Secondary" OnClick="() => ActOnStock(context, StockAction.Deduct)" /> 
+                </MudTooltip>
+            </MudStack>
+        </MudTd>
     </RowTemplate>
     <ChildRowContent>
         @if (getShow(@context.Id))

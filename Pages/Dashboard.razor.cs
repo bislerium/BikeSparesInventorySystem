@@ -24,6 +24,29 @@ public partial class Dashboard
                 Responsive = true,
                 Plugins = new Plugins()
                 {
+                    Crosshair = new Crosshair()
+                    {
+                        Horizontal = new CrosshairLine()
+                        {
+                            Color = "rgb(255, 99, 132)"
+                        }
+                    },
+                    Zoom = new Zoom()
+                    {
+                        Enabled = true,
+                        Mode = "xy",
+                        ZoomOptions = new ZoomOptions()
+                        {
+                            Wheel = new Wheel()
+                            {
+                                Enabled = true
+                            },
+                            Pinch = new Pinch()
+                            {
+                                Enabled = true
+                            },
+                        }
+                    },
                     Title = new Title()
                     {
                         Text = "Inventory Items",
@@ -35,12 +58,6 @@ public partial class Dashboard
                         },
                         Position = Position.Top
                     },
-
-                    Legend = new Legend()
-                    {
-                        Display = true,
-                    }
-
                 },
                 Scales = new Dictionary<string, Axis>()
                 {
@@ -110,18 +127,21 @@ public partial class Dashboard
 
         foreach (var group in ActivityLogRepository.GetAll().GroupBy(x => x.SpareID).ToList())
         {
-            var l = SpareRepository.Get(x => x.Id, group.Key)?.Name;
-            if (l is null) continue;
-            var approved = group.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Approve && x.Action == Data.Enums.InventoryAction.Deduct).Sum(x => x.Quantity);
-            var pending = group.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Pending && x.Action == Data.Enums.InventoryAction.Deduct).Sum(x => x.Quantity);
-            var disapproved = group.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Disapprove && x.Action == Data.Enums.InventoryAction.Deduct).Sum(x => x.Quantity);
+            var spare = SpareRepository.Get(x => x.Id, group.Key);
+            if (spare is null) continue;
 
-            Config.Data.Labels.Add(l);
+            var deductedStock = group.Where(x => x.Action == Data.Enums.StockAction.Deduct).ToList();
+            var approved = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Approve).Sum(x => x.Quantity);
+            var pending = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Pending).Sum(x => x.Quantity);
+            var disapproved = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Disapprove).Sum(x => x.Quantity);
+
+            Config.Data.Labels.Add(spare.Name);
 
             ApprovedDeductionQuantitySet.Data.Add(approved);
             PendingDeductionQuantitySet.Data.Add(pending);
             DisapprovedDeductionQuantitySet.Data.Add(disapproved);
-            AvailableQuantitySet.Data.Add(SpareRepository.Get(x => x.Id, group.Key).AvailableQuantity);
+
+            AvailableQuantitySet.Data.Add(spare.AvailableQuantity);
         }
 
         Config.Data.Datasets.Add(ApprovedDeductionQuantitySet);

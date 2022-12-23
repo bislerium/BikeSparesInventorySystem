@@ -1,0 +1,16 @@
+﻿@inject ISnackbar Snackbar
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="Form">
+            <MudNumericField @bind-Value="@Quantity" Required="true" Label="Quantity" Variant="Variant.Text" Min="1" Max="@MaxQuantity" />
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="@ButtonColor" DisableElevation="true" OnClick="Submit">@(Enum.GetName(StockAction))</MudButton>
+    </DialogActions>
+</MudDialog>

@@ -6,7 +6,7 @@
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService;
 
-<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
+<MudTable @ref="@ActivityLogsTable" Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
          SortLabel="Sort By" HorizontalScrollbar="true" >
     <ToolBarContent>
             <MudStack Row="true">
@@ -38,14 +38,14 @@
         <MudTd DataLabel="Action">
             @switch (@context.Action)
             {
-                case InventoryAction.Add:
+                case StockAction.Add:
                     <MudTooltip Text = "Add">
-                        <MudIcon Color="Color.Default" Icon="@Icons.Filled.Add" />
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Filled.Add" />
                     </MudTooltip>
                     break;
-                case InventoryAction.Deduct:
+                case StockAction.Deduct:
                     <MudTooltip Text="Deduct">
-                        <MudIcon Color="Color.Default" Icon="@Icons.Filled.Remove" />
+                        <MudIcon Color="Color.Secondary" Icon="@Icons.Filled.Remove" />
                     </MudTooltip>
                     break;               
             }            
@@ -73,7 +73,7 @@
         </MudTd>
         <MudTd DataLabel="Approved By">@if (context.ApprovalStatus == ApprovalStatus.Pending)
             {
-                <MudFab Color="Color.Primary" DisableElevation="true" StartIcon="@Icons.Filled.Approval" IconSize="Size.Small" OnClick="() => Approve(context.Id)" Label="Approve" Size="Size.Small"/>
+                <MudFab Color="Color.Primary" DisableElevation="true" StartIcon="@Icons.Filled.Approval" IconSize="Size.Small" OnClick="() => Approve(context.Id)" Label="Approve" />
             } else
             {
                 <UserChip user="GetUser(context.Approver)" />
