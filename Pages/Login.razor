@@ -1,8 +1,10 @@
 ﻿@page "/login"
 @layout EmptyLayout
+
 @inject BikeSparesInventorySystem.Data.Services.AuthService _authService
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository
 @inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
+
 @inject ISnackbar SnackBar;
 
 <SeedButton />
@@ -13,7 +15,7 @@
             <MudIcon Icon="@Icons.Filled.BikeScooter" Color="Color.Primary" Size="Size.Large" />
             <MudText Color="Color.Primary" Typo="Typo.h4" Style="font-weight: bold">Bikare</MudText>
         </MudStack>
-        <MudForm @ref="form">
+        <MudForm @ref="Form">
             <MudTextField T="string" Label="Username" @bind-Value="@Username" InputType="InputType.Text" Required="true" />
             <MudTextField T="string" Label="Password" @bind-Value="@Password" Required="true" InputType="InputType.Password" />
             <MudStack Row="true" Class="mt-6 justify-content-end">

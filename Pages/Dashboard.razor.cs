@@ -1,4 +1,4 @@
-﻿using BikeSparesInventorySystem.Shared;
+﻿using BikeSparesInventorySystem.Shared.Layouts;
 using PSC.Blazor.Components.Chartjs.Models.Bar;
 using PSC.Blazor.Components.Chartjs.Models.Common;
 
@@ -8,7 +8,7 @@ public partial class Dashboard
 {
     private BarChartConfig Config;
 
-    protected override void OnInitialized()
+    protected sealed override void OnInitialized()
     {
         MainLayout.Title = "Dashboard";
         var axisLabelFont = new PSC.Blazor.Components.Chartjs.Models.Common.Font()

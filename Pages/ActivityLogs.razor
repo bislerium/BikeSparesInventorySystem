@@ -3,11 +3,24 @@
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService
+
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService;
 
-<MudTable @ref="@ActivityLogsTable" Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<ActivityLog,bool>(FilterFunc)"
-         SortLabel="Sort By" HorizontalScrollbar="true" >
+<MudTable
+    @ref="@ActivityLogsTable" 
+    Elevation="0" 
+    Items="@Elements" 
+    FixedHeader="@Fixed_header" 
+    FixedFooter="@Fixed_footer" 
+    Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" 
+    Dense="@Dense" 
+    Hover="@Hover" 
+    ReadOnly="@ReadOnly" 
+    Filter="new Func<ActivityLog,bool>(FilterFunc)"
+        SortLabel="Sort By" 
+        HorizontalScrollbar="true" >
     <ToolBarContent>
             <MudStack Row="true">
                 <ImportButton T="ActivityLog" />
@@ -24,10 +37,16 @@
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.SpareID)">Spare</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Quantity)">Quantity</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Action)">Action</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ActedBy)">Acted By</MudTableSortLabel></MudTh>
+        @if (GlobalState.IsUserAdmin)
+        {
+            <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ActedBy)">Acted By</MudTableSortLabel></MudTh>
+        }
         <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ApprovalStatus)">Approval Status</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Approver)">Approver</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.TakenOut)">Taken Out</MudTableSortLabel></MudTh>
+        @if (GlobalState.IsUserAdmin)
+        {
+            <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Approver)">Approver</MudTableSortLabel></MudTh>
+        }
+        <MudTh><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Date)">Date</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
@@ -50,7 +69,10 @@
                     break;               
             }            
         </MudTd>
-        <MudTd DataLabel="Acted By"><UserChip user="GetUser(context.ActedBy)"/></MudTd>
+        @if (GlobalState.IsUserAdmin)
+        {
+            <MudTd DataLabel="Acted By"><UserChip user="GetUser(context.ActedBy)"/></MudTd>
+        }
         <MudTd DataLabel="Is Approved">
             @switch (@context.ApprovalStatus)
             {
@@ -71,15 +93,19 @@
                     break;
             }
         </MudTd>
-        <MudTd DataLabel="Approved By">@if (context.ApprovalStatus == ApprovalStatus.Pending)
-            {
-                <MudFab Color="Color.Primary" DisableElevation="true" StartIcon="@Icons.Filled.Approval" IconSize="Size.Small" OnClick="() => Approve(context.Id)" Label="Approve" />
-            } else
-            {
-                <UserChip user="GetUser(context.Approver)" />
-            }
-        </MudTd>
-        <MudTd DataLabel="Taken Out">@context.TakenOut</MudTd>        
+        @if (GlobalState.IsUserAdmin)
+        {
+            <MudTd DataLabel="Approved By">@if (context.ApprovalStatus == ApprovalStatus.Pending)
+                {
+                    <ApproveButton ActivityLogID="@context.Id"/>
+                }
+                else
+                {
+                    <UserChip user="GetUser(context.Approver)" />
+                }
+            </MudTd>
+        }
+        <MudTd DataLabel="Date">@context.Date</MudTd>        
     </RowTemplate>    
     <PagerContent>
         <MudTablePager />

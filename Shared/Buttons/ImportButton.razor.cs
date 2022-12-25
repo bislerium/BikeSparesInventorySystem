@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor;
 
-namespace BikeSparesInventorySystem.Shared
+namespace BikeSparesInventorySystem.Shared.Buttons
 {
     public partial class ImportButton<T> where T : IModel
     {

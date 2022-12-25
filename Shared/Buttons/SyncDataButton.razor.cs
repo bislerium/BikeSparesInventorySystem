@@ -1,10 +1,11 @@
 ﻿using MudBlazor;
 
-namespace BikeSparesInventorySystem.Shared;
+namespace BikeSparesInventorySystem.Shared.Buttons;
 
-public partial class SyncDataFAB
+public partial class SyncDataButton
 {
     private bool IsSaving = false;
+
     private async Task SaveData()
     {
         if (IsSaving) return;

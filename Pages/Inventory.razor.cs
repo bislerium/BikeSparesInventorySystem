@@ -1,33 +1,39 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Shared;
+using BikeSparesInventorySystem.Shared.Buttons;
 using BikeSparesInventorySystem.Shared.Dialogs;
+using BikeSparesInventorySystem.Shared.Layouts;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages;
 
 public partial class Inventory
 {
-    private bool dense = true;
-    private bool fixed_header = true;
-    private bool fixed_footer = true;
-    private bool hover = true;
-    private bool ronly = false;
-    private bool canCancelEdit = true;
-    private bool blockSwitch = true;
+    private readonly bool Dense = true;
+    private readonly bool Fixed_header = true;
+    private readonly bool Fixed_footer = true;
+    private readonly bool Hover = true;
+    private bool ReadOnly = false;
+    private readonly bool CanCancelEdit = true;
+    private readonly bool BlockSwitch = true;
     private string searchString = "";
     private Spare selectedItem1 = null;
-    private Spare elementBeforeEdit;
-    private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
-    private TableEditButtonPosition editButtonPosition = TableEditButtonPosition.End;
-    private TableEditTrigger editTrigger = TableEditTrigger.RowClick;
+    private Spare elementBeforeEdit = null;
+    private readonly TableApplyButtonPosition ApplyButtonPosition = TableApplyButtonPosition.End;
+    private readonly TableEditButtonPosition EditButtonPosition = TableEditButtonPosition.End;
+    private readonly TableEditTrigger EditTrigger = TableEditTrigger.RowClick;
     private IEnumerable<Spare> Elements = new List<Spare>();
     private readonly Dictionary<Guid, bool> SpareDescTracks = new();
 
-    protected override void OnInitialized()
+    protected sealed override void OnInitialized()
     {
         Elements = SpareRepository.GetAll();
-        foreach (Spare s in Elements)
+		if (!GlobalState.IsUserAdmin)
+		{
+			ReadOnly = true;
+		}
+		foreach (Spare s in Elements)
         {
             SpareDescTracks.Add(s.Id, false);
         }
@@ -69,7 +75,7 @@ public partial class Inventory
 
     private void ShowBtnPress(Guid id) => SpareDescTracks[id] = !SpareDescTracks[id];
 
-    private bool getShow(Guid id)
+    private bool GetShow(Guid id)
     {
         if (SpareDescTracks.ContainsKey(id))
         {
@@ -81,10 +87,10 @@ public partial class Inventory
         }
     }
 
-    private string getLastTakenOut(Guid id)
+    private string GetLastTakenOut(Guid id)
     {
         var log = ActivityLogRepository.GetAll().Where(x => x.SpareID == id).ToList();
-        return log.Count == 0 ? "N/A" : log.Max(x => x.TakenOut).ToString();
+        return log.Count == 0 ? "N/A" : log.Max(x => x.Date).ToString();
     }
 
     private async Task AddDialog()
@@ -94,11 +100,15 @@ public partial class Inventory
 
     private void ActOnStock(Spare spare, StockAction action)
     {
-        if (action == StockAction.Deduct && spare.AvailableQuantity == 0)
+        if (action == StockAction.Deduct)
         {
-            Snackbar.Add("Out of Stock!", Severity.Error);
-            return;
-        }
+            if (!ApproveButton.ValidateWeekAndTime(Snackbar)) return;
+			if (spare.AvailableQuantity == 0)
+			{
+				Snackbar.Add("Out of Stock!", Severity.Error);
+				return;
+			}		
+		}
         var parameters = new DialogParameters
         {
             { "StockAction", action },

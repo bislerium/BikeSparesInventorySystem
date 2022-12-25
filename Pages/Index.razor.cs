@@ -2,8 +2,7 @@
 
 public partial class Index
 {
-
-    protected override async Task OnInitializedAsync()
+    protected sealed override async Task OnInitializedAsync()
     {
         await _userRepository.LoadAsync();
         await _spareRepository.LoadAsync();
@@ -15,7 +14,7 @@ public partial class Index
         }
         else
         {
-            _navigationManager.NavigateTo("/dashboard");
+			_navigationManager.NavigateTo("/router");
         }
     }
 }

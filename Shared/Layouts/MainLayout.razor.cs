@@ -1,4 +1,4 @@
-﻿namespace BikeSparesInventorySystem.Shared;
+﻿namespace BikeSparesInventorySystem.Shared.Layouts;
 
 public partial class MainLayout
 {

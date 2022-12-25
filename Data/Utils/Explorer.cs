@@ -9,14 +9,7 @@ internal static class Explorer
     // 10MB
     public const int MAX_ALLOWED_IMPORT_SIZE = 1024 * 1024 * 10;
 
-    public static string GetAppDataDirectoryPath()
-    {
-        var path = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "AppData"
-        );
-        return @"D:\";
-    }
+    public static string GetAppDataDirectoryPath() => FileSystem.AppDataDirectory;
 
     public static FileProvider<TSource> GetFileProvider<TSource>(FileExtension extension) where TSource : IModel
     {

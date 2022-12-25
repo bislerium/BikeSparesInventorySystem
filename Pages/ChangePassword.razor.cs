@@ -1,15 +1,15 @@
-﻿using BikeSparesInventorySystem.Shared;
+﻿using BikeSparesInventorySystem.Shared.Layouts;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages
 {
     public partial class ChangePassword
     {
-        private MudForm form;
+        private MudForm Form;
         private string CurrentPassword { get; set; }
         private string NewPassword { get; set; }
 
-        protected override void OnInitialized()
+        protected sealed override void OnInitialized()
         {
             MainLayout.Title = "Change Password";
         }
@@ -18,12 +18,12 @@ namespace BikeSparesInventorySystem.Pages
         {
             try
             {
-                form.Validate();
-                if (form.IsValid)
+                Form.Validate();
+                if (Form.IsValid)
                 {
                     _authService.ChangePassword(CurrentPassword, NewPassword);
                     SnackBar.Add("The password has been changed successfully.", Severity.Success);
-                    form.Reset();
+                    Form.Reset();
                 }
             }
             catch (Exception e)

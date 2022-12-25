@@ -16,7 +16,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
         private int Quantity { get; set; } = 1;
         private int MaxQuantity { get; set; }
 
-        protected override void OnInitialized()
+        protected sealed override void OnInitialized()
         {
             Spare = SpareRepository.Get(x => x.Id, SpareID);
             switch (StockAction)
@@ -45,7 +45,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
                     Quantity = Quantity,
                     Action = StockAction,
                     ActedBy = user.Id,
-                    TakenOut = DateTime.Now,
+                    Date = DateTime.Now,
                 };
 
                 if (user.Role == UserRole.Admin)

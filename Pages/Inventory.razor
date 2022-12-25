@@ -1,18 +1,34 @@
 ﻿@page "/inventory"
 
-@using MudBlazor
-@using BikeSparesInventorySystem.Data.Models;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
+
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 
-<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<Spare,bool>(FilterFunc)"
-          @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
-          OnPreviewEditClick="@(() => SpareDescTracks[selectedItem1.Id] = false)"
-          RowsPerPage="20"
-          OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
-          IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
+<MudTable 
+    Elevation="0" 
+    Items="@Elements" 
+    FixedHeader="@Fixed_header" 
+    FixedFooter="@Fixed_footer"
+    Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
+    Dense="@Dense"
+    Hover="@Hover"
+    ReadOnly="@ReadOnly"
+    CanCancelEdit="@CanCancelEdit"
+    Filter="new Func<Spare,bool>(FilterFunc)"
+        @bind-SelectedItem="selectedItem1" 
+        SortLabel="Sort By" 
+        CommitEditTooltip="Commit Edit"
+        OnPreviewEditClick="@(() => SpareDescTracks[selectedItem1.Id] = false)"
+        RowsPerPage="20"
+        OnCommitEditClick="@(() => Snackbar.Add("Spare Updated!", Severity.Success))"
+        RowEditPreview="BackupItem"
+        RowEditCancel="ResetItemToOriginalValues"
+        IsEditRowSwitchingBlocked="@BlockSwitch"
+        ApplyButtonPosition="@ApplyButtonPosition"
+        EditButtonPosition="@EditButtonPosition"
+        EditTrigger="@EditTrigger">
     <ToolBarContent>
         <MudFab StartIcon="@Icons.Filled.Add" Color="Color.Primary" Label="Add Spare" DisableElevation="true" OnClick="AddDialog" />
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -49,7 +65,7 @@
         <MudTd DataLabel="Spare Name">@context.Name</MudTd>
         <MudTd>
             <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(@context.Id))">
-                @((getShow(@context.Id)) ? "Hide" : "Show") Description
+                @((GetShow(@context.Id)) ? "Hide" : "Show") Description
             </MudButton>
         </MudTd>      
         <MudTd DataLabel="Company">@context.Company</MudTd>
@@ -63,12 +79,15 @@
                 @context.AvailableQuantity
             }
         </MudTd>
-        <MudTd DataLabel="Last Taken Out">@getLastTakenOut(context.Id)</MudTd>
+        <MudTd DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
         <MudTd DataLabel="Action">
             <MudStack Row="true">
-                <MudTooltip Text="@($"{Enum.GetName(StockAction.Add)} Stock")">
-                    <MudIconButton Icon="@Icons.Filled.Add" Color="Color.Primary" OnClick="() => ActOnStock(context ,StockAction.Add)" />
-                </MudTooltip> 
+                @if(GlobalState.IsUserAdmin)
+                {
+                    <MudTooltip Text="@($"{Enum.GetName(StockAction.Add)} Stock")">
+                        <MudIconButton Icon="@Icons.Filled.Add" Color="Color.Primary" OnClick="() => ActOnStock(context ,StockAction.Add)" />
+                    </MudTooltip>
+                }                
                 <MudTooltip Text="@($"{Enum.GetName(StockAction.Deduct)} Stock")">
                     <MudIconButton Icon="@Icons.Filled.Remove" Color="Color.Secondary" OnClick="() => ActOnStock(context, StockAction.Deduct)" /> 
                 </MudTooltip>
@@ -76,7 +95,7 @@
         </MudTd>
     </RowTemplate>
     <ChildRowContent>
-        @if (getShow(@context.Id))
+        @if (GetShow(@context.Id))
         {
             <td colspan="6">
                 <MudContainer MaxWidth="MaxWidth.Medium">                    
@@ -102,7 +121,7 @@
         <MudTd DataLabel="Available Quantity">
             <MudTextField @bind-Value="@context.AvailableQuantity" Required />
         </MudTd>
-        <MudTd DataLabel="Last Taken Out">@getLastTakenOut(context.Id)</MudTd>
+        <MudTd DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
     </RowEditingTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new int[] { 20, 45, 65, 100}" />

@@ -1,16 +1,31 @@
 ﻿@page "/users"
 
-@using MudBlazor
-@using BikeSparesInventorySystem.Data.Models;
-@using BikeSparesInventorySystem.Data.Enums;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
 
-<MudTable Elevation="0" Items="@Elements" FixedHeader="@fixed_header" FixedFooter="@fixed_footer" Height="@(fixed_header || fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<User,bool>(FilterFunc)"
-          @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit" HorizontalScrollbar="true"
-          OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
-          IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
+<MudTable 
+    Elevation="0"
+    Items="@Elements"
+    FixedHeader="@Fixed_header"
+    FixedFooter="@Fixed_footer"
+    Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
+    Dense="@Dense"
+    Hover="@Hover"
+    ReadOnly="@ReadOnly"
+    CanCancelEdit="@VanCancelEdit"
+    Filter="new Func<User,bool>(FilterFunc)"
+        @bind-SelectedItem="selectedItem1"
+        SortLabel="Sort By"
+        CommitEditTooltip="Commit Edit"
+        HorizontalScrollbar="true"
+        OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))"
+        RowEditPreview="BackupItem"
+        RowEditCancel="ResetItemToOriginalValues"
+        IsEditRowSwitchingBlocked="@BlockSwitch"
+        ApplyButtonPosition="@ApplyButtonPosition"
+        EditButtonPosition="@EditButtonPosition"
+        EditTrigger="@EditTrigger">
     <ToolBarContent>
         <MudFab StartIcon="@Icons.Filled.Add" Color="Color.Primary" Label="Add User" DisableElevation="true" OnClick="AddDialog" />
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -50,7 +65,7 @@
         <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
         <MudTd DataLabel="Created At">@context.CreatedAt</MudTd>
         <MudTd DataLabel="Created By">
-                <MudChip>@getName(@context.CreatedBy)</MudChip>
+                <MudChip>@GetName(@context.CreatedBy)</MudChip>
         </MudTd>
     </RowTemplate>
     <RowEditingTemplate>

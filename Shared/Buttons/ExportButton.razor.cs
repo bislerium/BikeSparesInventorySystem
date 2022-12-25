@@ -5,7 +5,7 @@ using BikeSparesInventorySystem.Data.Utils;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
-namespace BikeSparesInventorySystem.Shared;
+namespace BikeSparesInventorySystem.Shared.Buttons;
 
 public partial class ExportButton<T> where T : IModel
 {
@@ -24,7 +24,7 @@ public partial class ExportButton<T> where T : IModel
         {
             //await repo.FlushAsync(Explorer.GetDefaultExportFilePath<T>(extension));
 
-            string filePath = Explorer.GetFilePath("E:", Explorer.GetFile<T>(extension));
+            string filePath = Explorer.GetFilePath("D:", Explorer.GetFile<T>(extension));
             var provider = Explorer.GetFileProvider<T>(extension);
             await repo.ExportAsync(provider, filePath);
             Snackbar.Add($"Exported to {filePath}!", Severity.Success);

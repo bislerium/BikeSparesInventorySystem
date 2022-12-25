@@ -1,24 +1,24 @@
 ﻿using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Shared;
+using BikeSparesInventorySystem.Shared.Layouts;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages;
 
 public partial class Users
 {
-    private bool dense = true;
-    private bool fixed_header = true;
-    private bool fixed_footer = true;
-    private bool hover = true;
-    private bool ronly = false;
-    private bool canCancelEdit = true;
-    private bool blockSwitch = true;
+    private readonly bool Dense = true;
+    private readonly bool Fixed_header = true;
+    private readonly bool Fixed_footer = true;
+    private readonly bool Hover = true;
+    private readonly bool ReadOnly = false;
+    private readonly bool VanCancelEdit = true;
+    private readonly bool BlockSwitch = true;
     private string searchString = "";
     private User selectedItem1 = null;
-    private User elementBeforeEdit;
-    private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
-    private TableEditButtonPosition editButtonPosition = TableEditButtonPosition.End;
-    private TableEditTrigger editTrigger = TableEditTrigger.RowClick;
+    private User elementBeforeEdit = null;
+    private readonly TableApplyButtonPosition ApplyButtonPosition = TableApplyButtonPosition.End;
+    private readonly TableEditButtonPosition EditButtonPosition = TableEditButtonPosition.End;
+    private readonly TableEditTrigger EditTrigger = TableEditTrigger.RowClick;
     private IEnumerable<User> Elements = new List<User>();
 
     protected override void OnInitialized()
@@ -32,7 +32,7 @@ public partial class Users
         elementBeforeEdit = ((User)element).Clone() as User;
     }
 
-    private string getName(Guid id) => id.Equals(Guid.Empty) ? "N/A" : UserRepository.Get(x => x.Id, id).UserName;
+    private string GetName(Guid id) => id.Equals(Guid.Empty) ? "N/A" : UserRepository.Get(x => x.Id, id).UserName;
 
     private void ResetItemToOriginalValues(object element)
     {

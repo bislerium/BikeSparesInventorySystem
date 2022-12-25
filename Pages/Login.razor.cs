@@ -6,11 +6,11 @@ namespace BikeSparesInventorySystem.Pages
     public partial class Login
     {
 
-        private MudForm form;
+        private MudForm Form;
         private string Username { get; set; }
         private string Password { get; set; }
 
-        protected override void OnInitialized()
+        protected sealed override void OnInitialized()
         {
             string username = _authService.SeedInitialUser();
             if (username is not null)
@@ -29,21 +29,13 @@ namespace BikeSparesInventorySystem.Pages
             {
                 _errorMessage = null;
 
-                form.Validate();
+                Form.Validate();
 
-                if (form.IsValid)
+                if (Form.IsValid)
                 {
                     if (_authService.Login(Username, Password))
                     {
-                        if (_authService.CurrentUser.HasInitialPassword)
-                        {
-                            SnackBar.Add("Please change your password!", Severity.Warning);
-                            _navigationManager.NavigateTo("/change-password");
-                        }
-                        else
-                        {
-                            _navigationManager.NavigateTo("/");
-                        }
+                        _navigationManager.NavigateTo("/router");
                         return;
                     }
                     else

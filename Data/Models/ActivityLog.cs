@@ -19,7 +19,7 @@ internal class ActivityLog : IModel, ICloneable
 
     public Guid Approver { get; set; } = Guid.Empty;
 
-    public DateTime TakenOut { get; set; }
+    public DateTime Date { get; set; }
 
     public object Clone()
     {
@@ -32,7 +32,7 @@ internal class ActivityLog : IModel, ICloneable
             ActedBy = ActedBy,
             ApprovalStatus = ApprovalStatus,
             Approver = Approver,
-            TakenOut = TakenOut,
+            Date = Date,
         };
     }
 

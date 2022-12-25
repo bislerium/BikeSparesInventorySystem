@@ -1,7 +1,7 @@
 ﻿using BikeSparesInventorySystem.Shared.Dialogs;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-namespace BikeSparesInventorySystem.Shared;
+namespace BikeSparesInventorySystem.Shared.Buttons;
 
 public partial class LogoutButton
 {

@@ -1,7 +1,7 @@
 ﻿using BikeSparesInventorySystem.Data.Utils;
 using MudBlazor;
 
-namespace BikeSparesInventorySystem.Shared
+namespace BikeSparesInventorySystem.Shared.Buttons
 {
     public partial class SeedButton
     {

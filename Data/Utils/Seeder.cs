@@ -45,7 +45,7 @@ internal static class Seeder
         var activityLogFaker = new Faker<ActivityLog>()
             .RuleFor(x => x.SpareID, y => y.PickRandom(spares).Id)
             .RuleFor(x => x.Quantity, y => y.Random.Int(min = 1, max = 111))
-            .RuleFor(x => x.TakenOut, y => y.Date.Between(startDate, endDate))
+            .RuleFor(x => x.Date, y => y.Date.Between(startDate, endDate))
             .FinishWith((x, y) =>
             {
                 var user = x.PickRandom(users);

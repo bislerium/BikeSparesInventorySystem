@@ -1,6 +1,7 @@
 ﻿using BikeSparesInventorySystem.Data.Enums;
 using BikeSparesInventorySystem.Data.Models;
 using BikeSparesInventorySystem.Shared;
+using BikeSparesInventorySystem.Shared.Layouts;
 using MudBlazor;
 
 namespace BikeSparesInventorySystem.Pages;
@@ -8,20 +9,23 @@ namespace BikeSparesInventorySystem.Pages;
 public partial class ActivityLogs
 {
     private MudTable<ActivityLog> ActivityLogsTable;
-    private bool dense = true;
-    private bool fixed_header = true;
-    private bool fixed_footer = true;
-    private bool hover = true;
-    private bool ronly = false;
-    private bool canCancelEdit = true;
+    private readonly bool Dense = true;
+    private readonly bool Fixed_header = true;
+    private readonly bool Fixed_footer = true;
+    private readonly bool Hover = true;
+    private readonly bool ReadOnly = false;
     private string searchString = "";
     private IEnumerable<ActivityLog> Elements = new List<ActivityLog>();
 
-    protected override void OnInitialized()
+    protected sealed override void OnInitialized()
     {
-        Elements = ActivityLogRepository.GetAll();
+        Elements = GetByUserType();
         MainLayout.Title = "Inventory Activity Logs";
     }
+
+    private ICollection<ActivityLog> GetByUserType() => GlobalState.IsUserAdmin 
+        ? ActivityLogRepository.GetAll() 
+        : ActivityLogRepository.GetAll().Where(x => x.ActedBy == AuthService.CurrentUser.Id).ToList();
 
     private Tuple<bool, string> GetUser(Guid id)
     {
@@ -59,31 +63,20 @@ public partial class ActivityLogs
         var approvedByUser = GetUserName(element.Approver);
         if (approvedByUser is not null && approvedByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.TakenOut.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Date.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
 
-    private async Task Approve(Guid id)
-    {
-        var parameters = new DialogParameters
-        {
-            { "ActivityID", id }
-        };
-        await DialogService.ShowAsync<Shared.Dialogs.ApproveDialog>("Approval", parameters);
-    }
-
-
-
     void Onchanged(string a)
     {
-        var repo = ActivityLogRepository.GetAll();
+        var repo = GetByUserType();
         if (string.IsNullOrEmpty(a))
         {
             Elements = repo;
             return;
         }
         var yearMonth = a.Split('-');
-        Elements = repo.Where(x => x.TakenOut.Year == int.Parse(yearMonth[0]) && x.TakenOut.Month == int.Parse(yearMonth[1])).ToList();
+        Elements = repo.Where(x => x.Date.Year == int.Parse(yearMonth[0]) && x.Date.Month == int.Parse(yearMonth[1])).ToList();
     }
 }
