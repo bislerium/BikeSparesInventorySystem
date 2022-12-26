@@ -19,7 +19,7 @@ namespace BikeSparesInventorySystem.Shared.Buttons
             {
                 errorMessage = "Action outside 9AM to 4PM restricted!";
             }
-            if (currentTime.Hours < 9 && currentTime.Hours > 12 + 4)
+            if (currentTime.Hours < 9 || currentTime.Hours > 12 + 4)
             {
                 errorMessage = "Action on weekends restricted!";
             }
@@ -39,7 +39,7 @@ namespace BikeSparesInventorySystem.Shared.Buttons
             {
                 var parameters = new DialogParameters
                 {
-                    { "ActivityID", ActivityLogID }
+                    { "ActivityLogID", ActivityLogID }
                 };
                 await DialogService.ShowAsync<Dialogs.ApproveDialog>("Approval", parameters);
             }
