@@ -2,8 +2,8 @@
 
 namespace BikeSparesInventorySystem.Data.Repositories
 {
-    internal static class Repository
-    {
-        public static bool HasUserName(this Repository<User> userRepository, string userName) => userRepository.Contains(x => x.UserName, userName);
-    }
+	internal static class Repository
+	{
+		public static bool HasUserName(this Repository<User> userRepository, string userName) => userRepository.Contains(x => x.UserName, userName);
+	}
 }

@@ -39,7 +39,7 @@
         <GenerateTestArtifacts>True</GenerateTestArtifacts>
         <AppInstallerUri>D:\bikare</AppInstallerUri>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-        <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+        <AssemblyName>Bikare</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>

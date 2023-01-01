@@ -8,41 +8,43 @@ namespace BikeSparesInventorySystem;
 
 public static class MauiProgram
 {
-    public static MauiApp CreateMauiAppAsync()
-    {
-        var builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiApp<App>()
-            .ConfigureFonts(fonts =>
-            {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-            });
+	public static MauiApp CreateMauiAppAsync()
+	{
+		var builder = MauiApp.CreateBuilder();
+		builder
+			.UseMauiApp<App>()
+			.ConfigureFonts(fonts =>
+			{
+				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+			});
 
-        builder.Services.AddMauiBlazorWebView();
+		builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-        builder.Services.AddBlazorWebViewDeveloperTools();
+		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 
-        builder.Services.AddMudServices(config =>
-        {
-            config.SnackbarConfiguration.VisibleStateDuration = 4000;
-            config.SnackbarConfiguration.HideTransitionDuration = 200;
-            config.SnackbarConfiguration.ShowTransitionDuration = 200;
-            config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
-            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomStart;
-        });
+		builder.Services.AddMudServices(config =>
+		{
+			config.SnackbarConfiguration.VisibleStateDuration = 4000;
+			config.SnackbarConfiguration.HideTransitionDuration = 200;
+			config.SnackbarConfiguration.ShowTransitionDuration = 200;
+			config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
+			config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomStart;
+		});
 
-        // builder.Services.AddCsvFileProvider();
-        // builder.Services.AddExcelFileProvider();
-        builder.Services.AddJsonFileProvider();
+		// builder.Services.AddCsvFileProvider();
+		// builder.Services.AddExcelFileProvider();
+		builder.Services.AddJsonFileProvider();
 
-        builder.Services.AddRepository();
+		builder.Services.AddRepository();
 
-        builder.Services.AddSeeder();
+		builder.Services.AddSeeder();
 
-        builder.Services.AddAuth();
+		builder.Services.AddSession();
 
-        return builder.Build();
-    }
+		builder.Services.AddAuth();
+
+		return builder.Build();
+	}
 }

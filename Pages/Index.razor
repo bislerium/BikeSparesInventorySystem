@@ -2,10 +2,13 @@
 @layout EmptyLayout
 
 @inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
+@inject BikeSparesInventorySystem.Data.Services.SessionService _sessionService
 @inject BikeSparesInventorySystem.Data.Services.AuthService _authService
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<User> _userRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> _spareRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> _activityLogRepository;
+
+@inject ISnackbar Snackbar;
 
 <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
     <MudStack AlignItems="AlignItems.Center">
