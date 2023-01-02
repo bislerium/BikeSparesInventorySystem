@@ -32,7 +32,10 @@ public partial class Users
         elementBeforeEdit = ((User)element).Clone() as User;
     }
 
-    private string GetName(Guid id) => id.Equals(Guid.Empty) ? "N/A" : UserRepository.Get(x => x.Id, id).UserName;
+    private string GetName(Guid id)
+    {
+        return id.Equals(Guid.Empty) ? "N/A" : UserRepository.Get(x => x.Id, id).UserName;
+    }
 
     private void ResetItemToOriginalValues(object element)
     {

@@ -12,7 +12,7 @@ internal class AuthService
     private readonly SessionService _sessionService;
 
     private User _user;
-    public User CurrentUser { get => _user; }
+    public User CurrentUser => _user;
 
     public AuthService(Repository<User> userRepository, SessionService sessionService)
     {

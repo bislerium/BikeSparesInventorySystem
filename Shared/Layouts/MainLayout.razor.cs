@@ -6,7 +6,7 @@ public partial class MainLayout
 
     private bool _drawerOpen = true;
 
-    void DrawerToggle()
+    private void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }

@@ -73,7 +73,10 @@ public partial class Inventory
         return false;
     }
 
-    private void ShowBtnPress(Guid id) => SpareDescTracks[id] = !SpareDescTracks[id];
+    private void ShowBtnPress(Guid id)
+    {
+        SpareDescTracks[id] = !SpareDescTracks[id];
+    }
 
     private bool GetShow(Guid id)
     {
@@ -89,7 +92,7 @@ public partial class Inventory
 
     private string GetLastTakenOut(Guid id)
     {
-        var log = ActivityLogRepository.GetAll().Where(x => x.SpareID == id && x.ApprovalStatus == ApprovalStatus.Approve).ToList();
+        List<ActivityLog> log = ActivityLogRepository.GetAll().Where(x => x.SpareID == id && x.ApprovalStatus == ApprovalStatus.Approve).ToList();
         return log.Count == 0 ? "N/A" : log.Max(x => x.ApprovalStatusOn).ToString();
     }
 
@@ -109,7 +112,7 @@ public partial class Inventory
                 return;
             }
         }
-        var parameters = new DialogParameters
+        DialogParameters parameters = new()
         {
             { "StockAction", action },
             { "SpareID",  spare.Id},

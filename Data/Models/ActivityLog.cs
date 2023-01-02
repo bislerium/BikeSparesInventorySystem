@@ -39,5 +39,8 @@ internal class ActivityLog : IModel, ICloneable
         };
     }
 
-    public override string ToString() => JsonSerializer.Serialize(this);
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this);
+    }
 }

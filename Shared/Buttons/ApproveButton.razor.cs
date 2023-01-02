@@ -9,9 +9,9 @@ namespace BikeSparesInventorySystem.Shared.Buttons
 
         internal static bool ValidateWeekAndTime(ISnackbar snackbar)
         {
-            var currentDateTime = DateTime.Now;
-            var currentTime = currentDateTime.TimeOfDay;
-            var currentDate = currentDateTime.Date;
+            DateTime currentDateTime = DateTime.Now;
+            TimeSpan currentTime = currentDateTime.TimeOfDay;
+            DateTime currentDate = currentDateTime.Date;
 
             string errorMessage = null;
 
@@ -37,7 +37,7 @@ namespace BikeSparesInventorySystem.Shared.Buttons
         {
             if (ValidateWeekAndTime(Snackbar))
             {
-                var parameters = new DialogParameters
+                DialogParameters parameters = new()
                 {
                     { "ActivityLogID", ActivityLogID }
                 };

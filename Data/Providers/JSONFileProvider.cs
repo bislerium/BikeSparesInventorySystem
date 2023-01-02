@@ -8,7 +8,10 @@ internal class JsonFileProvider<TSource> : FileProvider<TSource> where TSource :
 {
     internal override string FilePath { get; set; } = Explorer.GetDefaultFilePath<TSource>(Enums.FileExtension.json);
 
-    internal override async Task<ICollection<TSource>> ReadAsync(string path) => await ReadAsync(File.OpenRead(path));
+    internal override async Task<ICollection<TSource>> ReadAsync(string path)
+    {
+        return await ReadAsync(File.OpenRead(path));
+    }
 
     internal override async Task<ICollection<TSource>> ReadAsync(Stream stream)
     {
@@ -28,7 +31,7 @@ internal class JsonFileProvider<TSource> : FileProvider<TSource> where TSource :
 
     internal override async Task WriteAsync(string path, ICollection<TSource> data)
     {
-        using var stream = File.Create(path);
+        using FileStream stream = File.Create(path);
         await JsonSerializer.SerializeAsync(stream, data);
     }
 }

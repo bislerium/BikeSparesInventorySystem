@@ -6,8 +6,9 @@ namespace BikeSparesInventorySystem.Shared.Dialogs;
 
 public partial class AddSpareDialog
 {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    MudForm form;
+    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+
+    private MudForm form;
 
     private string Name;
     private string Description;

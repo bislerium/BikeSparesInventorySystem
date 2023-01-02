@@ -11,7 +11,7 @@ public partial class Dashboard
     protected sealed override void OnInitialized()
     {
         MainLayout.Title = "Dashboard";
-        var axisLabelFont = new PSC.Blazor.Components.Chartjs.Models.Common.Font()
+        PSC.Blazor.Components.Chartjs.Models.Common.Font axisLabelFont = new()
         {
             Weight = "bold",
             Size = 16
@@ -96,28 +96,28 @@ public partial class Dashboard
             }
         };
 
-        var ApprovedDeductionQuantitySet = new BarDataset()
+        BarDataset ApprovedDeductionQuantitySet = new()
         {
             Data = new List<decimal>(),
             BackgroundColor = new() { "rgb(0, 163, 68)" },
             Label = "Approved Deduction (Taken Out)",
         };
 
-        var AvailableQuantitySet = new BarDataset()
+        BarDataset AvailableQuantitySet = new()
         {
             Data = new List<decimal>(),
             BackgroundColor = new() { "rgb(111, 83, 255)" },
             Label = "Available"
         };
 
-        var PendingDeductionQuantitySet = new BarDataset()
+        BarDataset PendingDeductionQuantitySet = new()
         {
             Data = new List<decimal>(),
             BackgroundColor = new() { "rgb(252, 152, 0)" },
             Label = "Pending Deduction (On Hold)"
         };
 
-        var DisapprovedDeductionQuantitySet = new BarDataset()
+        BarDataset DisapprovedDeductionQuantitySet = new()
         {
             Data = new List<decimal>(),
             BackgroundColor = new() { "rgb(255, 45, 13)" },
@@ -125,15 +125,15 @@ public partial class Dashboard
         };
 
 
-        foreach (var group in ActivityLogRepository.GetAll().GroupBy(x => x.SpareID).ToList())
+        foreach (IGrouping<Guid, Data.Models.ActivityLog> group in ActivityLogRepository.GetAll().GroupBy(x => x.SpareID).ToList())
         {
-            var spare = SpareRepository.Get(x => x.Id, group.Key);
+            Data.Models.Spare spare = SpareRepository.Get(x => x.Id, group.Key);
             if (spare is null) continue;
 
-            var deductedStock = group.Where(x => x.Action == Data.Enums.StockAction.Deduct).ToList();
-            var approved = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Approve).Sum(x => x.Quantity);
-            var pending = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Pending).Sum(x => x.Quantity);
-            var disapproved = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Disapprove).Sum(x => x.Quantity);
+            List<Data.Models.ActivityLog> deductedStock = group.Where(x => x.Action == Data.Enums.StockAction.Deduct).ToList();
+            int approved = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Approve).Sum(x => x.Quantity);
+            int pending = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Pending).Sum(x => x.Quantity);
+            int disapproved = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Disapprove).Sum(x => x.Quantity);
 
             Config.Data.Labels.Add(spare.Name);
 

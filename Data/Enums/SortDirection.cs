@@ -1,3 +1,3 @@
 ﻿namespace BikeSparesInventorySystem.Data.Enums;
 
-enum SortDirection { Ascending, Descending }
+internal enum SortDirection { Ascending, Descending }

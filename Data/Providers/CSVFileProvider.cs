@@ -9,14 +9,17 @@ internal class CsvFileProvider<TSource> : FileProvider<TSource> where TSource : 
 {
     internal override string FilePath { get; set; } = Explorer.GetDefaultFilePath<TSource>(Enums.FileExtension.csv);
 
-    internal override async Task<ICollection<TSource>> ReadAsync(string path) => await ReadAsync(File.OpenRead(path));
+    internal override async Task<ICollection<TSource>> ReadAsync(string path)
+    {
+        return await ReadAsync(File.OpenRead(path));
+    }
 
     internal override async Task<ICollection<TSource>> ReadAsync(Stream stream)
     {
         try
         {
-            using var reader = new StreamReader(stream);
-            using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+            using StreamReader reader = new(stream);
+            using CsvReader csv = new(reader, CultureInfo.InvariantCulture);
             List<TSource> data = new();
             await foreach (TSource r in csv.GetRecordsAsync<TSource>()) data.Add(r);
             return data;
@@ -33,8 +36,8 @@ internal class CsvFileProvider<TSource> : FileProvider<TSource> where TSource : 
 
     internal override async Task WriteAsync(string path, ICollection<TSource> data)
     {
-        using var writer = new StreamWriter(path);
-        using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        using StreamWriter writer = new(path);
+        using CsvWriter csv = new(writer, CultureInfo.InvariantCulture);
         await csv.WriteRecordsAsync(data);
     }
 }

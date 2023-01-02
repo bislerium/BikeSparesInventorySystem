@@ -6,7 +6,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
 {
     public partial class ApproveDialog
     {
-        [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
 
         [Parameter] public Guid ActivityLogID { get; set; }
 

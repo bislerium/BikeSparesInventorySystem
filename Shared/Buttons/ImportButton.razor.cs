@@ -26,7 +26,7 @@ namespace BikeSparesInventorySystem.Shared.Buttons
                 {
                     throw new Exception("Supports JSON, CSV or Excel(.xlsx) File Only!");
                 }
-                var provider = Explorer.GetFileProvider<T>(extension);
+                Data.Providers.FileProvider<T> provider = Explorer.GetFileProvider<T>(extension);
                 await ServiceProvider.GetService<Repository<T>>().ImportAsync(provider, file.OpenReadStream(Explorer.MAX_ALLOWED_IMPORT_SIZE));
                 Snackbar.Add($"Imported {file.Name} File!", Severity.Success);
             }

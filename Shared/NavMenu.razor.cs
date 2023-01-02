@@ -4,7 +4,7 @@
     {
         private bool _open = true;
 
-        void ToggleDrawer()
+        private void ToggleDrawer()
         {
             _open = !_open;
         }

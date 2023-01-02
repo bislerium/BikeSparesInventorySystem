@@ -9,7 +9,10 @@ namespace BikeSparesInventorySystem.Data.Repositories
 
         private readonly FileProvider<TSource> _fileProvider;
 
-        internal RepositoryIO(FileProvider<TSource> fileProvider) => _fileProvider = fileProvider;
+        internal RepositoryIO(FileProvider<TSource> fileProvider)
+        {
+            _fileProvider = fileProvider;
+        }
 
         public virtual async Task LoadAsync()
         {
@@ -58,9 +61,15 @@ namespace BikeSparesInventorySystem.Data.Repositories
             }
         }
 
-        public virtual void Load(ICollection<TSource> sourceData) => _sourceData = sourceData;
+        public virtual void Load(ICollection<TSource> sourceData)
+        {
+            _sourceData = sourceData;
+        }
 
-        public virtual async Task FlushAsync() => await _fileProvider.WriteAsync(_sourceData);
+        public virtual async Task FlushAsync()
+        {
+            await _fileProvider.WriteAsync(_sourceData);
+        }
 
         public virtual async Task FlushAsync(string path, bool readFromPath = false)
         {
@@ -75,6 +84,9 @@ namespace BikeSparesInventorySystem.Data.Repositories
             }
         }
 
-        public virtual async Task ExportAsync(FileProvider<TSource> fileProvider, string path) => await fileProvider.WriteAsync(path, _sourceData);
+        public virtual async Task ExportAsync(FileProvider<TSource> fileProvider, string path)
+        {
+            await fileProvider.WriteAsync(path, _sourceData);
+        }
     }
 }

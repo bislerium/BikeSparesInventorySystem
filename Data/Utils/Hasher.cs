@@ -5,17 +5,17 @@ namespace BikeSparesInventorySystem.Data.Utils;
 
 internal static class Hasher
 {
-    const char SEGMENT_DELIMITER = ':';
-    const int SALT_SIZE = 16;
-    const int ITERATIONS = 100_000;
-    const int KEY_SIZE = 32;
-    static readonly HashAlgorithmName ALGORITHM = HashAlgorithmName.SHA256;
+    private const char SEGMENT_DELIMITER = ':';
+    private const int SALT_SIZE = 16;
+    private const int ITERATIONS = 100_000;
+    private const int KEY_SIZE = 32;
+    private static readonly HashAlgorithmName ALGORITHM = HashAlgorithmName.SHA256;
 
     public static string HashSecret(string input, HashAlgorithmName? hashAlgorithm = null, int saltSize = SALT_SIZE, int iterations = ITERATIONS, int keySize = KEY_SIZE)
     {
 
         byte[] salt = RandomNumberGenerator.GetBytes(saltSize);
-        var algorithm = hashAlgorithm ?? ALGORITHM;
+        HashAlgorithmName algorithm = hashAlgorithm ?? ALGORITHM;
         byte[] hash = Rfc2898DeriveBytes.Pbkdf2(input, salt, iterations, algorithm, keySize);
 
         return string.Join(

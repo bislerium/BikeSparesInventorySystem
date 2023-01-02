@@ -23,10 +23,13 @@
         RowsPerPage="20"
         HorizontalScrollbar="true" >
     <ToolBarContent>
+        @if (GlobalState.IsUserAdmin)
+        {
             <MudStack Row="true">
                 <ImportButton T="ActivityLog" />
                 <ExportButton T="ActivityLog" />
             </MudStack>
+        }
         <MudSpacer />
         <MudStack Row="true">
             <MudTextField @bind-Value="searchString" Label="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Class="mt-0" Clearable="true"></MudTextField>

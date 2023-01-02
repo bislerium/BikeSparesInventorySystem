@@ -8,8 +8,14 @@ internal abstract class FileProvider<TSource> where TSource : IModel
 
     internal abstract Task<ICollection<TSource>> ReadAsync(string path);
     internal abstract Task<ICollection<TSource>> ReadAsync(Stream stream);
-    internal virtual async Task<ICollection<TSource>> ReadAsync() => await ReadAsync(FilePath);
+    internal virtual async Task<ICollection<TSource>> ReadAsync()
+    {
+        return await ReadAsync(FilePath);
+    }
 
     internal abstract Task WriteAsync(string path, ICollection<TSource> data);
-    internal virtual async Task WriteAsync(ICollection<TSource> data) => await WriteAsync(FilePath, data);
+    internal virtual async Task WriteAsync(ICollection<TSource> data)
+    {
+        await WriteAsync(FilePath, data);
+    }
 }

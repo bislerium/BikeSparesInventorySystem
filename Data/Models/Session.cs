@@ -8,5 +8,8 @@ internal class Session
     // Default session validity = 8 Hours
     public TimeSpan ValidPeriod { get; set; } = TimeSpan.FromHours(8);
 
-    public bool IsValid() => DateTime.Now <= CreatedAt.Add(ValidPeriod);
+    public bool IsValid()
+    {
+        return DateTime.Now <= CreatedAt.Add(ValidPeriod);
+    }
 }

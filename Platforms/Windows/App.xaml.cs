@@ -17,6 +17,9 @@ public partial class App : MauiWinUIApplication
         this.InitializeComponent();
     }
 
-    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiAppAsync();
+    protected override MauiApp CreateMauiApp()
+    {
+        return MauiProgram.CreateMauiAppAsync();
+    }
 }
 

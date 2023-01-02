@@ -12,7 +12,7 @@ internal class SessionService
     {
         try
         {
-            using var stream = File.OpenRead(SessionPath);
+            using FileStream stream = File.OpenRead(SessionPath);
             return await JsonSerializer.DeserializeAsync<Session>(stream);
         }
         catch
@@ -23,7 +23,7 @@ internal class SessionService
 
     internal async Task SaveSession(Session data)
     {
-        using var stream = File.Create(SessionPath);
+        using FileStream stream = File.Create(SessionPath);
         await JsonSerializer.SerializeAsync(stream, data);
     }
 

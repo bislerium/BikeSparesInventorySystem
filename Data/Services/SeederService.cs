@@ -26,8 +26,8 @@ internal class SeederService
 
     public async Task SeedAsync()
     {
-        var users = _userRepository._sourceData = Seeder.GenerateUsers(MinUsers, MaxUsers);
-        var spares = _spareRepository._sourceData = Seeder.GenerateSpares(MinSpares, MaxSpares);
+        ICollection<User> users = _userRepository._sourceData = Seeder.GenerateUsers(MinUsers, MaxUsers);
+        ICollection<Spare> spares = _spareRepository._sourceData = Seeder.GenerateSpares(MinSpares, MaxSpares);
         _activityLogRepository._sourceData = Seeder.GenerateActivityLogs(users, spares, MinActivityLogs, MaxActivityLogs);
         await _userRepository.FlushAsync();
         await _spareRepository.FlushAsync();

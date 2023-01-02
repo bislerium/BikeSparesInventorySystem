@@ -7,7 +7,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
 {
     public partial class StockActionDialog
     {
-        [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+        [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
         [Parameter] public StockAction StockAction { get; set; }
         [Parameter] public Guid SpareID { get; set; }
         private Spare Spare { get; set; }
@@ -38,7 +38,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
 
             if (Form.IsValid)
             {
-                var user = AuthService.CurrentUser;
+                User user = AuthService.CurrentUser;
                 ActivityLog ac = new()
                 {
                     SpareID = SpareID,
@@ -68,6 +68,9 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
         }
 
 
-        private void Cancel() => MudDialog.Cancel();
+        private void Cancel()
+        {
+            MudDialog.Cancel();
+        }
     }
 }

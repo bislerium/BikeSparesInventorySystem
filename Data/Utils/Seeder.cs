@@ -8,16 +8,16 @@ internal static class Seeder
 {
     public static ICollection<User> GenerateUsers(int min, int max)
     {
-        var adminIDs = new List<Guid>();
+        List<Guid> adminIDs = new();
         DateTime dateTime = DateTime.Now.Subtract(TimeSpan.FromDays(365));
-        var userFaker = new Faker<User>()
+        Faker<User> userFaker = new Faker<User>()
             .RuleFor(x => x.FullName, y => y.Name.FullName())
             .RuleFor(x => x.Role, (y, z) => adminIDs.Count == 0 ? UserRole.Admin : y.PickRandom<UserRole>())
             .RuleFor(x => x.CreatedAt, y => dateTime = y.Date.Between(dateTime, DateTime.Now))
             .RuleFor(x => x.CreatedBy, y => adminIDs.Count == 0 ? Guid.Empty : y.PickRandom(adminIDs))
             .FinishWith((x, y) =>
             {
-                var segment = y.FullName.Split(' ');
+                string[] segment = y.FullName.Split(' ');
                 y.UserName = x.Internet.UserName(segment[0], segment[1]);
                 y.Email = x.Internet.Email(segment[0], segment[1]);
                 y.PasswordHash = Hasher.HashSecret(y.UserName);
@@ -28,7 +28,7 @@ internal static class Seeder
 
     public static ICollection<Spare> GenerateSpares(int min, int max)
     {
-        var spareFaker = new Faker<Spare>()
+        Faker<Spare> spareFaker = new Faker<Spare>()
             .RuleFor(x => x.Name, y => y.Commerce.ProductName())
             .RuleFor(x => x.Description, y => y.Commerce.ProductDescription())
             .RuleFor(x => x.Company, y => y.Company.CompanyName())
@@ -39,16 +39,16 @@ internal static class Seeder
 
     public static ICollection<ActivityLog> GenerateActivityLogs(ICollection<User> users, ICollection<Spare> spares, int min, int max)
     {
-        var endDate = DateTime.Now;
-        var startDate = endDate.Subtract(TimeSpan.FromDays(365 * 2));
-        var adminUsers = users.Where(x => x.Role == UserRole.Admin).ToList();
-        var activityLogFaker = new Faker<ActivityLog>()
+        DateTime endDate = DateTime.Now;
+        DateTime startDate = endDate.Subtract(TimeSpan.FromDays(365 * 2));
+        List<User> adminUsers = users.Where(x => x.Role == UserRole.Admin).ToList();
+        Faker<ActivityLog> activityLogFaker = new Faker<ActivityLog>()
             .RuleFor(x => x.SpareID, y => y.PickRandom(spares).Id)
             .RuleFor(x => x.Quantity, y => y.Random.Int(min = 1, max = 111))
             .RuleFor(x => x.ActionOn, y => y.Date.Between(startDate, endDate))
             .FinishWith((x, y) =>
             {
-                var user = x.PickRandom(users);
+                User user = x.PickRandom(users);
                 if (user.Role == UserRole.Admin)
                 {
                     y.Action = x.PickRandom<StockAction>();
@@ -70,7 +70,7 @@ internal static class Seeder
 
     public static void OnDebugConsoleWriteUserNames(ICollection<User> collection)
     {
-        foreach (var i in collection)
+        foreach (User i in collection)
         {
             System.Diagnostics.Debug.WriteLine($"{i.UserName} | {i.HasInitialPassword} | {i.Role}");
         }
