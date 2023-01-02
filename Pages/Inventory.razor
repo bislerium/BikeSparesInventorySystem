@@ -49,27 +49,27 @@
         <col/>
     </ColGroup>
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Name)">Spare Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Company)">Company</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">Available Quantity</MudTableSortLabel></MudTh>
-        <MudTh>Last Taken Out</MudTh>
-        <MudTh>Action</MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Name)">Spare Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Company)">Company</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">Available Quantity</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;">Last Taken Out</MudTh>
+        <MudTh Style="white-space: nowrap;">Action</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="ID">
             <MudChip>@context.Id</MudChip>
             </MudTd>
-        <MudTd DataLabel="Spare Name">@context.Name</MudTd>
-        <MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Spare Name">@context.Name</MudTd>
+        <MudTd Style="white-space: nowrap;">
             <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(@context.Id))">
                 @((GetShow(@context.Id)) ? "Hide" : "Show") Description
             </MudButton>
         </MudTd>      
-        <MudTd DataLabel="Company">@context.Company</MudTd>
-        <MudTd DataLabel="Price">Rs. @context.Price</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Company">@context.Company</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Price">Rs. @context.Price</MudTd>
         <MudTd DataLabel="Available Quantity">
             @if (@context.AvailableQuantity == 0)
             {
@@ -79,7 +79,7 @@
                 @context.AvailableQuantity
             }
         </MudTd>
-        <MudTd DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
         <MudTd DataLabel="Action">
             <MudStack Row="true">
                 @if(GlobalState.IsUserAdmin)
@@ -121,7 +121,7 @@
         <MudTd DataLabel="Available Quantity">
             <MudTextField @bind-Value="@context.AvailableQuantity" Required />
         </MudTd>
-        <MudTd DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
     </RowEditingTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new int[] { 20, 45, 65, 100}" />

@@ -3,13 +3,13 @@ using MudBlazor;
 
 namespace BikeSparesInventorySystem.Shared.Buttons
 {
-	public partial class SeedButton
-	{
-		private async Task SeedData()
-		{
-			await _seederService.SeedAsync();
-			Seeder.OnDebugConsoleWriteUserNames(UserRepository.GetAll());
-			SnackBar.Add("Seeding Succesfull", Severity.Success);
-		}
-	}
+    public partial class SeedButton
+    {
+        private async Task SeedData()
+        {
+            await _seederService.SeedAsync();
+            Seeder.OnDebugConsoleWriteUserNames(UserRepository.GetAll());
+            SnackBar.Add("Seeding Succesfull", Severity.Success);
+        }
+    }
 }

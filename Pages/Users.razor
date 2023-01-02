@@ -37,21 +37,21 @@
         <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.UserName)">User Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.FullName)">Full Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.PasswordHash)">Password Hash</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Role)">Role</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.HasInitialPassword)">Initial Password</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedAt)">Created At</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedBy)">Created By</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.UserName)">User Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.FullName)">Full Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.PasswordHash)">Password Hash</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Role)">Role</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.HasInitialPassword)">Initial Password</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedAt)">Created At</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedBy)">Created By</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd Class="row-cols-md-auto" DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
         <MudTd DataLabel="User Name">@context.UserName</MudTd>
         <MudTd DataLabel="Email">@context.Email</MudTd>
-        <MudTd DataLabel="Full Name">@context.FullName</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Full Name">@context.FullName</MudTd>
         <MudTd DataLabel="Password Hash"><MudChip>@context.PasswordHash</MudChip></MudTd>
         <MudTd DataLabel="Role">
             @if (@context.Role == UserRole.Admin)
@@ -63,9 +63,9 @@
             }
         </MudTd>
         <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
-        <MudTd DataLabel="Created At">@context.CreatedAt</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Created At">@context.CreatedAt</MudTd>
         <MudTd DataLabel="Created By">
-                <MudChip>@GetName(@context.CreatedBy)</MudChip>
+            <MudChip>@GetName(@context.CreatedBy)</MudChip>
         </MudTd>
     </RowTemplate>
     <RowEditingTemplate>
@@ -87,7 +87,7 @@
             </MudSelect>         
         </MudTd>
         <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
-        <MudTd DataLabel="Created At">@context.CreatedAt</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Created At">@context.CreatedAt</MudTd>
         <MudTd DataLabel="Created By"><MudChip>@context.CreatedBy</MudChip></MudTd>        
     </RowEditingTemplate>
     <PagerContent>

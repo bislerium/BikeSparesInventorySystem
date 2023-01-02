@@ -1,8 +1,8 @@
 ﻿namespace BikeSparesInventorySystem.Data.Enums
 {
-	public enum StockAction
-	{
-		Add,
-		Deduct,
-	}
+    public enum StockAction
+    {
+        Add,
+        Deduct,
+    }
 }

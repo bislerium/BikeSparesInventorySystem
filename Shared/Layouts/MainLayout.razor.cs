@@ -2,12 +2,12 @@
 
 public partial class MainLayout
 {
-	public static string Title { get; set; }
+    public static string Title { get; set; }
 
-	private bool _drawerOpen = true;
+    private bool _drawerOpen = true;
 
-	void DrawerToggle()
-	{
-		_drawerOpen = !_drawerOpen;
-	}
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
 }

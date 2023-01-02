@@ -5,36 +5,39 @@ namespace BikeSparesInventorySystem.Data.Models;
 
 internal class ActivityLog : IModel, ICloneable
 {
-	public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.NewGuid();
 
-	public Guid SpareID { get; set; }
+    public Guid SpareID { get; set; }
 
-	public int Quantity { get; set; }
+    public int Quantity { get; set; }
 
-	public StockAction Action { get; set; }
+    public StockAction Action { get; set; }
 
-	public Guid ActedBy { get; set; }
+    public Guid ActedBy { get; set; }
 
-	public ApprovalStatus ApprovalStatus { get; set; } = ApprovalStatus.Pending;
+    public ApprovalStatus ApprovalStatus { get; set; } = ApprovalStatus.Pending;
 
-	public Guid Approver { get; set; } = Guid.Empty;
+    public Guid Approver { get; set; } = Guid.Empty;
 
-	public DateTime Date { get; set; }
+    public DateTime ActionOn { get; set; } = DateTime.Now;
 
-	public object Clone()
-	{
-		return new ActivityLog
-		{
-			Id = Id,
-			SpareID = SpareID,
-			Quantity = Quantity,
-			Action = Action,
-			ActedBy = ActedBy,
-			ApprovalStatus = ApprovalStatus,
-			Approver = Approver,
-			Date = Date,
-		};
-	}
+    public DateTime ApprovalStatusOn { get; set; }
 
-	public override string ToString() => JsonSerializer.Serialize(this);
+    public object Clone()
+    {
+        return new ActivityLog
+        {
+            Id = Id,
+            SpareID = SpareID,
+            Quantity = Quantity,
+            Action = Action,
+            ActedBy = ActedBy,
+            ApprovalStatus = ApprovalStatus,
+            Approver = Approver,
+            ActionOn = ActionOn,
+            ApprovalStatusOn = ApprovalStatusOn,
+        };
+    }
+
+    public override string ToString() => JsonSerializer.Serialize(this);
 }
