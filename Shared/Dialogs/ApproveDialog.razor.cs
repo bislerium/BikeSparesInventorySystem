@@ -29,6 +29,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
 			activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Approve;
 			activityLog.Approver = AuthService.CurrentUser.Id;
 			Snackbar.Add("Approved!", Severity.Success);
+			MudDialog.Close();
 		}
 
 		private void Disapprove()
@@ -37,6 +38,7 @@ namespace BikeSparesInventorySystem.Shared.Dialogs
 			activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Disapprove;
 			activityLog.Approver = AuthService.CurrentUser.Id;
 			Snackbar.Add("Disapproved!", Severity.Success);
+			MudDialog.Close();
 		}
 	}
 }
