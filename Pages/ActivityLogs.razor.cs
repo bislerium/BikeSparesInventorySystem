@@ -49,33 +49,60 @@ public partial class ActivityLogs
     private bool FilterFunc(ActivityLog element)
     {
         if (string.IsNullOrWhiteSpace(searchString))
+        {
             return true;
+        }
+
         if (element.Id.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.SpareID.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         string spare = GetSpareName(element.SpareID);
         if (spare is not null && spare.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.Quantity.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.Action.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.ActedBy.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         string takenByUser = GetUserName(element.ActedBy);
         if (takenByUser is not null && takenByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.ApprovalStatus.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.Approver.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         string approvedByUser = GetUserName(element.Approver);
-        if (approvedByUser is not null && approvedByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.ActionOn.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return false;
+        return (approvedByUser is not null && approvedByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+|| element.ActionOn.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase);
     }
 
     private void Onchanged(string a)

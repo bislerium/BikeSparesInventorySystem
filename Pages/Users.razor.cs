@@ -48,20 +48,24 @@ public partial class Users
     private bool FilterFunc(User element)
     {
         if (string.IsNullOrWhiteSpace(searchString))
+        {
             return true;
+        }
+
         if (element.Id.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.UserName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
-        if (element.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.FullName.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.HasInitialPassword.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.CreatedAt.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return false;
+        }
+
+        return element.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+|| element.FullName.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+|| element.HasInitialPassword.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+|| element.CreatedAt.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase);
     }
 
     private async Task AddDialog()

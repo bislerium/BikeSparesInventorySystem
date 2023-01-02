@@ -21,7 +21,10 @@ internal static class Seeder
                 y.UserName = x.Internet.UserName(segment[0], segment[1]);
                 y.Email = x.Internet.Email(segment[0], segment[1]);
                 y.PasswordHash = Hasher.HashSecret(y.UserName);
-                if (y.Role == UserRole.Admin) adminIDs.Add(y.Id);
+                if (y.Role == UserRole.Admin)
+                {
+                    adminIDs.Add(y.Id);
+                }
             });
         return userFaker.GenerateBetween(min, max).ToList();
     }

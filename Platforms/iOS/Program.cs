@@ -1,6 +1,6 @@
 ﻿using UIKit;
 
-namespace BikeSparesInventorySystem;
+namespace BikeSparesInventorySystem.Platforms.iOS;
 
 public class Program
 {

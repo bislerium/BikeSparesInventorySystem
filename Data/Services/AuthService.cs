@@ -11,8 +11,7 @@ internal class AuthService
 
     private readonly SessionService _sessionService;
 
-    private User _user;
-    public User CurrentUser => _user;
+    public User CurrentUser { get; private set; }
 
     public AuthService(Repository<User> userRepository, SessionService sessionService)
     {
@@ -23,8 +22,16 @@ internal class AuthService
 
     public string SeedInitialUser()
     {
-        if (_userRepository.GetAll().Count != 0) return null;
-        if (_userRepository.Contains(x => x.Role, UserRole.Admin)) return null;
+        if (_userRepository.GetAll().Count != 0)
+        {
+            return null;
+        }
+
+        if (_userRepository.Contains(x => x.Role, UserRole.Admin))
+        {
+            return null;
+        }
+
         string username = "admin", pleaseChange = "Please Change!";
         User user = new()
         {
@@ -42,7 +49,11 @@ internal class AuthService
 
     public void Register(string username, string email, string fullname, UserRole role)
     {
-        if (_userRepository.HasUserName(username)) throw new Exception(message: "Username already exists!");
+        if (_userRepository.HasUserName(username))
+        {
+            throw new Exception(message: "Username already exists!");
+        }
+
         User user = new()
         {
             UserName = username,
@@ -50,7 +61,7 @@ internal class AuthService
             FullName = fullname,
             PasswordHash = Hasher.HashSecret(username),
             Role = role,
-            CreatedBy = _user.Id,
+            CreatedBy = CurrentUser.Id,
         };
         _userRepository.Add(user);
         //_userRepository.FlushAsync().Wait();
@@ -58,13 +69,17 @@ internal class AuthService
 
     public async Task<bool> Login(string userName, string password)
     {
-        _user = _userRepository.Get(x => x.UserName, userName);
-        if (_user == null) return false;
+        CurrentUser = _userRepository.Get(x => x.UserName, userName);
+        if (CurrentUser == null)
+        {
+            return false;
+        }
+
         if (Hasher.VerifyHash(password, CurrentUser.PasswordHash))
         {
             Session session = new()
             {
-                UserId = _user.Id,
+                UserId = CurrentUser.Id,
                 CreatedAt = DateTime.UtcNow,
             };
             await _sessionService.SaveSession(session);
@@ -80,25 +95,35 @@ internal class AuthService
             throw new Exception("New password must be different from current password.");
         }
 
-        _user.PasswordHash = Hasher.HashSecret(newPassword);
-        _user.HasInitialPassword = false;
+        CurrentUser.PasswordHash = Hasher.HashSecret(newPassword);
+        CurrentUser.HasInitialPassword = false;
     }
 
     public void LogOut()
     {
         _sessionService.DeleteSession();
-        _user = null;
+        CurrentUser = null;
     }
 
     public async Task CheckSession()
     {
         Session session = await _sessionService.LoadSession();
-        if (session == null) return;
+        if (session == null)
+        {
+            return;
+        }
 
         User user = _userRepository.Get(x => x.Id, session.UserId);
-        if (user == null) return;
+        if (user == null)
+        {
+            return;
+        }
 
-        if (!session.IsValid()) throw new Exception("Session expired!");
-        _user = user;
+        if (!session.IsValid())
+        {
+            throw new Exception("Session expired!");
+        }
+
+        CurrentUser = user;
     }
 }

@@ -128,7 +128,10 @@ public partial class Dashboard
         foreach (IGrouping<Guid, Data.Models.ActivityLog> group in ActivityLogRepository.GetAll().GroupBy(x => x.SpareID).ToList())
         {
             Data.Models.Spare spare = SpareRepository.Get(x => x.Id, group.Key);
-            if (spare is null) continue;
+            if (spare is null)
+            {
+                continue;
+            }
 
             List<Data.Models.ActivityLog> deductedStock = group.Where(x => x.Action == Data.Enums.StockAction.Deduct).ToList();
             int approved = deductedStock.Where(x => x.ApprovalStatus == Data.Enums.ApprovalStatus.Approve).Sum(x => x.Quantity);

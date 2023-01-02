@@ -8,7 +8,11 @@ public partial class SyncDataButton
 
     private async Task SaveData()
     {
-        if (IsSaving) return;
+        if (IsSaving)
+        {
+            return;
+        }
+
         IsSaving = true;
         await UserRepository.FlushAsync();
         await SpareRepository.FlushAsync();

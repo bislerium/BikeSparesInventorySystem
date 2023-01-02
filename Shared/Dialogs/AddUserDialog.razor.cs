@@ -46,6 +46,8 @@ public partial class AddUserDialog
             yield return "Invalid Username";
         }
         if (UserRepository.HasUserName(arg))
+        {
             yield return "Username already Exist!";
+        }
     }
 }

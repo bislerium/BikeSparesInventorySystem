@@ -15,11 +15,11 @@ namespace BikeSparesInventorySystem.Shared.Buttons
 
             string errorMessage = null;
 
-            if (currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday)
+            if (currentDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
             {
                 errorMessage = "Action on weekends restricted!";
             }
-            if (currentTime.Hours < 9 || currentTime.Hours > 12 + 4)
+            if (currentTime.Hours is < 9 or > (12 + 4))
             {
                 errorMessage = "Action outside 9AM to 4PM restricted!";
             }

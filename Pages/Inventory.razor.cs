@@ -57,20 +57,24 @@ public partial class Inventory
     private bool FilterFunc(Spare element)
     {
         if (string.IsNullOrWhiteSpace(searchString))
+        {
             return true;
+        }
+
         if (element.Id.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
+        }
+
         if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
             return true;
-        if (element.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.Company.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.Price.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (element.AvailableQuantity.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return false;
+        }
+
+        return element.Description.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+|| element.Company.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+|| element.Price.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase)
+|| element.AvailableQuantity.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase);
     }
 
     private void ShowBtnPress(Guid id)
@@ -80,14 +84,7 @@ public partial class Inventory
 
     private bool GetShow(Guid id)
     {
-        if (SpareDescTracks.ContainsKey(id))
-        {
-            return SpareDescTracks[id];
-        }
-        else
-        {
-            return SpareDescTracks[id] = false;
-        }
+        return SpareDescTracks.ContainsKey(id) ? SpareDescTracks[id] : (SpareDescTracks[id] = false);
     }
 
     private string GetLastTakenOut(Guid id)
@@ -105,7 +102,11 @@ public partial class Inventory
     {
         if (action == StockAction.Deduct)
         {
-            if (!ApproveButton.ValidateWeekAndTime(Snackbar)) return;
+            if (!ApproveButton.ValidateWeekAndTime(Snackbar))
+            {
+                return;
+            }
+
             if (spare.AvailableQuantity == 0)
             {
                 Snackbar.Add("Out of Stock!", Severity.Error);

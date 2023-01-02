@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace BikeSparesInventorySystem;
+namespace BikeSparesInventorySystem.Platforms.iOS;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

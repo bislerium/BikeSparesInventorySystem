@@ -21,7 +21,11 @@ internal class CsvFileProvider<TSource> : FileProvider<TSource> where TSource : 
             using StreamReader reader = new(stream);
             using CsvReader csv = new(reader, CultureInfo.InvariantCulture);
             List<TSource> data = new();
-            await foreach (TSource r in csv.GetRecordsAsync<TSource>()) data.Add(r);
+            await foreach (TSource r in csv.GetRecordsAsync<TSource>())
+            {
+                data.Add(r);
+            }
+
             return data;
         }
         catch
