@@ -1,45 +1,43 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿namespace BikeSparesInventorySystem.Shared.Dialogs;
 
-namespace BikeSparesInventorySystem.Shared.Dialogs
+public partial class ApproveDialog
 {
-    public partial class ApproveDialog
+    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Action ChangeParentState { get; set; }
+
+    [Parameter] public ActivityLog ActivityLog { get; set; }
+
+    [Parameter] public Spare Spare { get; set; }
+
+    private void Cancel()
     {
-        [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+        MudDialog.Cancel();
+    }
 
-        [Parameter] public Guid ActivityLogID { get; set; }
+    private void Approve()
+    {
+        ActivityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Approve;
+        ActivityLog.Approver = AuthService.CurrentUser.Id;
+        ActivityLog.ApprovalStatusOn = DateTime.Now;
 
-        private ActivityLog activityLog;
-        private Spare spare;
+        Snackbar.Add("Approved!", Severity.Success);
+        Close();
+    }
 
-        protected sealed override void OnInitialized()
-        {
-            activityLog = ActivityLogRepository.Get(x => x.Id, ActivityLogID);
-            spare = SpareRepository.Get(x => x.Id, activityLog.SpareID);
-        }
+    private void Disapprove()
+    {
+        Spare.AvailableQuantity += ActivityLog.Quantity;
+        ActivityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Disapprove;
+        ActivityLog.Approver = AuthService.CurrentUser.Id;
 
-        private void Cancel()
-        {
-            MudDialog.Cancel();
-        }
+        Snackbar.Add("Disapproved!", Severity.Success);
+        Close();
+    }
 
-        private void Approve()
-        {
-            activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Approve;
-            activityLog.Approver = AuthService.CurrentUser.Id;
-            activityLog.ApprovalStatusOn = DateTime.Now;
-            Snackbar.Add("Approved!", Severity.Success);
-            MudDialog.Close();
-        }
-
-        private void Disapprove()
-        {
-            spare.AvailableQuantity += activityLog.Quantity;
-            activityLog.ApprovalStatus = Data.Enums.ApprovalStatus.Disapprove;
-            activityLog.Approver = AuthService.CurrentUser.Id;
-            Snackbar.Add("Disapproved!", Severity.Success);
-            MudDialog.Close();
-        }
+    private void Close()
+    {
+        ChangeParentState.Invoke();
+        MudDialog.Close();
     }
 }

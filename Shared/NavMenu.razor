@@ -3,20 +3,20 @@
 
 <MudDrawerHeader Class="my-4">
 	<MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-		<MudIcon Icon="@Icons.Filled.BikeScooter" Color="Color.Primary" Size="Size.Large" />
+		<MudIcon Icon="@Icons.Material.Filled.BikeScooter" Color="Color.Primary" Size="Size.Large" />
 		<MudText Color="Color.Primary" Typo="Typo.h5" Style="font-weight: bold">Bikare</MudText>
 	</MudStack>
 </MudDrawerHeader>
-<MudNavMenu Bordered="true" Margin="Margin.Normal" Color="Color.Primary" Class="pa-2">		
-	@if (GlobalState.IsUserAdmin)
+<MudNavMenu Bordered="true" Color="Color.Primary" Margin="Margin.Normal">		
+	@if (AuthService.IsUserAdmin())
 	{
-		<MudNavLink Href="/dashboard" Icon="@Icons.Filled.Dashboard">Dashboard</MudNavLink>
+		<MudNavLink Href="@Dashboard.Route" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
 	}
-	<MudNavLink Match="NavLinkMatch.Prefix" Href="/inventory" Icon="@Icons.Filled.Inventory">Inventory</MudNavLink>
-	<MudNavLink Match="NavLinkMatch.Prefix" Href="/activity-logs" Icon="@Icons.Filled.Approval">Activity Logs</MudNavLink>
-	@if (GlobalState.IsUserAdmin)
+	<MudNavLink Href="@Inventory.Route" Icon="@Icons.Material.Filled.Inventory">Inventory</MudNavLink>
+	<MudNavLink Href="@ActivityLogs.Route" Icon="@Icons.Material.Filled.Approval">Activity Logs</MudNavLink>
+	@if (AuthService.IsUserAdmin())
 	{
-		<MudNavLink Href="/users" Icon="@Icons.Filled.ManageAccounts">Users</MudNavLink>
+		<MudNavLink Href="@Users.Route" Icon="@Icons.Material.Filled.ManageAccounts">Users</MudNavLink>
 	}
-	<MudNavLink Href="/change-password" Icon="@Icons.Filled.Password">Change Password</MudNavLink>
+	<MudNavLink Href="@ChangePassword.Route" Icon="@Icons.Material.Filled.Password">Change Password</MudNavLink>
 </MudNavMenu>

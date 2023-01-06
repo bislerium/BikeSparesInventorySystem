@@ -1,48 +1,54 @@
-﻿using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿namespace BikeSparesInventorySystem.Shared.Buttons;
 
-namespace BikeSparesInventorySystem.Shared.Buttons
+public partial class ApproveButton
 {
-    public partial class ApproveButton
+    [Parameter] public ActivityLog ActivityLog { get; set; }
+    [Parameter] public Action ChangeParentState { get; set; }
+
+    internal static bool ValidateWeekAndTime(ISnackbar snackbar)
     {
-        [Parameter] public Guid ActivityLogID { get; set; }
+        DateTime currentDateTime = DateTime.Now;
+        TimeSpan currentTime = currentDateTime.TimeOfDay;
+        DateTime currentDate = currentDateTime.Date;
 
-        internal static bool ValidateWeekAndTime(ISnackbar snackbar)
+        string errorMessage = null;
+
+        if (currentDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
         {
-            DateTime currentDateTime = DateTime.Now;
-            TimeSpan currentTime = currentDateTime.TimeOfDay;
-            DateTime currentDate = currentDateTime.Date;
-
-            string errorMessage = null;
-
-            if (currentDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
-            {
-                errorMessage = "Action on weekends restricted!";
-            }
-            if (currentTime.Hours is < 9 or > (12 + 4))
-            {
-                errorMessage = "Action outside 9AM to 4PM restricted!";
-            }
-
-            if (errorMessage is not null)
-            {
-                snackbar.Add(errorMessage, Severity.Error);
-                return false;
-            }
-
-            return true;
+            errorMessage = "Action on weekends restricted!";
+        }
+        if (currentTime.Hours is < 9 or > (12 + 4))
+        {
+            errorMessage = "Action outside 9AM to 4PM restricted!";
         }
 
-        private async Task Approve()
+        if (errorMessage is not null)
         {
-            if (ValidateWeekAndTime(Snackbar))
+            snackbar.Add(errorMessage, Severity.Error);
+            return false;
+        }
+
+        return true;
+    }
+
+    private async Task Approve()
+    {
+        var spare = SpareRepository.Get(x => x.Id, ActivityLog.SpareID);
+        if (spare == null)
+        {
+            Snackbar.Add("Spare not found!", Severity.Error);
+            return;
+        }
+
+        if (ValidateWeekAndTime(Snackbar))
+        {
+            DialogParameters parameters = new()
             {
-                DialogParameters parameters = new()
-                {
-                    { "ActivityLogID", ActivityLogID }
-                };
-                await DialogService.ShowAsync<Dialogs.ApproveDialog>("Approval", parameters);
-            }
+                { "Spare", spare },
+                { "ActivityLog", ActivityLog },
+                { "ChangeParentState", ChangeParentState }
+            };
+            await DialogService.ShowAsync<Dialogs.ApproveDialog>("Approval", parameters);
         }
     }
 }

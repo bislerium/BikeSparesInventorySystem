@@ -1,6 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-
-namespace BikeSparesInventorySystem.Data.Providers;
+﻿namespace BikeSparesInventorySystem.Data.Providers;
 
 internal abstract class FileProvider<TSource> where TSource : IModel
 {

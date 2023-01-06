@@ -1,10 +1,9 @@
-﻿namespace BikeSparesInventorySystem.Data.Services
+﻿namespace BikeSparesInventorySystem.Data.Services;
+
+internal static class SeederServiceInjection
 {
-    internal static class SeederServiceInjection
+    public static IServiceCollection AddSeeder(this IServiceCollection services)
     {
-        public static IServiceCollection AddSeeder(this IServiceCollection services)
-        {
-            return services.AddSingleton<SeederService>();
-        }
+        return services.AddSingleton<SeederService>();
     }
 }

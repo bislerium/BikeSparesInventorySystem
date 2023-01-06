@@ -1,8 +1,15 @@
 ﻿@inject ISnackbar Snackbar
 @typeparam T where T : IModel
 
-<MudFileUpload Class="mt-0" T="IBrowserFile" Accept=".json, .csv, .xlsx" FilesChanged="ImportFile">
-    <ButtonTemplate>
-        <MudButton Variant="Variant.Outlined" Color="Color.Primary" HtmlTag="label" StartIcon="@Icons.Filled.Upload" for="@context">Import</MudButton>
-    </ButtonTemplate>
-</MudFileUpload>
+<MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined"> 
+    <MudFileUpload Class="mt-0" T="IBrowserFile" Accept=".json, .csv, .xlsx" FilesChanged="ImportFile">
+        <ButtonTemplate>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" HtmlTag="label" StartIcon="@Icons.Material.Filled.Upload" for="@context">Import</MudButton>
+        </ButtonTemplate>
+    </MudFileUpload>
+    <MudTooltip title="@(Append ? "Append" : "Append as New")">
+        <MudToggleIconButton Icon="@Icons.Material.Filled.KeyboardArrowDown" Color="@Color.Primary" @bind-Toggled="@Append"
+                             ToggledIcon="@Icons.Material.Filled.KeyboardDoubleArrowDown" ToggledColor="@Color.Primary" />
+    </MudTooltip>
+</MudButtonGroup>
+

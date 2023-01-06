@@ -1,11 +1,25 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Utils;
-using System.Text.Json;
-
-namespace BikeSparesInventorySystem.Data.Providers;
+﻿namespace BikeSparesInventorySystem.Data.Providers;
 
 internal class JsonFileProvider<TSource> : FileProvider<TSource> where TSource : IModel
 {
+    private static readonly JsonSerializerOptions options = new()
+    {
+        TypeInfoResolver = new DefaultJsonTypeInfoResolver
+        {
+            Modifiers =
+            {
+                static typeInfo =>
+                {
+                    if (typeInfo.Kind != JsonTypeInfoKind.Object) { return; } foreach (JsonPropertyInfo propertyInfo in typeInfo.Properties)
+                    {
+                        // Add IsRequired constraint from every property.
+                        propertyInfo.IsRequired = true;
+                    }
+                }
+            }
+        }
+    };
+
     internal override string FilePath { get; set; } = Explorer.GetDefaultFilePath<TSource>(Enums.FileExtension.json);
 
     internal override async Task<ICollection<TSource>> ReadAsync(string path)
@@ -17,7 +31,7 @@ internal class JsonFileProvider<TSource> : FileProvider<TSource> where TSource :
     {
         try
         {
-            return (await JsonSerializer.DeserializeAsync<List<TSource>>(stream)).ToList();
+            return (await JsonSerializer.DeserializeAsync<List<TSource>>(stream, options)).ToList();
         }
         catch
         {

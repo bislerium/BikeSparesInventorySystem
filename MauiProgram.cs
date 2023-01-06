@@ -1,8 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Providers;
-using BikeSparesInventorySystem.Data.Repositories;
-using BikeSparesInventorySystem.Data.Services;
-using MudBlazor;
-using MudBlazor.Services;
+﻿using MudBlazor.Services;
 
 namespace BikeSparesInventorySystem;
 

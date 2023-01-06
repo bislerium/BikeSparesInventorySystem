@@ -1,7 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text.RegularExpressions;
-
-namespace BikeSparesInventorySystem.Data.Utils;
+﻿namespace BikeSparesInventorySystem.Data.Utils;
 
 internal static class Hasher
 {

@@ -1,12 +1,9 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
-
-namespace BikeSparesInventorySystem.Shared.Dialogs;
+﻿namespace BikeSparesInventorySystem.Shared.Dialogs;
 
 public partial class AddSpareDialog
 {
     [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Action ChangeParentState { get; set; }
 
     private MudForm form;
 
@@ -35,6 +32,8 @@ public partial class AddSpareDialog
                 AvailableQuantity = AvailableQuantity
             };
             SpareRepository.Add(spare);
+            ChangeParentState.Invoke();
+
             Snackbar.Add($"Spare {Name} is Added!", Severity.Success);
             MudDialog.Close();
         }

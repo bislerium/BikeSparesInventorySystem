@@ -1,9 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Utils;
-using CsvHelper;
-using System.Globalization;
-
-namespace BikeSparesInventorySystem.Data.Providers;
+﻿namespace BikeSparesInventorySystem.Data.Providers;
 
 internal class CsvFileProvider<TSource> : FileProvider<TSource> where TSource : IModel
 {

@@ -1,16 +1,17 @@
-﻿using BikeSparesInventorySystem.Shared.Layouts;
-using PSC.Blazor.Components.Chartjs.Models.Bar;
-using PSC.Blazor.Components.Chartjs.Models.Common;
-
-namespace BikeSparesInventorySystem.Pages;
+﻿namespace BikeSparesInventorySystem.Pages;
 
 public partial class Dashboard
 {
+    public const string Route = "/dashboard";
+
     private BarChartConfig Config;
+
+    [CascadingParameter]
+    private Action<string> SetAppBarTitle { get; set; }
 
     protected sealed override void OnInitialized()
     {
-        MainLayout.Title = "Dashboard";
+        SetAppBarTitle.Invoke("Dashboard");
         PSC.Blazor.Components.Chartjs.Models.Common.Font axisLabelFont = new()
         {
             Weight = "bold",
@@ -56,7 +57,7 @@ public partial class Dashboard
                             Weight = "bold",
                             Size = 20
                         },
-                        Position = Position.Top
+                        Position = PSC.Blazor.Components.Chartjs.Models.Common.Position.Top
                     },
                 },
                 Scales = new Dictionary<string, Axis>()
@@ -74,7 +75,7 @@ public partial class Dashboard
                             {
                                 Text = "Spares",
                                 Display = true,
-                                Align= Align.Center,
+                                Align= PSC.Blazor.Components.Chartjs.Models.Common.Align.Center,
                                 Font = axisLabelFont
                             },
                         }
@@ -87,7 +88,7 @@ public partial class Dashboard
                             {
                                 Text = "Quantity",
                                 Display = true,
-                                Align= Align.Center,
+                                Align= PSC.Blazor.Components.Chartjs.Models.Common.Align.Center,
                                 Font = axisLabelFont
                             },
                         }

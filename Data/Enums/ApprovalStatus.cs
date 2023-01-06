@@ -1,9 +1,8 @@
-﻿namespace BikeSparesInventorySystem.Data.Enums
+﻿namespace BikeSparesInventorySystem.Data.Enums;
+
+public enum ApprovalStatus
 {
-    internal enum ApprovalStatus
-    {
-        Pending,
-        Approve,
-        Disapprove
-    }
+    Pending,
+    Approve,
+    Disapprove
 }

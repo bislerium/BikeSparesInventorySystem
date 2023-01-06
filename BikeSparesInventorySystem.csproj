@@ -14,7 +14,7 @@
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
 
         <!-- Display name -->
-        <ApplicationTitle>BikeSparesInventorySystem</ApplicationTitle>
+        <ApplicationTitle>Bikare</ApplicationTitle>
 
         <!-- App Identifier -->
         <ApplicationId>com.companyname.bikesparesinventorysystem</ApplicationId>
@@ -64,7 +64,7 @@
       <PackageReference Include="Bogus" Version="34.0.2" />
       <PackageReference Include="CsvHelper" Version="30.0.1" />
       <PackageReference Include="ExcelMapper" Version="5.2.472" />
-      <PackageReference Include="MudBlazor" Version="6.1.5" />
+      <PackageReference Include="MudBlazor" Version="6.1.7" />
       <PackageReference Include="PSC.Blazor.Components.Chartjs" Version="6.0.35" />
     </ItemGroup>
 

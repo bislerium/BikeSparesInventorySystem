@@ -1,4 +1,5 @@
 ﻿@page "/users"
+@layout MainLayout
 
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository;
 @inject ISnackbar Snackbar
@@ -11,12 +12,12 @@
     FixedFooter="@Fixed_footer"
     Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
     Dense="@Dense"
-    Hover="@Hover"
+    Hover="@Hover"    
     ReadOnly="@ReadOnly"
     CanCancelEdit="@VanCancelEdit"
     Filter="new Func<User,bool>(FilterFunc)"
-        @bind-SelectedItem="selectedItem1"
         SortLabel="Sort By"
+        RowsPerPage="25"
         CommitEditTooltip="Commit Edit"
         HorizontalScrollbar="true"
         OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))"
@@ -27,13 +28,13 @@
         EditButtonPosition="@EditButtonPosition"
         EditTrigger="@EditTrigger">
     <ToolBarContent>
-        <MudFab class="me-4" StartIcon="@Icons.Filled.Add" Color="Color.Primary" Label="Add User" DisableElevation="true" OnClick="AddDialog" />
+        <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add User" DisableElevation="true" OnClick="AddDialog" />
         <MudStack Row="true"> 
-            <ImportButton T="User"/>            
+            <ImportButton T="User" ChangeParentState="Reload" />
             <ExportButton T="User"/>
         </MudStack>
         <MudSpacer />
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
@@ -64,7 +65,7 @@
         <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Created At">@context.CreatedAt</MudTd>
         <MudTd DataLabel="Created By">
-            <MudChip>@GetName(@context.CreatedBy)</MudChip>
+            <MudChip>@GetUserName(@context.CreatedBy)</MudChip>
         </MudTd>
     </RowTemplate>
     <RowEditingTemplate>
@@ -90,7 +91,7 @@
         <MudTd DataLabel="Created By"><MudChip>@context.CreatedBy</MudChip></MudTd>        
     </RowEditingTemplate>
     <PagerContent>
-        <MudTablePager />
+        <MudTablePager PageSizeOptions="new int[] { 25, 50, 75, 100}" />
     </PagerContent>
 </MudTable>
 

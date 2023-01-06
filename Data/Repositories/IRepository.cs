@@ -1,7 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using BikeSparesInventorySystem.Data.Models;
-
-namespace BikeSparesInventorySystem.Data.Repositories;
+﻿namespace BikeSparesInventorySystem.Data.Repositories;
 
 internal interface IRepository<TSource> where TSource : IModel
 {
@@ -22,7 +19,7 @@ internal interface IRepository<TSource> where TSource : IModel
 
     ICollection<TSource> GetAll();
 
-    ICollection<TSource> GetAllSorted<TKey>(Func<TSource, TKey> keySelector, SortDirection direction);
+    ICollection<TSource> GetAllSorted<TKey>(Func<TSource, TKey> keySelector, Enums.SortDirection direction);
 
     //
     // Summary:

@@ -1,9 +1,8 @@
-﻿namespace BikeSparesInventorySystem.Data.Enums
+﻿namespace BikeSparesInventorySystem.Data.Enums;
+
+public enum FileExtension
 {
-    public enum FileExtension
-    {
-        csv,
-        json,
-        xlsx,
-    }
+    csv,
+    json,
+    xlsx,
 }

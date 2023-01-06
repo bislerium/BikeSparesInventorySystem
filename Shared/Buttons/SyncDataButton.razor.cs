@@ -1,6 +1,4 @@
-﻿using MudBlazor;
-
-namespace BikeSparesInventorySystem.Shared.Buttons;
+﻿namespace BikeSparesInventorySystem.Shared.Buttons;
 
 public partial class SyncDataButton
 {
@@ -18,6 +16,7 @@ public partial class SyncDataButton
         await SpareRepository.FlushAsync();
         await ActivityLogRepository.FlushAsync();
         IsSaving = false;
+
         Snackbar.Add("All Data Synced!", Severity.Success);
     }
 }

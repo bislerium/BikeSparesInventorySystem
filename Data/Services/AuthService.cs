@@ -1,9 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Repositories;
-using BikeSparesInventorySystem.Data.Utils;
-
-namespace BikeSparesInventorySystem.Data.Services;
+﻿namespace BikeSparesInventorySystem.Data.Services;
 
 internal class AuthService
 {
@@ -17,10 +12,9 @@ internal class AuthService
     {
         _userRepository = userRepository;
         _sessionService = sessionService;
-
     }
 
-    public string SeedInitialUser()
+    public async Task<string> SeedInitialUser()
     {
         if (_userRepository.GetAll().Count != 0)
         {
@@ -43,7 +37,7 @@ internal class AuthService
             CreatedBy = Guid.Empty,
         };
         _userRepository.Add(user);
-        _userRepository.FlushAsync().Wait();
+        await _userRepository.FlushAsync();
         return username;
     }
 
@@ -64,10 +58,9 @@ internal class AuthService
             CreatedBy = CurrentUser.Id,
         };
         _userRepository.Add(user);
-        //_userRepository.FlushAsync().Wait();
     }
 
-    public async Task<bool> Login(string userName, string password)
+    public async Task<bool> Login(string userName, string password, bool stayLoggedIn)
     {
         CurrentUser = _userRepository.Get(x => x.UserName, userName);
         if (CurrentUser == null)
@@ -77,15 +70,16 @@ internal class AuthService
 
         if (Hasher.VerifyHash(password, CurrentUser.PasswordHash))
         {
-            Session session = new()
-            {
-                UserId = CurrentUser.Id,
-                CreatedAt = DateTime.UtcNow,
-            };
+            Session session = Session.Generate(CurrentUser.Id, stayLoggedIn);
             await _sessionService.SaveSession(session);
             return true;
         }
         return false;
+    }
+
+    public bool IsUserAdmin()
+    {
+        return CurrentUser.Role == UserRole.Admin;
     }
 
     public void ChangePassword(string oldPassword, string newPassword)

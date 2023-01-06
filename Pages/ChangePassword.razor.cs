@@ -1,35 +1,36 @@
-﻿using BikeSparesInventorySystem.Shared.Layouts;
-using MudBlazor;
+﻿namespace BikeSparesInventorySystem.Pages;
 
-namespace BikeSparesInventorySystem.Pages
+public partial class ChangePassword
 {
-    public partial class ChangePassword
+    public const string Route = "/change-password";
+
+    private MudForm Form;
+    private string CurrentPassword { get; set; }
+    private string NewPassword { get; set; }
+
+    [CascadingParameter]
+    private Action<string> SetAppBarTitle { get; set; }
+
+    protected sealed override void OnInitialized()
     {
-        private MudForm Form;
-        private string CurrentPassword { get; set; }
-        private string NewPassword { get; set; }
+        SetAppBarTitle.Invoke("Change Password");
+    }
 
-        protected sealed override void OnInitialized()
+    private void ChangePasswordHandler()
+    {
+        try
         {
-            MainLayout.Title = "Change Password";
+            Form.Validate();
+            if (Form.IsValid)
+            {
+                _authService.ChangePassword(CurrentPassword, NewPassword);
+                SnackBar.Add("The password has been changed successfully.", Severity.Success);
+                Form.Reset();
+            }
         }
-
-        private void ChangePasswordHandler()
+        catch (Exception e)
         {
-            try
-            {
-                Form.Validate();
-                if (Form.IsValid)
-                {
-                    _authService.ChangePassword(CurrentPassword, NewPassword);
-                    SnackBar.Add("The password has been changed successfully.", Severity.Success);
-                    Form.Reset();
-                }
-            }
-            catch (Exception e)
-            {
-                SnackBar.Add(e.Message, Severity.Error);
-            }
+            SnackBar.Add(e.Message, Severity.Error);
         }
     }
 }

@@ -1,31 +1,29 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Shared;
-using BikeSparesInventorySystem.Shared.Layouts;
-using MudBlazor;
-
-namespace BikeSparesInventorySystem.Pages;
+﻿namespace BikeSparesInventorySystem.Pages;
 
 public partial class ActivityLogs
 {
-    private MudTable<ActivityLog> ActivityLogsTable;
+    public const string Route = "/activity-logs";
+
     private readonly bool Dense = true;
     private readonly bool Fixed_header = true;
     private readonly bool Fixed_footer = true;
     private readonly bool Hover = true;
     private readonly bool ReadOnly = false;
-    private string searchString = "";
-    private IEnumerable<ActivityLog> Elements = new List<ActivityLog>();
+    private string SearchString;
+    private IEnumerable<ActivityLog> Elements;
+
+    [CascadingParameter]
+    private Action<string> SetAppBarTitle { get; set; }
 
     protected sealed override void OnInitialized()
     {
+        SetAppBarTitle.Invoke("Inventory Activity Logs");
         Elements = GetByUserType();
-        MainLayout.Title = "Inventory Activity Logs";
     }
 
     private ICollection<ActivityLog> GetByUserType()
     {
-        return GlobalState.IsUserAdmin
+        return AuthService.IsUserAdmin()
         ? ActivityLogRepository.GetAll()
         : ActivityLogRepository.GetAll().Where(x => x.ActedBy == AuthService.CurrentUser.Id).ToList();
     }
@@ -48,64 +46,64 @@ public partial class ActivityLogs
 
     private bool FilterFunc(ActivityLog element)
     {
-        if (string.IsNullOrWhiteSpace(searchString))
+        if (string.IsNullOrWhiteSpace(SearchString))
         {
             return true;
         }
 
-        if (element.Id.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Id.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (element.SpareID.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.SpareID.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
         string spare = GetSpareName(element.SpareID);
-        if (spare is not null && spare.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (spare is not null && spare.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (element.Quantity.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Quantity.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (element.Action.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Action.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (element.ActedBy.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.ActedBy.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
         string takenByUser = GetUserName(element.ActedBy);
-        if (takenByUser is not null && takenByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (takenByUser is not null && takenByUser.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (element.ApprovalStatus.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.ApprovalStatus.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        if (element.Approver.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.Approver.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
         string approvedByUser = GetUserName(element.Approver);
-        return (approvedByUser is not null && approvedByUser.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-|| element.ActionOn.ToString().Contains(searchString, StringComparison.OrdinalIgnoreCase);
+        return (approvedByUser is not null && approvedByUser.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+               || element.ActionOn.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase);
     }
 
-    private void Onchanged(string a)
+    private void FilterByMonth(string a)
     {
         ICollection<ActivityLog> repo = GetByUserType();
         if (string.IsNullOrEmpty(a))

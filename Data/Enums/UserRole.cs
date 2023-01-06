@@ -1,3 +1,7 @@
 ﻿namespace BikeSparesInventorySystem.Data.Enums;
 
-public enum UserRole { Admin, Staff }
+public enum UserRole
+{
+    Admin,
+    Staff
+}

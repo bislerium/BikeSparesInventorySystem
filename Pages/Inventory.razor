@@ -1,7 +1,9 @@
 ﻿@page "/inventory"
+@layout MainLayout
 
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
 
 @inject ISnackbar Snackbar
 @inject IDialogService DialogService
@@ -17,11 +19,11 @@
     ReadOnly="@ReadOnly"
     CanCancelEdit="@CanCancelEdit"
     Filter="new Func<Spare,bool>(FilterFunc)"
-        @bind-SelectedItem="selectedItem1" 
+        @bind-SelectedItem="SelectedItem" 
         SortLabel="Sort By" 
         CommitEditTooltip="Commit Edit"
-        OnPreviewEditClick="@(() => SpareDescTracks[selectedItem1.Id] = false)"
-        RowsPerPage="20"
+        OnPreviewEditClick="@(() => SpareDescTracks[SelectedItem.Id] = false)"
+        RowsPerPage="25"
         OnCommitEditClick="@(() => Snackbar.Add("Spare Updated!", Severity.Success))"
         RowEditPreview="BackupItem"
         RowEditCancel="ResetItemToOriginalValues"
@@ -30,16 +32,16 @@
         EditButtonPosition="@EditButtonPosition"
         EditTrigger="@EditTrigger">
     <ToolBarContent>
-        @if (GlobalState.IsUserAdmin)
+        @if (AuthService.IsUserAdmin())
         {
-            <MudFab class="me-4" StartIcon="@Icons.Filled.Add" Color="Color.Primary" Label="Add Spare" DisableElevation="true" OnClick="AddDialog" />
+            <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add Spare" DisableElevation="true" OnClick="AddDialog" />
             <MudStack Row="true">
-                <ImportButton T="Spare" />
+                <ImportButton T="Spare" ChangeParentState="StateHasChanged" />
                 <ExportButton T="Spare" />
             </MudStack>
         }
         <MudSpacer />
-        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
     </ToolBarContent>
     <ColGroup>
         <col />
@@ -84,14 +86,14 @@
         <MudTd Style="white-space: nowrap;" DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
         <MudTd DataLabel="Action">
             <MudStack Row="true">
-                @if(GlobalState.IsUserAdmin)
+                @if (AuthService.IsUserAdmin())
                 {
                     <MudTooltip Text="@($"{Enum.GetName(StockAction.Add)} Stock")">
-                        <MudIconButton Icon="@Icons.Filled.Add" Color="Color.Primary" OnClick="() => ActOnStock(context ,StockAction.Add)" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" OnClick="() => ActOnStock(context ,StockAction.Add)" />
                     </MudTooltip>
                 }                
                 <MudTooltip Text="@($"{Enum.GetName(StockAction.Deduct)} Stock")">
-                    <MudIconButton Icon="@Icons.Filled.Remove" Color="Color.Secondary" OnClick="() => ActOnStock(context, StockAction.Deduct)" /> 
+                    <MudIconButton Icon="@Icons.Material.Filled.Remove" Color="Color.Secondary" OnClick="() => ActOnStock(context, StockAction.Deduct)" />
                 </MudTooltip>
             </MudStack>
         </MudTd>
@@ -126,6 +128,6 @@
         <MudTd Style="white-space: nowrap;" DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
     </RowEditingTemplate>
     <PagerContent>
-        <MudTablePager PageSizeOptions="new int[] { 20, 45, 65, 100}" />
+        <MudTablePager PageSizeOptions="new int[] { 25, 50, 100, 200, 300,}" />
     </PagerContent>    
 </MudTable>

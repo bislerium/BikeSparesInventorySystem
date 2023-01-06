@@ -1,8 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using BikeSparesInventorySystem.Data.Models;
-using Bogus;
-
-namespace BikeSparesInventorySystem.Data.Utils;
+﻿namespace BikeSparesInventorySystem.Data.Utils;
 
 internal static class Seeder
 {
@@ -11,6 +7,7 @@ internal static class Seeder
         List<Guid> adminIDs = new();
         DateTime dateTime = DateTime.Now.Subtract(TimeSpan.FromDays(365));
         Faker<User> userFaker = new Faker<User>()
+            .RuleFor(x => x.Id, y => adminIDs.Count == 0 ? Guid.Empty : Guid.NewGuid())
             .RuleFor(x => x.FullName, y => y.Name.FullName())
             .RuleFor(x => x.Role, (y, z) => adminIDs.Count == 0 ? UserRole.Admin : y.PickRandom<UserRole>())
             .RuleFor(x => x.CreatedAt, y => dateTime = y.Date.Between(dateTime, DateTime.Now))

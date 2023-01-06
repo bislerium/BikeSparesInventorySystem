@@ -20,11 +20,11 @@ public partial class Index
 
         if (_authService.CurrentUser is null)
         {
-            _navigationManager.NavigateTo("/login");
+            _navigationManager.NavigateTo(Login.Route);
         }
         else
         {
-            _navigationManager.NavigateTo("/router");
+            _navigationManager.NavigateTo(RoleRouter.Route);
         }
     }
 }

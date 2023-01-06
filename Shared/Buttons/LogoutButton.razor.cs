@@ -1,6 +1,5 @@
-﻿using BikeSparesInventorySystem.Shared.Dialogs;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿using BikeSparesInventorySystem.Pages;
+
 namespace BikeSparesInventorySystem.Shared.Buttons;
 
 public partial class LogoutButton
@@ -17,12 +16,12 @@ public partial class LogoutButton
         IDialogReference dialog = await DialogService.ShowAsync<Dialog>("Logout", parameters);
         DialogResult result = await dialog.Result;
 
-        if (!result.Cancelled)
+        if (!result.Canceled)
         {
             AuthService.LogOut();
             Snackbar.Clear();
             Snackbar.Add("Logged out!", Severity.Success);
-            NavigationManager.NavigateTo("/login", replace: true);
+            NavigationManager.NavigateTo(Login.Route, replace: true);
         }
     }
 }

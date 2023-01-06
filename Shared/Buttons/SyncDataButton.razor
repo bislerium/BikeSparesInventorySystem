@@ -4,5 +4,5 @@
 @inject ISnackbar Snackbar
 
 <MudTooltip Text="Sync to Disk">
-    <MudFab Icon="@Icons.Filled.Sync" IconColor="Color.Primary" DisableElevation="true" IconSize="Size.Small" Size="Size.Small" Disabled="@IsSaving" OnClick="@SaveData" />
+    <MudIconButton Icon="@Icons.Material.Filled.Sync" Color="Color.Primary" DisableElevation="true" Disabled="@IsSaving" OnClick="@SaveData" />
 </MudTooltip>

@@ -1,8 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Repositories;
-using BikeSparesInventorySystem.Data.Utils;
-
-namespace BikeSparesInventorySystem.Data.Services;
+﻿namespace BikeSparesInventorySystem.Data.Services;
 
 internal class SeederService
 {

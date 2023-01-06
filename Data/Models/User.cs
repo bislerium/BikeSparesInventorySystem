@@ -1,7 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using System.Text.Json;
-
-namespace BikeSparesInventorySystem.Data.Models;
+﻿namespace BikeSparesInventorySystem.Data.Models;
 
 public class User : IModel, ICloneable
 {

@@ -1,8 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Utils;
-using Ganss.Excel;
-
-namespace BikeSparesInventorySystem.Data.Providers;
+﻿namespace BikeSparesInventorySystem.Data.Providers;
 
 internal class ExcelFileProvider<TSource> : FileProvider<TSource> where TSource : IModel
 {

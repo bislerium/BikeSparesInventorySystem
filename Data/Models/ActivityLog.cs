@@ -1,9 +1,6 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using System.Text.Json;
+﻿namespace BikeSparesInventorySystem.Data.Models;
 
-namespace BikeSparesInventorySystem.Data.Models;
-
-internal class ActivityLog : IModel, ICloneable
+public class ActivityLog : IModel, ICloneable
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 

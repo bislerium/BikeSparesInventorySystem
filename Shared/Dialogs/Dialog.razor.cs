@@ -1,8 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
-
-namespace BikeSparesInventorySystem.Shared.Dialogs;
+﻿namespace BikeSparesInventorySystem.Shared.Dialogs;
 
 public partial class Dialog
 {

@@ -1,8 +1,6 @@
-﻿using System.Text.Json;
+﻿namespace BikeSparesInventorySystem.Data.Models;
 
-namespace BikeSparesInventorySystem.Data.Models;
-
-internal class Spare : IModel, ICloneable
+public class Spare : IModel, ICloneable
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 

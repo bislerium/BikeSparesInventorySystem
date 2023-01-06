@@ -1,14 +1,9 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using BikeSparesInventorySystem.Data.Repositories;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
-using System.Text.RegularExpressions;
-
-namespace BikeSparesInventorySystem.Shared.Dialogs;
+﻿namespace BikeSparesInventorySystem.Shared.Dialogs;
 
 public partial class AddUserDialog
 {
     [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+    [Parameter] public Action ChangeParentState { get; set; }
 
     private MudForm form;
 
@@ -29,6 +24,8 @@ public partial class AddUserDialog
         if (form.IsValid)
         {
             AuthService.Register(UserName, Email, FullName, Enum.Parse<UserRole>(Role));
+            ChangeParentState.Invoke();
+
             Snackbar.Add($"User {UserName} is Added!", Severity.Success);
             MudDialog.Close();
         }

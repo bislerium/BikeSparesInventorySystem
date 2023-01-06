@@ -1,8 +1,4 @@
-﻿using BikeSparesInventorySystem.Data.Enums;
-using BikeSparesInventorySystem.Data.Models;
-using BikeSparesInventorySystem.Data.Providers;
-
-namespace BikeSparesInventorySystem.Data.Repositories;
+﻿namespace BikeSparesInventorySystem.Data.Repositories;
 
 internal class Repository<TSource> : RepositoryIO<TSource>, IRepository<TSource> where TSource : IModel
 {
@@ -42,12 +38,12 @@ internal class Repository<TSource> : RepositoryIO<TSource>, IRepository<TSource>
         return _sourceData;
     }
 
-    public virtual ICollection<TSource> GetAllSorted<TKey>(Func<TSource, TKey> keySelector, SortDirection direction)
+    public virtual ICollection<TSource> GetAllSorted<TKey>(Func<TSource, TKey> keySelector, Enums.SortDirection direction)
     {
         return direction switch
         {
-            SortDirection.Ascending => _sourceData.OrderBy(keySelector).ToList(),
-            SortDirection.Descending => _sourceData.OrderByDescending(keySelector).ToList(),
+            Enums.SortDirection.Ascending => _sourceData.OrderBy(keySelector).ToList(),
+            Enums.SortDirection.Descending => _sourceData.OrderByDescending(keySelector).ToList(),
             _ => throw new Exception("Invalid sort direction!"),
         };
     }
