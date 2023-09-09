@@ -6,6 +6,7 @@ internal static class CSVFileProviderInjection
     {
         return services.AddSingleton<FileProvider<User>, CsvFileProvider<User>>()
             .AddSingleton<FileProvider<Spare>, CsvFileProvider<Spare>>()
-            .AddSingleton<FileProvider<ActivityLog>, CsvFileProvider<ActivityLog>>();
+            .AddSingleton<FileProvider<ActivityLog>, CsvFileProvider<ActivityLog>>()
+            .AddSingleton<FileProvider<Category>, CsvFileProvider<Category>>();
     }
 }
