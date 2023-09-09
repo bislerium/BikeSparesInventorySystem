@@ -1,0 +1,24 @@
+﻿@inject ISnackbar snackBar
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Category> CategoryRepository
+
+<MudDialog>
+    <DialogContent>
+        <MudGrid>
+            <MudForm @ref="form">
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="@Name" T="string" Placeholder="Category Name" Label="Category Name" Required />
+                </MudItem>
+            </MudForm>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Submit"
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            >
+            Add Category
+        </MudButton>
+    </DialogActions>
+</MudDialog>

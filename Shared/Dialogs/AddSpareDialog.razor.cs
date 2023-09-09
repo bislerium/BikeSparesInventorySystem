@@ -9,13 +9,18 @@ public partial class AddSpareDialog
 
     private string Name;
     private string Description;
-    private string Company;
+    private Guid CategoryId;
     private decimal Price;
-    private int AvailableQuantity;
+    private IEnumerable<Category> Elements;
 
     private void Cancel()
     {
         MudDialog.Cancel();
+    }
+
+    protected sealed override void OnParametersSet()
+    {
+        Elements = CategoryRepository.GetAll();
     }
 
     private async Task AddSpare()
@@ -27,9 +32,8 @@ public partial class AddSpareDialog
             {
                 Name = Name,
                 Description = Description,
-                Company = Company,
+                CategoryId = CategoryId,
                 Price = Price,
-                AvailableQuantity = AvailableQuantity
             };
             SpareRepository.Add(spare);
             ChangeParentState.Invoke();
