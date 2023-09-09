@@ -3,7 +3,7 @@
 
 <MudDrawerHeader Class="my-4">
 	<MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
-		<MudIcon Icon="@Icons.Material.Filled.BikeScooter" Color="Color.Primary" Size="Size.Large" />
+		<MudIcon Icon="@Icons.Material.Filled.Shop" Color="Color.Primary" Size="Size.Large" />
 		<MudText Color="Color.Primary" Typo="Typo.h5" Style="font-weight: bold">Bikare</MudText>
 	</MudStack>
 </MudDrawerHeader>
@@ -12,7 +12,10 @@
 	{
 		<MudNavLink Href="@Dashboard.Route" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
 	}
-	<MudNavLink Href="@Inventory.Route" Icon="@Icons.Material.Filled.Inventory">Inventory</MudNavLink>
+	<MudExpansionPanel Icon="@Icons.Material.Filled.ArrowDropDown" Text="Inventory">
+		<MudNavLink Href="@Inventory.Route">Products</MudNavLink>
+		<MudNavLink Href="@Categories.Route">Product Category</MudNavLink>
+	</MudExpansionPanel>
 	<MudNavLink Href="@ActivityLogs.Route" Icon="@Icons.Material.Filled.Approval">Activity Logs</MudNavLink>
 	@if (AuthService.IsUserAdmin())
 	{
