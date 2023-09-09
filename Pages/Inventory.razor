@@ -2,6 +2,7 @@
 @layout MainLayout
 
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Category> CategoryRepository;
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
 @inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
 
@@ -34,7 +35,7 @@
     <ToolBarContent>
         @if (AuthService.IsUserAdmin())
         {
-            <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add Spare" DisableElevation="true" OnClick="AddDialog" />
+            <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add Product" DisableElevation="true" OnClick="AddDialog" />
             <MudStack Row="true">
                 <ImportButton T="Spare" ChangeParentState="StateHasChanged" />
                 <ExportButton T="Spare" />
@@ -53,27 +54,17 @@
         <col/>
     </ColGroup>
     <HeaderContent>
-        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Name)">Spare Name</MudTableSortLabel></MudTh>
-        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
-        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Company)">Company</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.CategoryId)">Category</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">Available Quantity</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;">Last Taken Out</MudTh>
-        <MudTh Style="white-space: nowrap;">Action</MudTh>
+        <MudTh Style="white-space: nowrap;" />
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="ID">
-            <MudChip>@context.Id</MudChip>
-            </MudTd>
-        <MudTd Style="white-space: nowrap;" DataLabel="Spare Name">@context.Name</MudTd>
-        <MudTd Style="white-space: nowrap;">
-            <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(@context.Id))">
-                @((GetShow(@context.Id)) ? "Hide" : "Show") Description
-            </MudButton>
-        </MudTd>      
-        <MudTd Style="white-space: nowrap;" DataLabel="Company">@context.Company</MudTd>
-        <MudTd Style="white-space: nowrap;" DataLabel="Price">Rs. @context.Price</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Spare Name">@context.Name</MudTd> 
+        <MudTd Style="white-space: nowrap;" DataLabel="Category">@GetCategoryNameById(context.CategoryId)</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Price">P @context.Price</MudTd>
         <MudTd DataLabel="Available Quantity">
             @if (@context.AvailableQuantity == 0)
             {
@@ -94,6 +85,10 @@
                 }                
                 <MudTooltip Text="@($"{Enum.GetName(StockAction.Deduct)} Stock")">
                     <MudIconButton Icon="@Icons.Material.Filled.Remove" Color="Color.Secondary" OnClick="() => ActOnStock(context, StockAction.Deduct)" />
+                </MudTooltip>
+                <MudTooltip Text="Show Details">
+                    <MudIconButton OnClick="@(() => ShowBtnPress(@context.Id))" Color="Color.Info" 
+                        Icon="@((GetShow(@context.Id)) ? @Icons.Material.Filled.ArrowDropUp : @Icons.Material.Filled.ArrowDropDown)"/>
                 </MudTooltip>
             </MudStack>
         </MudTd>
@@ -117,7 +112,7 @@
             <MudTextField Lines="6" @bind-Value="@context.Description" Required />
         </MudTd>
         <MudTd DataLabel="Company">
-            <MudTextField @bind-Value="@context.Company" Required/>
+            <MudTextField @bind-Value="@context.CategoryId" Required/>
         </MudTd>
         <MudTd DataLabel="Price">
             <MudTextField @bind-Value="@context.Price" Required />

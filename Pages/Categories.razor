@@ -1,0 +1,65 @@
+﻿@page "/category"
+@layout MainLayout
+
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Category> CategoryRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository;
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService;
+
+
+<MudTable Elevation="0"
+          Items="@Elements"
+          FixedHeader
+          FixedFooter
+          Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
+          Dense="@Dense"
+          Hover="@Hover"
+          ReadOnly="@ReadOnly"
+          CanCancelEdit="@CanCancelEdit"
+          Filter="new Func<Category,bool>(FilterFunc)"
+@bind-SelectedItem="SelectedItem"
+          SortLabel="Sort By"
+          CommitEditTooltip="Commit Edit"
+          OnPreviewEditClick="@(() => CategoryDescTracks[SelectedItem.Id] = false)"
+          RowsPerPage="25"
+          OnCommitEditClick="@(() => Snackbar.Add("Spare Updated!", Severity.Success))"
+          RowEditPreview="BackupItem"
+          RowEditCancel="ResetItemToOriginalValues"
+          IsEditRowSwitchingBlocked="@BlockSwitch"
+          ApplyButtonPosition="@ApplyButtonPosition"
+          EditButtonPosition="@EditButtonPosition"
+          EditTrigger="@EditTrigger">
+    <ToolBarContent>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add Product" DisableElevation="true" OnClick="AddDialog" />
+            <MudStack Row="true">
+                <ImportButton T="Category" ChangeParentState="StateHasChanged" />
+                <ExportButton T="Category" />
+            </MudStack>
+        }
+        <MudSpacer />
+        <MudStack Row="true">
+            <MudTextField @bind-Value="SearchString" Label="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Class="mt-0" Clearable="true"></MudTextField>
+            <MudTextField T="string" Class="mt-0" Label="Filter Approved Deduction" InputType="InputType.Month" Clearable="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.FilterAlt" ValueChanged="(a) => FilterByMonth(a)" />
+        </MudStack>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Category, object>(x=>x.Name)">ID</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Category, object>(x=>x.Quantity)">Quantity</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Category, object>(x=>x.CreatedAt)">Action</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Product">@context.Name</MudTd>
+
+        <MudTd>@Products.Count(p => p.CategoryId == context.Id)</MudTd>
+        <MudTd DataLabel="CreatedAt">@context.CreatedAt.ToString("MM/dd/yyyy")</MudTd>
+        
+    </RowTemplate>   
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 25, 50, 100, 200, 400, }" />
+    </PagerContent>
+</MudTable>

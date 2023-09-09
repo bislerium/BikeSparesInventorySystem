@@ -7,6 +7,7 @@ public partial class Index
         await _userRepository.LoadAsync();
         await _spareRepository.LoadAsync();
         await _activityLogRepository.LoadAsync();
+        await _categoryRepository.LoadAsync();
         try
         {
             await _authService.CheckSession();

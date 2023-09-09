@@ -14,6 +14,7 @@ public partial class Inventory
     private string SearchString;
     private Spare SelectedItem;
     private Spare ElementBeforeEdit;
+    
     private readonly TableApplyButtonPosition ApplyButtonPosition = TableApplyButtonPosition.End;
     private readonly TableEditButtonPosition EditButtonPosition = TableEditButtonPosition.End;
     private readonly TableEditTrigger EditTrigger = TableEditTrigger.RowClick;
@@ -26,7 +27,7 @@ public partial class Inventory
     protected sealed override void OnInitialized()
     {
 
-        SetAppBarTitle.Invoke("Manage Bike Spares");
+        SetAppBarTitle.Invoke("Manage Products");
         Elements = SpareRepository.GetAll();
         if (!AuthService.IsUserAdmin())
         {
@@ -36,7 +37,14 @@ public partial class Inventory
         {
             SpareDescTracks.Add(s.Id, false);
         }
+
     }
+
+    protected string GetCategoryNameById(Guid Id)
+    {
+        return CategoryRepository.Get(x => x.Id, Id).Name;
+    }
+
 
     private void BackupItem(object element)
     {
@@ -47,7 +55,7 @@ public partial class Inventory
     {
         ((Spare)element).Name = ElementBeforeEdit.Name;
         ((Spare)element).Description = ElementBeforeEdit.Description;
-        ((Spare)element).Company = ElementBeforeEdit.Company;
+        ((Spare)element).CategoryId = ElementBeforeEdit.CategoryId;
         ((Spare)element).Price = ElementBeforeEdit.Price;
         ((Spare)element).AvailableQuantity = ElementBeforeEdit.AvailableQuantity;
     }
@@ -58,7 +66,6 @@ public partial class Inventory
                || element.Id.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase)
                || element.Name.Contains(SearchString, StringComparison.OrdinalIgnoreCase)
                || element.Description.Contains(SearchString, StringComparison.OrdinalIgnoreCase)
-               || element.Company.Contains(SearchString, StringComparison.OrdinalIgnoreCase)
                || element.Price.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase)
                || element.AvailableQuantity.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase);
     }
@@ -85,7 +92,7 @@ public partial class Inventory
         {
             { "ChangeParentState", new Action(StateHasChanged) }
         };
-        await DialogService.ShowAsync<AddSpareDialog>("Add Spare", parameters);
+        await DialogService.ShowAsync<AddSpareDialog>("Add Product", parameters);
     }
 
     private async Task ActOnStock(Spare spare, StockAction action)
