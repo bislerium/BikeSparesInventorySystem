@@ -8,7 +8,7 @@ public class Spare : IModel, ICloneable
 
     public string Description { get; set; }
 
-    public string Company { get; set; }
+    public Guid CategoryId { get; set; }
 
     public decimal Price { get; set; }
 
@@ -21,7 +21,7 @@ public class Spare : IModel, ICloneable
             Id = Id,
             Name = Name,
             Description = Description,
-            Company = Company,
+            CategoryId = CategoryId,
             Price = Price,
             AvailableQuantity = AvailableQuantity
         };
