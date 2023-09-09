@@ -31,13 +31,29 @@ internal static class Seeder
         Faker<Spare> spareFaker = new Faker<Spare>()
             .RuleFor(x => x.Name, y => y.Commerce.ProductName())
             .RuleFor(x => x.Description, y => y.Commerce.ProductDescription())
-            .RuleFor(x => x.Company, y => y.Company.CompanyName())
             .RuleFor(x => x.Price, y => y.Finance.Amount(min: 400, max: 40000))
             .RuleFor(x => x.AvailableQuantity, y => y.Random.Int(min = 0, max = 3456));
         return spareFaker.GenerateBetween(min, max);
     }
+    public static ICollection<Category> GenerateCategories(ICollection<User> users, int min, int max)
+	{
+		DateTime endDate = DateTime.Now;
+		DateTime startDate = endDate.Subtract(TimeSpan.FromDays(365 * 2));
+		List<User> adminUsers = users.Where(x => x.Role == UserRole.Admin).ToList();
+        Faker<Category> CategoryFaker = new Faker<Category>()
+            .RuleFor(x => x.Name, y => y.Commerce.ProductName())
+            .RuleFor(x => x.Quantity, y => y.Random.Int(min: 100, max: 400))
+            .RuleFor(x => x.CreatedAt, y => y.Date.Between(startDate, endDate))
+            .FinishWith((x, y) =>
+            {
+                User user = x.PickRandom(users);
+                y.ActedBy = user.Id;
+            });
 
-    public static ICollection<ActivityLog> GenerateActivityLogs(ICollection<User> users, ICollection<Spare> spares, int min, int max)
+			return CategoryFaker.GenerateBetween(min, max);
+    }
+
+    public static ICollection<ActivityLog> GenerateActivityLogs(ICollection<User> users, ICollection<Spare> spares, ICollection<Category> categories, int min, int max)
     {
         DateTime endDate = DateTime.Now;
         DateTime startDate = endDate.Subtract(TimeSpan.FromDays(365 * 2));
