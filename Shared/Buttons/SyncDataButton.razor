@@ -2,6 +2,13 @@
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Category> CategoryRepository
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Sales> SalesRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Miners> MinersRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Orders> OrdersRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Purchases> PurchasesRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Expenses> ExpensesRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Wages> WagesRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Utilities> UtilitiesRepository
 @inject ISnackbar Snackbar
 
 <MudTooltip Text="Sync to Disk">

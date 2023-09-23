@@ -25,7 +25,7 @@
         CommitEditTooltip="Commit Edit"
         OnPreviewEditClick="@(() => SpareDescTracks[SelectedItem.Id] = false)"
         RowsPerPage="25"
-        OnCommitEditClick="@(() => Snackbar.Add("Spare Updated!", Severity.Success))"
+        OnCommitEditClick="@Update"
         RowEditPreview="BackupItem"
         RowEditCancel="ResetItemToOriginalValues"
         IsEditRowSwitchingBlocked="@BlockSwitch"
@@ -104,12 +104,8 @@
         }
     </ChildRowContent>
     <RowEditingTemplate>
-        <MudTd DataLabel="ID">@context.Id</MudTd>
         <MudTd DataLabel="Spare Name">
-            <MudTextField @bind-Value="@context.Name" Required />
-        </MudTd>
-        <MudTd DataLabel="Description">
-            <MudTextField Lines="6" @bind-Value="@context.Description" Required />
+            <MudTextField @bind-Value="@context.Name" />
         </MudTd>
         <MudTd DataLabel="Company">
             <MudTextField @bind-Value="@context.CategoryId" Required/>

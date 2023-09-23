@@ -40,6 +40,12 @@ public partial class Inventory
 
     }
 
+    protected async Task Update()
+    {
+        await SpareRepository.FlushAsync();
+        Snackbar.Add("Successfuly Updated!", Severity.Success);
+    }
+
     protected string GetCategoryNameById(Guid Id)
     {
         return CategoryRepository.Get(x => x.Id, Id).Name;

@@ -1,0 +1,122 @@
+﻿@page "/purchase"
+@layout MainLayout
+
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Purchases> PurchaseRepository;
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<MudTable 
+    Elevation="0" 
+    Items="@Elements" 
+    FixedHeader="@Fixed_header" 
+    FixedFooter="@Fixed_footer"
+    Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
+    Dense="@Dense"
+    Hover="@Hover"
+    ReadOnly="@ReadOnly"
+    CanCancelEdit="@CanCancelEdit"
+    Filter="new Func<Purchases,bool>(FilterFunc)"
+        SortLabel="Sort By" 
+        CommitEditTooltip="Commit Edit"
+        RowsPerPage="25"
+        OnCommitEditClick="@Update"
+        RowEditPreview="BackupItem"
+        RowEditCancel="ResetItemToOriginalValues"
+        IsEditRowSwitchingBlocked="@BlockSwitch"
+        ApplyButtonPosition="@ApplyButtonPosition"
+        EditButtonPosition="@EditButtonPosition"
+        EditTrigger="@EditTrigger">
+    <ToolBarContent>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add Purchase" DisableElevation="true" OnClick="ShowAddPurchase"/>
+            <MudStack Row="true">
+                <ImportButton T="Purchases" ChangeParentState="StateHasChanged" />
+                <ExportButton T="Purchases" />
+            </MudStack>
+        }
+        <MudSpacer />
+        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+    </ToolBarContent>
+    <ColGroup>
+        <col />
+        <col />
+        <col width="400" />
+        <col />
+        <col />
+        <col />
+        <col />
+    </ColGroup>
+    <HeaderContent>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Items)">Items</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Amount)">Amount</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Units)">Units</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Acquired)">Acquired Date</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd Style="white-space: nowrap;" DataLabel="Name">@context.Name</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Items">@context.Items</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Amount">Php @context.Amount</MudTd>
+        <MudTd DataLabel="Available Quantity">
+            @if (@context.Units == 0)
+            {
+                <MudText Color="Color.Secondary">Stockout</MudText>
+            }
+            else
+            {
+                @context.Units
+            }
+        </MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Acquired">@context.Acquired</MudTd>
+        <MudTd DataLabel="Action">
+            @* <MudStack Row="true">
+                @if (AuthService.IsUserAdmin())
+                {
+                    <MudTooltip Text="@($"{Enum.GetName(StockAction.Add)} Stock")">
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" OnClick="() => ActOnStock(context ,StockAction.Add)" />
+                    </MudTooltip>
+                }
+                <MudTooltip Text="@($"{Enum.GetName(StockAction.Deduct)} Stock")">
+                    <MudIconButton Icon="@Icons.Material.Filled.Remove" Color="Color.Secondary" OnClick="() => ActOnStock(context, StockAction.Deduct)" />
+                </MudTooltip>
+                <MudTooltip Text="Show Details">
+                    <MudIconButton OnClick="@(() => ShowBtnPress(@context.Id))" Color="Color.Info"
+                                   Icon="@((GetShow(@context.Id)) ? @Icons.Material.Filled.ArrowDropUp : @Icons.Material.Filled.ArrowDropDown)" />
+                </MudTooltip>
+            </MudStack> *@
+        </MudTd>
+    </RowTemplate>
+  @*   <ChildRowContent>
+        @if (GetShow(@context.Id))
+        {
+            <td colspan="6">
+                <MudContainer MaxWidth="MaxWidth.Medium">
+                    <MudText Style="padding: 40px">@context.Description</MudText>
+                </MudContainer>
+            </td>
+        }
+    </ChildRowContent> *@
+    <RowEditingTemplate>
+        <MudTd DataLabel="Name">
+            <MudTextField @bind-Value="@context.Name" />
+        </MudTd>
+        <MudTd DataLabel="Items">
+            <MudTextField @bind-Value="@context.Items" Required />
+         </MudTd>
+         <MudTd DataLabel="Price">
+             <MudTextField @bind-Value="@context.Amount" Required />
+         </MudTd>
+         <MudTd DataLabel="Available Quantity">
+             <MudTextField @bind-Value="@context.Units" Required />
+         </MudTd>
+         <MudTd DataLabel="Acquired">
+             <MudTextField @bind-Value="@context.Acquired" Required />
+         </MudTd>
+     </RowEditingTemplate>
+     <PagerContent>
+         <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100, 200, 300,}" />
+     </PagerContent>
+</MudTable>

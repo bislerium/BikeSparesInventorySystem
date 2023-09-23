@@ -3,7 +3,7 @@
 @inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
 
 
-<MudAppBar Color="Color.Transparent" Elevation="0">
+<MudAppBar Color="Color.Dark" Elevation="0">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Primary" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
     <MudText  Style="font-weight: bold; font-size: 16px" Color="Color.Primary">@_title</MudText>
     <MudSpacer />
@@ -18,9 +18,11 @@
         <LogoutButton />
     </MudStack>  
 </MudAppBar>
-<MudDrawer @bind-Open="@_drawerOpen">
-    <NavMenu/>
-</MudDrawer>
+<MudDrawerContainer>
+    <MudDrawer @bind-Open="@_drawerOpen" Fixed="false" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true" PreserveOpenState >
+        <NavMenu />
+    </MudDrawer>
+</MudDrawerContainer>
 <MudMainContent>
     <CascadingValue Value="SetAppBarTitle">
         @Body

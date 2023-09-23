@@ -1,0 +1,29 @@
+﻿@inject BikeSparesInventorySystem.Data.Repositories.Repository<Purchases> PurchaseRepository
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="Name" Placeholder="Purchase name" Label="Purchase Name" Required />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="Unit" Placeholder="No. of Units" Label="No. of Units" Required />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudTextField @bind-Value="Items" Placeholder="Items" Label="Items" Required />
+                </MudItem>
+                <MudItem xs="6">
+                     <MudNumericField @bind-Value="Amount" Placeholder="Amount" Label="Amount" Adornment="Adornment.Start" AdornmentText="Php" Required />
+                </MudItem>
+                <MudItem xs="6">
+                    <MudDatePicker @bind-Date="Acquired" Placeholder="Purchase Date" Label="Purchase Date" PickerVariant="PickerVariant.Dialog" Required Elevation="0" Orientation="Orientation.Landscape"/>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel" >Cancel</MudButton>
+        <MudButton OnClick="AddPurchase" Variant="Variant.Filled" Color="Color.Primary" >Add Purchase</MudButton>
+    </DialogActions>
+</MudDialog>

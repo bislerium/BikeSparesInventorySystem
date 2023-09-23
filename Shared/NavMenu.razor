@@ -1,10 +1,9 @@
 ﻿@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
 
-
 <MudDrawerHeader Class="my-4">
 	<MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
 		<MudIcon Icon="@Icons.Material.Filled.Shop" Color="Color.Primary" Size="Size.Large" />
-		<MudText Color="Color.Primary" Typo="Typo.h5" Style="font-weight: bold">Bikare</MudText>
+		<MudText Color="Color.Primary" Typo="Typo.h5" Style="font-weight: bold">JAS</MudText>
 	</MudStack>
 </MudDrawerHeader>
 <MudNavMenu Bordered="true" Color="Color.Primary" Margin="Margin.Normal">		
@@ -12,10 +11,14 @@
 	{
 		<MudNavLink Href="@Dashboard.Route" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
 	}
-	<MudExpansionPanel Icon="@Icons.Material.Filled.ArrowDropDown" Text="Inventory">
-		<MudNavLink Href="@Inventory.Route">Products</MudNavLink>
-		<MudNavLink Href="@Categories.Route">Product Category</MudNavLink>
-	</MudExpansionPanel>
+	<MudTreeView T="string" ExpandOnClick="true" Width="10">
+		<MudTreeViewItem Value="@("Inventory")">
+			<MudNavLink Href="@Inventory.Route">Products</MudNavLink>
+			<MudNavLink Href="@Categories.Route">Product Category</MudNavLink>
+		</MudTreeViewItem>
+	</MudTreeView>
+	<MudNavLink Href="@Miner.Route" Icon="@Icons.Material.Filled.PersonAdd">Miners</MudNavLink>
+	<MudNavLink Href="@Purchase.Route" Icon="@Icons.Material.Filled.ShoppingCart">Purchases</MudNavLink>
 	<MudNavLink Href="@ActivityLogs.Route" Icon="@Icons.Material.Filled.Approval">Activity Logs</MudNavLink>
 	@if (AuthService.IsUserAdmin())
 	{

@@ -8,6 +8,13 @@ public partial class Index
         await _spareRepository.LoadAsync();
         await _activityLogRepository.LoadAsync();
         await _categoryRepository.LoadAsync();
+        await _ordersRepository.LoadAsync();
+        await _wagesRepository.LoadAsync();
+        await _minersRepository.LoadAsync();
+        await _purchasesRepository.LoadAsync();
+        await _utilitiesRepository.LoadAsync();
+        await _expensesRepository.LoadAsync();
+        await _salesRepository.LoadAsync();
         try
         {
             await _authService.CheckSession();

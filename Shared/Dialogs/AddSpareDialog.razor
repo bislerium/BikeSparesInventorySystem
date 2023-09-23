@@ -8,12 +8,12 @@
         <MudForm @ref="form">
             <MudTextField T="string" @bind-Value="@Name" Label="Spare Name" Required="true" RequiredError="Spare name is required!" />
             <MudTextField T="string" @bind-Value="@Description" Label="Description" Lines="5" />
-            <MudSelect @bind-Value="@CategoryId" Label="Category" Required="true" RequiredError="Category is required!">
+            <MudSelect @bind-Value="@CategoryId" Placeholder="Input Category" Label="Category" Required="true" RequiredError="Category is required!">
                 @foreach ( var category in Elements){
                 <MudSelectItem Value="category.Id">@category.Name</MudSelectItem>
                 }
             </MudSelect>
-            <MudTextField T="Decimal" @bind-Value="@Price" Label="Price" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="P" Validation="@(new RangeAttribute(1, 10000000) { ErrorMessage = "Price must be between 1 and 10000000"})" />
+            <MudTextField OnKeyPress="AddSpare" T="Decimal" @bind-Value="@Price" Label="Price" Variant="Variant.Text" Adornment="Adornment.Start" AdornmentText="P" Validation="@(new RangeAttribute(1, 10000000) { ErrorMessage = "Price must be between 1 and 10000000"})" />
         </MudForm>
     </DialogContent>
     <DialogActions>
