@@ -25,7 +25,7 @@ public partial class ChangePassword
             {
                 _authService.ChangePassword(CurrentPassword, NewPassword);
                 SnackBar.Add("The password has been changed successfully.", Severity.Success);
-                Form.Reset();
+                Form.ResetAsync();
             }
         }
         catch (Exception e)

@@ -99,28 +99,28 @@ public partial class Dashboard
 
         BarDataset ApprovedDeductionQuantitySet = new()
         {
-            Data = new List<decimal>(),
+            Data = new List<decimal?>(),
             BackgroundColor = new() { "rgb(0, 163, 68)" },
             Label = "Approved Deduction (Taken Out)",
         };
 
         BarDataset AvailableQuantitySet = new()
         {
-            Data = new List<decimal>(),
+            Data = new List<decimal?>(),
             BackgroundColor = new() { "rgb(111, 83, 255)" },
             Label = "Available"
         };
 
         BarDataset PendingDeductionQuantitySet = new()
         {
-            Data = new List<decimal>(),
+            Data = new List<decimal?>(),
             BackgroundColor = new() { "rgb(252, 152, 0)" },
             Label = "Pending Deduction (On Hold)"
         };
 
         BarDataset DisapprovedDeductionQuantitySet = new()
         {
-            Data = new List<decimal>(),
+            Data = new List<decimal?>(),
             BackgroundColor = new() { "rgb(255, 45, 13)" },
             Label = "Disapproved Deduction",
         };
