@@ -6,15 +6,18 @@
 
 @inject ISnackbar Snackbar
 
-<MudContainer Fixed>
-    <MudPaper Class="mud-theme-default" Style="color:rgba(39,39,47,1">
+<MudContainer>
+    <MudPaper Class="mud-theme-default my-2" Style="color:rgba(39,39,47,1)">
         <MudForm @ref="form">
             <MudGrid>
                 <MudItem xs="6">
                     <MudTextField T="string" @bind-Value="MinersName" Variant="Variant.Outlined" Placeholder="Enter Miner's Name" Label="Miner" Validation="true" Required RequiredError="Name is required" />
                     </MudItem>
-                    <MudItem xs="4">
+                    <MudItem xs="2">
                         <MudTextField T="string" @bind-Value="CodeName" Variant="Variant.Outlined" Label="Code Name" Validation="true" />
+                    </MudItem>
+                    <MudItem xs="2">
+                        <MudNumericField  @bind-Value="Price" Variant="Variant.Outlined" Label="Price" AdornmentText="Php" Adornment="Adornment.Start" Validation="true" />
                     </MudItem>
                     <MudItem xs="2" Class="d-flex justify-content-center align-content-center align-items-center">
                         <MudButton OnClick="Submit" Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small">Add</MudButton>
@@ -26,7 +29,6 @@
         
 <MudTable 
     Items="@Miners"
-    Elevation="0" 
     FixedHeader="@Fixed_header" 
     FixedFooter="@Fixed_footer"
     Height="@(Fixed_header || Fixed_footer ? "calc(90vh - 64px - 64px - 64px)" : "")"
@@ -75,33 +77,11 @@
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Miners, object>(x=>x.Id)">Name</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Miners, object>(x=>x.Code)">Code</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Miners, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
-        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Miners, object>(x=>x.Status)">Status</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd Style="white-space: nowrap;" DataLabel="Spare Name">@context.Name</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Category">@context.Code</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Price">P @context.Price</MudTd>
-        <MudTd Style="white-space: nowrap;" DataLabel="Action">
-
-            @if (context.Status == "Cancelled")
-            {
-                <MudTooltip Text="Delivered">
-                    <MudChip CheckedIcon="@Icons.Material.Filled.Cancel" Variant="Variant.Outlined" Color="Color.Error">Cancelled</MudChip>
-                </MudTooltip>
-            }
-            else if (context.Status == "Delivered")
-            {
-                <MudTooltip Text="Delivered">
-                    <MudChip CloseIcon="@Icons.Material.Filled.Check" Variant="Variant.Outlined" Color="Color.Success" c>Delivered</MudChip>
-                </MudTooltip>
-            }
-            else
-            {
-                <MudTooltip Text="Pending">
-                    <MudChip Color="Color.Info" Variant="Variant.Outlined">Pending</MudChip>
-                </MudTooltip>
-            }
-        </MudTd>
     </RowTemplate>
     <RowEditingTemplate>
         <MudTd DataLabel="Spare Name">
@@ -112,13 +92,6 @@
         </MudTd>
         <MudTd DataLabel="Price">
             <MudTextField @bind-Value="context.Price"/>
-        </MudTd>
-        <MudTd DataLabel="Action">
-            <MudSelect @bind-Value="context.Status">
-                <MudSelectItem Value="@("Pending")"/>
-                <MudSelectItem Value="@("Delivered")"/>
-                <MudSelectItem Value="@("Cancelled")"/>
-            </MudSelect>
         </MudTd>
     </RowEditingTemplate>
     <PagerContent>

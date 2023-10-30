@@ -10,6 +10,7 @@ public partial class AddPurchaseDialog
     private MudForm form;
 
     private string Name;
+    private string Vendor;
     private int Unit;
     private decimal Amount;
     private int Items;
@@ -26,14 +27,23 @@ public partial class AddPurchaseDialog
                 Purchases purchases = new()
                 {
                     Name = Name,
+                    Vendor = Vendor,
                     Units = Unit,
                     Amount = Amount,
                     Items = Items,
                     Acquired = Acquired
                 };
 
+                Sales sales = new()
+                {
+                    Purchases = Amount,
+                    PurchaseDate = DateTime.Now,
+                };
+
                 PurchaseRepository.Add(purchases);
                 await PurchaseRepository.FlushAsync();
+                SalesRepository.Add(sales);
+                await SalesRepository.FlushAsync();
                 ChangeParentState.Invoke();
                 IsSaving = true;
 

@@ -1,24 +1,27 @@
 ﻿@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
 
-<MudDrawerHeader Class="my-4">
+<MudDrawerHeader Class="my-4 position-sticky">
 	<MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
 		<MudIcon Icon="@Icons.Material.Filled.Shop" Color="Color.Primary" Size="Size.Large" />
 		<MudText Color="Color.Primary" Typo="Typo.h5" Style="font-weight: bold">JAS</MudText>
 	</MudStack>
 </MudDrawerHeader>
-<MudNavMenu Bordered="true" Color="Color.Primary" Margin="Margin.Normal">		
+<MudNavMenu Bordered="true" Color="Color.Primary" Margin="Margin.Normal" Style="scrollbar-width: 1px; scrollbar-color: inherit; scrollbar-base-color:transparent">
 	@if (AuthService.IsUserAdmin())
 	{
 		<MudNavLink Href="@Dashboard.Route" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
 	}
-	<MudTreeView T="string" ExpandOnClick="true" Width="10">
-		<MudTreeViewItem Value="@("Inventory")">
+	<MudNavGroup Icon="@Icons.Material.Filled.Inventory" Title="Inventory" Class="overflow-hidden">
 			<MudNavLink Href="@Inventory.Route">Products</MudNavLink>
 			<MudNavLink Href="@Categories.Route">Product Category</MudNavLink>
-		</MudTreeViewItem>
-	</MudTreeView>
-	<MudNavLink Href="@Miner.Route" Icon="@Icons.Material.Filled.PersonAdd">Miners</MudNavLink>
-	<MudNavLink Href="@Purchase.Route" Icon="@Icons.Material.Filled.ShoppingCart">Purchases</MudNavLink>
+	</MudNavGroup>
+	<MudNavGroup Icon="@Icons.Material.Filled.EventAvailable" Title="Sales" Class="overflow-hidden">
+		<MudNavLink Href="@Miner.Route">Today's Order</MudNavLink>
+		<MudNavLink Href="@Order.Route">Manage Orders</MudNavLink>
+		<MudNavLink Href="@Purchase.Route">Purchases</MudNavLink>
+		<MudNavLink Href="@GetSalesSummary.Route">Sales</MudNavLink>
+	</MudNavGroup>
+	<MudNavLink Href="@GetExpenseFixedCost.Route" Icon="@Icons.Material.Filled.Payments">Expenses</MudNavLink>
 	<MudNavLink Href="@ActivityLogs.Route" Icon="@Icons.Material.Filled.Approval">Activity Logs</MudNavLink>
 	@if (AuthService.IsUserAdmin())
 	{

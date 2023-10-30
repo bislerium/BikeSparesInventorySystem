@@ -19,12 +19,12 @@
     </MudStack>  
 </MudAppBar>
 <MudDrawerContainer>
-    <MudDrawer @bind-Open="@_drawerOpen" Fixed="false" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="true" PreserveOpenState >
+    <MudDrawer @bind-Open="@_drawerOpen" Fixed="false" Elevation="1" Variant="@DrawerVariant.Responsive" OpenMiniOnHover="true" PreserveOpenState Class="overflow-hidden" Height="100vh" >
         <NavMenu />
     </MudDrawer>
+    <MudMainContent>
+        <CascadingValue Value="SetAppBarTitle">
+            @Body
+        </CascadingValue>
+    </MudMainContent>
 </MudDrawerContainer>
-<MudMainContent>
-    <CascadingValue Value="SetAppBarTitle">
-        @Body
-    </CascadingValue>
-</MudMainContent>

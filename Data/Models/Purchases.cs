@@ -6,6 +6,7 @@ public class Purchases : IModel, ICloneable
     public string Name { get; set; }
     public int Units { get; set; }
     public int Items { get; set; }
+    public string Vendor { get; set; }
     public decimal Amount { get; set; }
     public DateTime ? Acquired { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
@@ -16,6 +17,7 @@ public class Purchases : IModel, ICloneable
         {
             Id = Id,
             Name = Name,
+            Vendor = Vendor,
             Units = Units,
             Items = Items,
             Amount = Amount,

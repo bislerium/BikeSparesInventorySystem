@@ -3,17 +3,38 @@
 public class Sales : IModel, ICloneable
 {
     public Guid Id { get; set; } = Guid.NewGuid();
-    public Guid OrderId { get; set; }
-    public string Name { get; set; }
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public Guid PurchaseId { get; set; }
+    public Guid MinerId { get; set; }
+    public decimal GrossSale { get; set; }
+    public decimal NetSale { get; set; }
+    public decimal Tithes { get; set; }
+    public decimal Charity { get; set; }
+    public decimal Expenses { get; set; }
+    public decimal Car { get; set; }
+    public decimal Profit { get; set; }
+    public decimal SalesEntry { get; set; }
+    public decimal Purchases { get; set; }
+    public DateTime MinersDate { get; set; }
+    public DateTime PurchaseDate { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     public object Clone()
     {
         return new Sales()
         {
             Id = Id,
-            OrderId = OrderId,
-            Name = Name,
+            PurchaseId = PurchaseId,
+            MinerId = MinerId,
+            GrossSale = GrossSale,
+            NetSale = NetSale,
+            Tithes = Tithes,
+            Charity = Charity,
+            Expenses = Expenses,
+            Car = Car,
+            Profit = Profit,
+            SalesEntry = SalesEntry,
+            Purchases = Purchases,
+            MinersDate = MinersDate,
             CreatedAt = CreatedAt,
         };
     }

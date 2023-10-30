@@ -1,0 +1,34 @@
+﻿@inject BikeSparesInventorySystem.Data.Repositories.Repository<Expenses> ExpensesRepository
+
+<MudDialog>
+    <DialogContent>
+        <MudGrid>
+            <MudForm @ref="mudForm">
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="@name" T="string" Placeholder="Category Name" Label="Category Name" Required />
+                 </MudItem>
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="@directCost" 
+                            Placeholder="Total Expense" 
+                            Label="Total Expense" 
+                            Error="@errorStatus"
+                            ErrorText="@error" 
+                            Variant="Variant.Text" 
+                            InputType="InputType.Number" 
+                            Required />
+                 </MudItem>
+                <MudItem xs="12">
+                    <MudDatePicker @bind-Date="@dateOfExpense" ClosingDelay="1" Orientation="Orientation.Portrait" DisableToolbar="true" PickerVariant="PickerVariant.Dialog" AnchorOrigin="Origin.BottomCenter" Placeholder="Date Name" Label="Date" Required />
+                 </MudItem>
+             </MudForm>
+         </MudGrid>
+     </DialogContent>
+     <DialogActions>
+         <MudButton OnClick="Cancel">Cancel</MudButton>
+         <MudButton OnClick="AddExpense"
+                    Variant="Variant.Filled"
+                    Color="Color.Primary">
+             Add Category
+         </MudButton>
+     </DialogActions>
+ </MudDialog>

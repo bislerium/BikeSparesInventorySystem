@@ -1,4 +1,5 @@
 ﻿@inject BikeSparesInventorySystem.Data.Repositories.Repository<Purchases> PurchaseRepository
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Sales> SalesRepository
 
 <MudDialog>
     <DialogContent>
@@ -12,6 +13,9 @@
                 </MudItem>
                 <MudItem xs="6">
                     <MudTextField @bind-Value="Items" Placeholder="Items" Label="Items" Required />
+                </MudItem>
+                <MudItem xs="12">
+                     <MudTextField @bind-Value="Vendor" Placeholder="Vendor" Label="Vendor" />
                 </MudItem>
                 <MudItem xs="6">
                      <MudNumericField @bind-Value="Amount" Placeholder="Amount" Label="Amount" Adornment="Adornment.Start" AdornmentText="Php" Required />

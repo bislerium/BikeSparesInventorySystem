@@ -63,6 +63,10 @@ public partial class Miner
             await MinersRepository.FlushAsync();
             IsSaving = false;
         }
+
+        MinersName = "";
+        CodeName = "";
+        Price = 0;
     }
 
     protected async Task Update()

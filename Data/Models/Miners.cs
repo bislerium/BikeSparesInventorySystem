@@ -9,6 +9,7 @@ public class Miners : IModel, ICloneable
     public string Status { get; set; }
     public Guid ActedBy { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime DateUpdated { get; set; } = DateTime.Now;
 
     public object Clone()
     {
@@ -20,6 +21,7 @@ public class Miners : IModel, ICloneable
             Price = Price,
             ActedBy = ActedBy,
             CreatedAt = CreatedAt,
+            DateUpdated = DateUpdated
         };
     }
 

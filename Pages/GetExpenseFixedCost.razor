@@ -1,0 +1,70 @@
+﻿@page "/expenses"
+@layout MainLayout
+
+@inject BikeSparesInventorySystem.Data.Repositories.Repository<Expenses> ExpensesRepository;
+@inject BikeSparesInventorySystem.Data.Services.AuthService AuthService;
+
+<MudTable Items="@_expenses"
+          FixedHeader="true"
+          FixedFooter="true"
+          Height="@(true || true ? "calc(90vh - 64px - 64px - 64px)" : "")"
+          Dense="true"
+          Hover="true"
+          ReadOnly="true"
+          HorizontalScrollbar="true"
+          SortLabel="Sort By"
+          CommitEditTooltip="Commit Edit"
+          RowsPerPage="25"
+          ApplyButtonPosition="@ApplyButtonPosition"
+          EditButtonPosition="@EditButtonPosition"
+          EditTrigger="@EditTrigger">
+    <ToolBarContent>
+
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudStack Row="true">
+                <ImportButton T="Expenses" ChangeParentState="StateHasChanged" />
+                <ExportButton T="Expenses" />
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@ShowAddExpenses">Add Expenses</MudButton>
+            </MudStack>
+        }
+        <MudSpacer />
+
+        <MudStack Row="true">
+            <MudTextField @bind-Value="SearchString" Label="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Class="mt-0" Clearable="true"></MudTextField>
+        </MudStack>
+    </ToolBarContent>
+    <ColGroup>
+        <col />
+        <col />
+        <col width="400" />
+        <col />
+        <col />
+        <col />
+        <col />
+    </ColGroup>
+    <HeaderContent>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Expenses, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Expenses, object>(x=>x.DirectCostId)">Total Expenses</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Expenses, object>(x=>x.DateOfExpense)">Date</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd Style="white-space: nowrap;" DataLabel="Name">@context.Name</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Expenses">@context.DirectCostId</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Date">@context.DateOfExpense?.ToString("MMM dd, yyyy")</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="Name">
+            <MudTextField @bind-Value="context.Name" />
+        </MudTd>
+        <MudTd DataLabel="Category">
+            <MudTextField @bind-Value="context.DirectCostId" />
+        </MudTd>
+        <MudTd DataLabel="Price">
+            <MudTextField @bind-Value="context.DateOfExpense" />
+        </MudTd>
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100, 200, 300,}" />
+    </PagerContent>
+</MudTable>

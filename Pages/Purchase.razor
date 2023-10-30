@@ -8,7 +8,6 @@
 @inject IDialogService DialogService
 
 <MudTable 
-    Elevation="0" 
     Items="@Elements" 
     FixedHeader="@Fixed_header" 
     FixedFooter="@Fixed_footer"
@@ -53,6 +52,7 @@
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Items)">Items</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Amount)">Amount</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Vendor)">Vendor</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Units)">Units</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Purchases, object>(x=>x.Acquired)">Acquired Date</MudTableSortLabel></MudTh>
     </HeaderContent>
@@ -60,6 +60,7 @@
         <MudTd Style="white-space: nowrap;" DataLabel="Name">@context.Name</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Items">@context.Items</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Amount">Php @context.Amount</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Amount">@(context.Vendor == string.Empty ? "<p class='text-secondary'>No Vendor</p>" : context.Vendor)</MudTd>
         <MudTd DataLabel="Available Quantity">
             @if (@context.Units == 0)
             {
@@ -108,6 +109,9 @@
          </MudTd>
          <MudTd DataLabel="Price">
              <MudTextField @bind-Value="@context.Amount" Required />
+         </MudTd>
+         <MudTd DataLabel="Vendor">
+             <MudTextField @bind-Value="@context.Vendor" Required />
          </MudTd>
          <MudTd DataLabel="Available Quantity">
              <MudTextField @bind-Value="@context.Units" Required />
