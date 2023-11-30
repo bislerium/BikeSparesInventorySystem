@@ -6,7 +6,7 @@ internal class AuthService
 
     private readonly SessionService _sessionService;
 
-    public User CurrentUser { get; private set; }
+    public User? CurrentUser { get; private set; }
 
     public AuthService(Repository<User> userRepository, SessionService sessionService)
     {
@@ -14,7 +14,7 @@ internal class AuthService
         _sessionService = sessionService;
     }
 
-    public async Task<string> SeedInitialUser()
+    public async Task<string?> SeedInitialUser()
     {
         if (_userRepository.GetAll().Count != 0)
         {
@@ -63,7 +63,8 @@ internal class AuthService
     public async Task<bool> Login(string userName, string password, bool stayLoggedIn)
     {
         CurrentUser = _userRepository.Get(x => x.UserName, userName);
-        if (CurrentUser == null)
+
+        if (CurrentUser is null)
         {
             return false;
         }
@@ -101,14 +102,14 @@ internal class AuthService
 
     public async Task CheckSession()
     {
-        Session session = await _sessionService.LoadSession();
-        if (session == null)
+        Session? session = await _sessionService.LoadSession();
+        if (session is null)
         {
             return;
         }
 
-        User user = _userRepository.Get(x => x.Id, session.UserId);
-        if (user == null)
+        User? user = _userRepository.Get(x => x.Id, session.UserId);
+        if (user is null)
         {
             return;
         }

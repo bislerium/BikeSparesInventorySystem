@@ -2,6 +2,8 @@
 
 public partial class Index
 {
+    public const string Route = "/";
+
     protected sealed override async Task OnInitializedAsync()
     {
         await _userRepository.LoadAsync();

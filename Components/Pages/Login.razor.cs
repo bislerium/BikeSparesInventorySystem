@@ -4,18 +4,18 @@ public partial class Login
 {
     public const string Route = "/login";
 
-    private MudForm Form;
-    private string Username { get; set; }
-    private string Password { get; set; }
-    private bool StayLoggedIn { get; set; }
+    private MudForm _form;
+    private string _username;
+    private string _password;
+    private bool _stayLoggedIn;
 
     protected sealed override async Task OnInitializedAsync()
     {
-        string username = await _authService.SeedInitialUser();
+        string? username = await _authService.SeedInitialUser();
         if (username is not null)
         {
-            Username = username;
-            Password = username;
+            _username = username;
+            _password = username;
 
             SnackBar.Add("Initial user created!", Severity.Info);
         }
@@ -24,23 +24,21 @@ public partial class Login
 
     private void SetSeedUser(string username)
     {
-        Username = username;
-        Password = username;
+        _username = username;
+        _password = username;
         StateHasChanged();
     }
 
     private async Task LoginHandler()
     {
-        string _errorMessage;
+        string? _errorMessage = null;
         try
         {
-            _errorMessage = null;
+            await _form.Validate();
 
-            await Form.Validate();
-
-            if (Form.IsValid)
+            if (_form.IsValid)
             {
-                if (await _authService.Login(Username, Password, StayLoggedIn))
+                if (await _authService.Login(_username, _password, _stayLoggedIn))
                 {
                     _navigationManager.NavigateTo(RoleRouter.Route);
                     return;
@@ -58,23 +56,23 @@ public partial class Login
         SnackBar.Add(_errorMessage, Severity.Error);
     }
 
-    private bool isShow;
-    private InputType PasswordInput = InputType.Password;
-    private string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+    private bool _isShow;
+    private InputType _passwordInput = InputType.Password;
+    private string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
 
     private void ButtonTestclick()
     {
-        if (isShow)
+        if (_isShow)
         {
-            isShow = false;
-            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
-            PasswordInput = InputType.Password;
+            _isShow = false;
+            _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            _passwordInput = InputType.Password;
         }
         else
         {
-            isShow = true;
-            PasswordInputIcon = Icons.Material.Filled.Visibility;
-            PasswordInput = InputType.Text;
+            _isShow = true;
+            _passwordInputIcon = Icons.Material.Filled.Visibility;
+            _passwordInput = InputType.Text;
         }
     }
 }

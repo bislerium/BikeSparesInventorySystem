@@ -40,7 +40,7 @@ public partial class Inventory
 
     private void BackupItem(object element)
     {
-        ElementBeforeEdit = ((Spare)element).Clone() as Spare;
+        ElementBeforeEdit = (Spare)((Spare)element).Clone();
     }
 
     private void ResetItemToOriginalValues(object element)

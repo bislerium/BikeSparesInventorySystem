@@ -23,7 +23,15 @@ public partial class ImportButton<T> where T : IModel
                 throw new Exception("Supports JSON, CSV or Excel(.xlsx) File Only!");
             }
             FileProvider<T> provider = Explorer.GetFileProvider<T>(extension);
-            await ServiceProvider.GetService<Repository<T>>().ImportAsync(provider, file.OpenReadStream(Explorer.MAX_ALLOWED_IMPORT_SIZE), Append);
+            Repository<T>? repo = ServiceProvider.GetService<Repository<T>>();
+
+            if (repo is null)
+            {
+                Snackbar.Add($"Something went wrong!", Severity.Error);
+                return;
+            }
+
+            await repo.ImportAsync(provider, file.OpenReadStream(Explorer.MAX_ALLOWED_IMPORT_SIZE), Append);
             ChangeParentState.Invoke();
 
             Snackbar.Add($"Imported {file.Name} File!", Severity.Success);

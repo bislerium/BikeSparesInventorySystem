@@ -29,7 +29,7 @@ public partial class Users
 
     private void BackupItem(object element)
     {
-        ElementBeforeEdit = ((User)element).Clone() as User;
+        ElementBeforeEdit = (User)((User)element).Clone();
     }
 
     private string GetUserName(Guid id)

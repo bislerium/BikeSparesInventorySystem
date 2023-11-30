@@ -32,7 +32,7 @@ public partial class StockActionDialog
 
         if (Form.IsValid)
         {
-            User user = AuthService.CurrentUser;
+            User? user = AuthService.CurrentUser;
             ActivityLog ac = new()
             {
                 SpareID = Spare.Id,
@@ -59,7 +59,7 @@ public partial class StockActionDialog
             ActivityLogRepository.Add(ac);
             ChangeParentState.Invoke();
 
-            Snackbar.Add($"Spare {Spare.Name} stock's {Enum.GetName(StockAction).ToLower()}ed by {Quantity}!", Severity.Info);
+            Snackbar.Add($"Spare {Spare.Name} stock's {Enum.GetName(StockAction)!.ToLower()}ed by {Quantity}!", Severity.Info);
             MudDialog.Close();
         }
     }

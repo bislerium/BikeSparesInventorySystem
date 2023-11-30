@@ -15,7 +15,7 @@ internal interface IRepository<TSource> where TSource : IModel
     //     The System.Collections.Generic.ICollection`1 is read-only.
     void Add(TSource item);
 
-    TSource Get<TKey>(Func<TSource, TKey> keySelector, TKey byValue);
+    TSource? Get<TKey>(Func<TSource, TKey> keySelector, TKey byValue);
 
     ICollection<TSource> GetAll();
 

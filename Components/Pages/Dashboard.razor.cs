@@ -128,7 +128,7 @@ public partial class Dashboard
 
         foreach (IGrouping<Guid, ActivityLog> group in ActivityLogRepository.GetAll().GroupBy(x => x.SpareID).ToList())
         {
-            Spare spare = SpareRepository.Get(x => x.Id, group.Key);
+            Spare? spare = SpareRepository.Get(x => x.Id, group.Key);
             if (spare is null)
             {
                 continue;

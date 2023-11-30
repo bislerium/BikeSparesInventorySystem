@@ -1,11 +1,20 @@
-﻿namespace BikeSparesInventorySystem.Components.Buttons;
+﻿using NPOI.SS.Formula.Functions;
+
+namespace BikeSparesInventorySystem.Components.Buttons;
 
 public partial class ExportButton<T> where T : IModel
 {
 
     public async Task ExportFile(FileExtension extension)
     {
-        Repository<T> repo = ServiceProvider.GetService<Repository<T>>();
+        Repository<T>? repo = ServiceProvider.GetService<Repository<T>>();
+
+        if (repo is null)
+        {
+            Snackbar.Add($"Something went wrong!", Severity.Error);
+            return;
+        }
+
         if (repo.Count == 0)
         {
             Snackbar.Add($"Cannot Export Empty Data!", Severity.Error);

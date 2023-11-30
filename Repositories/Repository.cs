@@ -28,7 +28,7 @@ internal class Repository<TSource> : RepositoryIO<TSource>, IRepository<TSource>
         return Get(keySelector, byValue) is not null;
     }
 
-    public virtual TSource Get<TKey>(Func<TSource, TKey> keySelector, TKey byValue)
+    public virtual TSource? Get<TKey>(Func<TSource, TKey> keySelector, TKey byValue)
     {
         return _sourceData.FirstOrDefault(a => keySelector.Invoke(a).Equals(byValue));
     }

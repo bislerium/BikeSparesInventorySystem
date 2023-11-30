@@ -2,9 +2,9 @@
 
 internal class SessionService
 {
-    internal string SessionPath { get; set; } = Explorer.GetDefaultFilePath<Session>(Enums.FileExtension.json);
+    internal string SessionPath { get; set; } = Explorer.GetDefaultFilePath<Session>(FileExtension.json);
 
-    internal async Task<Session> LoadSession()
+    internal async Task<Session?> LoadSession()
     {
         try
         {

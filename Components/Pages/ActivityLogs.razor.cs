@@ -30,16 +30,16 @@ public partial class ActivityLogs
 
     private Tuple<bool, string> GetUser(Guid id)
     {
-        User user = UserRepository.Get(x => x.Id, id);
-        return new Tuple<bool, string>(user?.Role == UserRole.Admin, user?.UserName);
+        User? user = UserRepository.Get(x => x.Id, id);
+        return new Tuple<bool, string>(user?.Role == UserRole.Admin, user.UserName);
     }
 
-    private string GetSpareName(Guid id)
+    private string? GetSpareName(Guid id)
     {
         return SpareRepository.Get(x => x.Id, id)?.Name;
     }
 
-    private string GetUserName(Guid id)
+    private string? GetUserName(Guid id)
     {
         return UserRepository.Get(x => x.Id, id)?.UserName;
     }
@@ -61,7 +61,7 @@ public partial class ActivityLogs
             return true;
         }
 
-        string spare = GetSpareName(element.SpareID);
+        string? spare = GetSpareName(element.SpareID);
         if (spare is not null && spare.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
@@ -82,7 +82,7 @@ public partial class ActivityLogs
             return true;
         }
 
-        string takenByUser = GetUserName(element.ActedBy);
+        string? takenByUser = GetUserName(element.ActedBy);
         if (takenByUser is not null && takenByUser.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
         {
             return true;
@@ -98,7 +98,7 @@ public partial class ActivityLogs
             return true;
         }
 
-        string approvedByUser = GetUserName(element.Approver);
+        string? approvedByUser = GetUserName(element.Approver);
         return (approvedByUser is not null && approvedByUser.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
                || element.ActionOn.ToString().Contains(SearchString, StringComparison.OrdinalIgnoreCase);
     }

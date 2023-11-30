@@ -11,7 +11,7 @@ public partial class ApproveButton
         TimeSpan currentTime = currentDateTime.TimeOfDay;
         DateTime currentDate = currentDateTime.Date;
 
-        string errorMessage = null;
+        string? errorMessage = null;
 
         if (currentDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
         {

@@ -1,4 +1,6 @@
-﻿namespace BikeSparesInventorySystem.Providers;
+﻿using System.Collections;
+
+namespace BikeSparesInventorySystem.Providers;
 
 internal class JsonFileProvider<TSource> : FileProvider<TSource> where TSource : IModel
 {
@@ -31,7 +33,8 @@ internal class JsonFileProvider<TSource> : FileProvider<TSource> where TSource :
     {
         try
         {
-            return (await JsonSerializer.DeserializeAsync<List<TSource>>(stream, options)).ToList();
+            var list = await JsonSerializer.DeserializeAsync<List<TSource>>(stream, options);            
+            return list ??= [];
         }
         catch
         {

@@ -1,4 +1,4 @@
-﻿@page "/login"
+﻿@attribute [Route(Login.Route)]
 @layout EmptyLayout
 
 @inject BikeSparesInventorySystem.Services.AuthService _authService
@@ -15,11 +15,11 @@
             <MudIcon Icon="@Icons.Material.Filled.BikeScooter" Color="Color.Primary" Size="Size.Large" />
             <MudText Color="Color.Primary" Typo="Typo.h4" Style="font-weight: bold">Bikare</MudText>
         </MudStack>
-        <MudForm @ref="Form">
-            <MudTextField T="string" Label="Username" @bind-Value="@Username" InputType="InputType.Text" Required="true" />
-            <MudTextField T="string" Label="Password" @bind-Value="@Password" Required="true" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
+        <MudForm @ref="_form">
+            <MudTextField T="string" Label="Username" @bind-Value="@_username" InputType="InputType.Text" Required="true" />
+            <MudTextField T="string" Label="Password" @bind-Value="@_password" Required="true" InputType="@_passwordInput" Adornment="Adornment.End" AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
             <MudStack Row="true" Class="mt-6 justify-space-between">
-                <MudCheckBox @bind-Checked="@StayLoggedIn" Label="Stay logged in" Color="Color.Primary"></MudCheckBox>                
+                <MudCheckBox @bind-Checked="@_stayLoggedIn" Label="Stay logged in" Color="Color.Primary"></MudCheckBox>                
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@LoginHandler">Login</MudButton>
             </MudStack>
         </MudForm>

@@ -4,9 +4,9 @@ public partial class ChangePassword
 {
     public const string Route = "/change-password";
 
-    private MudForm Form;
-    private string CurrentPassword { get; set; }
-    private string NewPassword { get; set; }
+    private MudForm _form;
+    private string _currentPassword;
+    private string _newPassword;
 
     [CascadingParameter]
     private Action<string> SetAppBarTitle { get; set; }
@@ -20,12 +20,12 @@ public partial class ChangePassword
     {
         try
         {
-            Form.Validate();
-            if (Form.IsValid)
+            _form.Validate();
+            if (_form.IsValid)
             {
-                _authService.ChangePassword(CurrentPassword, NewPassword);
+                _authService.ChangePassword(_currentPassword, _newPassword);
                 SnackBar.Add("The password has been changed successfully.", Severity.Success);
-                Form.ResetAsync();
+                _form.ResetAsync();
             }
         }
         catch (Exception e)
