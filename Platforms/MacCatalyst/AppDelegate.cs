@@ -1,12 +1,10 @@
 ﻿using Foundation;
 
-namespace BikeSparesInventorySystem.Platforms.MacCatalyst;
-
-[Register("AppDelegate")]
-public class AppDelegate : MauiUIApplicationDelegate
+namespace BikeSparesInventorySystem
 {
-    protected override MauiApp CreateMauiApp()
+    [Register("AppDelegate")]
+    public class AppDelegate : MauiUIApplicationDelegate
     {
-        return MauiProgram.CreateMauiAppAsync();
+        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
     }
 }

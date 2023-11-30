@@ -1,46 +1,45 @@
-﻿using MudBlazor.Services;
-
-namespace BikeSparesInventorySystem;
-
-public static class MauiProgram
+﻿namespace BikeSparesInventorySystem
 {
-    public static MauiApp CreateMauiAppAsync()
+    public static class MauiProgram
     {
-        MauiAppBuilder builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiApp<App>()
-            .ConfigureFonts(fonts =>
-            {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-            });
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
+            builder
+                .UseMauiApp<App>()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                });
 
-        builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
-        builder.Services.AddBlazorWebViewDeveloperTools();
+    		builder.Services.AddBlazorWebViewDeveloperTools();
+    		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddMudServices(config =>
+            {
+                config.SnackbarConfiguration.VisibleStateDuration = 4000;
+                config.SnackbarConfiguration.HideTransitionDuration = 200;
+                config.SnackbarConfiguration.ShowTransitionDuration = 200;
+                config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomStart;
+            });
 
-        builder.Services.AddMudServices(config =>
-        {
-            config.SnackbarConfiguration.VisibleStateDuration = 4000;
-            config.SnackbarConfiguration.HideTransitionDuration = 200;
-            config.SnackbarConfiguration.ShowTransitionDuration = 200;
-            config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
-            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomStart;
-        });
+            // builder.Services.AddCsvFileProvider();
+            // builder.Services.AddExcelFileProvider();
+            builder.Services.AddJsonFileProvider();
 
-        // builder.Services.AddCsvFileProvider();
-        // builder.Services.AddExcelFileProvider();
-        builder.Services.AddJsonFileProvider();
+            builder.Services.AddRepository();
 
-        builder.Services.AddRepository();
+            builder.Services.AddSeeder();
 
-        builder.Services.AddSeeder();
+            builder.Services.AddSession();
 
-        builder.Services.AddSession();
+            builder.Services.AddAuth();
 
-        builder.Services.AddAuth();
-
-        return builder.Build();
+            return builder.Build();
+        }
     }
 }

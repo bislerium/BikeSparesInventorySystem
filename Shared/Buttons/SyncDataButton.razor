@@ -1,8 +1,0 @@
-﻿@inject BikeSparesInventorySystem.Data.Repositories.Repository<User> UserRepository
-@inject BikeSparesInventorySystem.Data.Repositories.Repository<Spare> SpareRepository
-@inject BikeSparesInventorySystem.Data.Repositories.Repository<ActivityLog> ActivityLogRepository
-@inject ISnackbar Snackbar
-
-<MudTooltip Text="Sync to Disk">
-    <MudIconButton Icon="@Icons.Material.Filled.Sync" Color="Color.Primary" DisableElevation="true" Disabled="@IsSaving" OnClick="@SaveData" />
-</MudTooltip>

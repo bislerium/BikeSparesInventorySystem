@@ -1,0 +1,133 @@
+﻿@page "/inventory"
+@layout MainLayout
+
+@inject BikeSparesInventorySystem.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Repositories.Repository<ActivityLog> ActivityLogRepository;
+@inject BikeSparesInventorySystem.Services.AuthService AuthService;
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<MudTable 
+    Elevation="0" 
+    Items="@Elements" 
+    FixedHeader="@Fixed_header" 
+    FixedFooter="@Fixed_footer"
+    Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
+    Dense="@Dense"
+    Hover="@Hover"
+    ReadOnly="@ReadOnly"
+    CanCancelEdit="@CanCancelEdit"
+    Filter="new Func<Spare,bool>(FilterFunc)"
+        @bind-SelectedItem="SelectedItem" 
+        SortLabel="Sort By" 
+        CommitEditTooltip="Commit Edit"
+        OnPreviewEditClick="@(() => SpareDescTracks[SelectedItem.Id] = false)"
+        RowsPerPage="25"
+        OnCommitEditClick="@(() => Snackbar.Add("Spare Updated!", Severity.Success))"
+        RowEditPreview="BackupItem"
+        RowEditCancel="ResetItemToOriginalValues"
+        IsEditRowSwitchingBlocked="@BlockSwitch"
+        ApplyButtonPosition="@ApplyButtonPosition"
+        EditButtonPosition="@EditButtonPosition"
+        EditTrigger="@EditTrigger">
+    <ToolBarContent>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add Spare" DisableElevation="true" OnClick="AddDialog" />
+            <MudStack Row="true">
+                <ImportButton T="Spare" ChangeParentState="StateHasChanged" />
+                <ExportButton T="Spare" />
+            </MudStack>
+        }
+        <MudSpacer />
+        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+    </ToolBarContent>
+    <ColGroup>
+        <col />
+        <col />
+        <col width="400" />
+        <col />
+        <col />
+        <col/>
+        <col/>
+    </ColGroup>
+    <HeaderContent>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Name)">Spare Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Description)">Description</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Company)">Company</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Spare, object>(x=>x.AvailableQuantity)">Available Quantity</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;">Last Taken Out</MudTh>
+        <MudTh Style="white-space: nowrap;">Action</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="ID">
+            <MudChip>@context.Id</MudChip>
+            </MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Spare Name">@context.Name</MudTd>
+        <MudTd Style="white-space: nowrap;">
+            <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(@context.Id))">
+                @((GetShow(@context.Id)) ? "Hide" : "Show") Description
+            </MudButton>
+        </MudTd>      
+        <MudTd Style="white-space: nowrap;" DataLabel="Company">@context.Company</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Price">Rs. @context.Price</MudTd>
+        <MudTd DataLabel="Available Quantity">
+            @if (@context.AvailableQuantity == 0)
+            {
+                <MudText Color="Color.Secondary">Stockout</MudText>
+            } else
+            {
+                @context.AvailableQuantity
+            }
+        </MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
+        <MudTd DataLabel="Action">
+            <MudStack Row="true">
+                @if (AuthService.IsUserAdmin())
+                {
+                    <MudTooltip Text="@($"{Enum.GetName(StockAction.Add)} Stock")">
+                        <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" OnClick="() => ActOnStock(context ,StockAction.Add)" />
+                    </MudTooltip>
+                }                
+                <MudTooltip Text="@($"{Enum.GetName(StockAction.Deduct)} Stock")">
+                    <MudIconButton Icon="@Icons.Material.Filled.Remove" Color="Color.Secondary" OnClick="() => ActOnStock(context, StockAction.Deduct)" />
+                </MudTooltip>
+            </MudStack>
+        </MudTd>
+    </RowTemplate>
+    <ChildRowContent>
+        @if (GetShow(@context.Id))
+        {
+            <td colspan="6">
+                <MudContainer MaxWidth="MaxWidth.Medium">
+                    <MudText Style="padding: 40px">@context.Description</MudText>
+                </MudContainer>
+            </td>
+        }
+    </ChildRowContent>
+    <RowEditingTemplate>
+        <MudTd DataLabel="ID">@context.Id</MudTd>
+        <MudTd DataLabel="Spare Name">
+            <MudTextField @bind-Value="@context.Name" Required />
+        </MudTd>
+        <MudTd DataLabel="Description">
+            <MudTextField Lines="6" @bind-Value="@context.Description" Required />
+        </MudTd>
+        <MudTd DataLabel="Company">
+            <MudTextField @bind-Value="@context.Company" Required/>
+        </MudTd>
+        <MudTd DataLabel="Price">
+            <MudTextField @bind-Value="@context.Price" Required />
+        </MudTd>
+        <MudTd DataLabel="Available Quantity">
+            <MudTextField @bind-Value="@context.AvailableQuantity" Required />
+        </MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Last Taken Out">@GetLastTakenOut(context.Id)</MudTd>
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 25, 50, 100, 200, 300,}" />
+    </PagerContent>    
+</MudTable>

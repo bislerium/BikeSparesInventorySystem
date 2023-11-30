@@ -1,0 +1,19 @@
+﻿@page "/"
+@layout EmptyLayout
+
+@inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
+@inject BikeSparesInventorySystem.Services.SessionService _sessionService
+@inject BikeSparesInventorySystem.Services.AuthService _authService
+@inject BikeSparesInventorySystem.Repositories.Repository<User> _userRepository;
+@inject BikeSparesInventorySystem.Repositories.Repository<Spare> _spareRepository;
+@inject BikeSparesInventorySystem.Repositories.Repository<ActivityLog> _activityLogRepository;
+
+@inject ISnackbar Snackbar;
+
+<div class="d-flex justify-center align-center" style="height: 100vh">
+    <MudStack AlignItems="AlignItems.Center">
+        <MudIcon Icon="@Icons.Material.Filled.BikeScooter" Color="Color.Primary" Style="font-size:120" />
+        <MudProgressLinear Color="Color.Primary" Indeterminate="true" />
+    </MudStack>
+</div>
+

@@ -1,0 +1,127 @@
+﻿@page "/activity-logs"
+@layout MainLayout
+
+@inject BikeSparesInventorySystem.Repositories.Repository<ActivityLog> ActivityLogRepository;
+@inject BikeSparesInventorySystem.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Repositories.Repository<User> UserRepository;
+@inject BikeSparesInventorySystem.Services.AuthService AuthService
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService;
+
+<MudTable 
+    Elevation="0" 
+    Items="@Elements" 
+    FixedHeader="@Fixed_header" 
+    FixedFooter="@Fixed_footer" 
+    Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" 
+    Dense="@Dense" 
+    Hover="@Hover" 
+    ReadOnly="@ReadOnly" 
+    Filter="new Func<ActivityLog,bool>(FilterFunc)"
+        SortLabel="Sort By"
+        RowsPerPage="25"
+        HorizontalScrollbar="true" >
+    <ToolBarContent>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudStack Row="true">
+                <ImportButton T="ActivityLog" ChangeParentState="StateHasChanged"/>
+                <ExportButton T="ActivityLog" />
+            </MudStack>
+        }
+        <MudSpacer />
+        <MudStack Row="true">
+            <MudTextField @bind-Value="SearchString" Label="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Class="mt-0" Clearable="true"></MudTextField>
+            <MudTextField T="string" Class="mt-0" Label="Filter Approved Deduction" InputType="InputType.Month" Clearable="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.FilterAlt" ValueChanged="(a) => FilterByMonth(a)" />
+        </MudStack>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.SpareID)">Spare</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Quantity)">Quantity</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Action)">Action</MudTableSortLabel></MudTh>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ActedBy)">Acted By</MudTableSortLabel></MudTh>
+        }
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ActionOn)">On</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ApprovalStatus)">Approval Status</MudTableSortLabel></MudTh>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.Approver)">Approver</MudTableSortLabel></MudTh>
+        }
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ApprovalStatusOn)">On</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
+        <MudTd DataLabel="Spare">
+            <SpareChip SpareName="@GetSpareName(context.SpareID)" />
+        </MudTd>
+        <MudTd DataLabel="Quantity">@context.Quantity</MudTd>
+        <MudTd DataLabel="Action">
+            @switch (@context.Action)
+            {
+                case StockAction.Add:
+                    <MudTooltip Text = "Add">
+                        <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Add" />
+                    </MudTooltip>
+                    break;
+                case StockAction.Deduct:
+                    <MudTooltip Text="Deduct">
+                        <MudIcon Color="Color.Secondary" Icon="@Icons.Material.Filled.Remove" />
+                    </MudTooltip>
+                    break;               
+            }            
+        </MudTd>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudTd DataLabel="Acted By"><UserChip user="GetUser(context.ActedBy)"/></MudTd>
+        }
+        <MudTd Style="white-space: nowrap;" DataLabel="Action On">@context.ActionOn</MudTd>
+        <MudTd DataLabel="Is Approved">
+            @switch (@context.ApprovalStatus)
+            {
+                case ApprovalStatus.Approve:
+                    <MudTooltip Text = "Approved">
+                        <MudIcon Color="Color.Success" Icon="@Icons.Material.Filled.Check" />
+                    </MudTooltip>
+                    break;
+                case ApprovalStatus.Disapprove:
+                    <MudTooltip Text="Disapproved">
+                        <MudIcon Color="Color.Error" Icon="@Icons.Material.Filled.Close" />
+                    </MudTooltip>
+                    break;
+                case ApprovalStatus.Pending:
+                    <MudTooltip Text = "Pending">
+                        <MudIcon Color="Color.Warning" Icon="@Icons.Material.Filled.HourglassTop" />
+                    </MudTooltip>
+                    break;
+            }
+        </MudTd>
+        @if (AuthService.IsUserAdmin())
+        {
+            <MudTd DataLabel="Approved By">@if (context.ApprovalStatus == ApprovalStatus.Pending)
+                {
+                    <ApproveButton ActivityLog="@context" ChangeParentState="@StateHasChanged"/>
+                }
+                else
+                {
+                    <UserChip user="GetUser(context.Approver)" />
+                }
+            </MudTd>
+        }
+        <MudTd Style="white-space: nowrap;" DataLabel="Approval Status On">@if (@context.ApprovalStatusOn == default)
+            {
+                @("N/A")
+            } else
+            {
+                @context.ApprovalStatusOn
+            }
+        </MudTd>
+
+    </RowTemplate>    
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 25, 50, 100, 200, 400, }" />
+    </PagerContent>
+</MudTable>

@@ -1,0 +1,9 @@
+﻿@page "/dashboard"
+@layout MainLayout
+
+@inject BikeSparesInventorySystem.Repositories.Repository<Spare> SpareRepository;
+@inject BikeSparesInventorySystem.Repositories.Repository<ActivityLog> ActivityLogRepository;
+
+<MudContainer>
+    <Chart Class="pa-4" Config="Config" Height="calc(100vh - 64px)"></Chart>
+</MudContainer>

@@ -53,33 +53,33 @@ An Inventory management application made with the **.NET MAUI Blazor** framework
 
 ## Screenshots
 
-![Login Screen](screenshots/bikare_ss1.png)
+![Login Screen](Screenshots/bikare_ss1.png)
 
-![Change Password Screen](screenshots/bikare_ss2.png)
+![Change Password Screen](Screenshots/bikare_ss2.png)
 
-![Manage Users Screen](screenshots/bikare_ss3.png)
+![Manage Users Screen](Screenshots/bikare_ss3.png)
 
-![Manage Inventory Screen](screenshots/bikare_ss4.png)
+![Manage Inventory Screen](Screenshots/bikare_ss4.png)
 
-![Read Activity Logs Screen](screenshots/bikare_ss5.png)
+![Read Activity Logs Screen](Screenshots/bikare_ss5.png)
 
-![View Dashboard Screen](screenshots/bikare_ss6.png)
+![View Dashboard Screen](Screenshots/bikare_ss6.png)
 
-![Add User Dialog](screenshots/bikare_ss7.png)
+![Add User Dialog](Screenshots/bikare_ss7.png)
 
-![Add Spare Dialog](screenshots/bikare_ss8.png)
+![Add Spare Dialog](Screenshots/bikare_ss8.png)
 
-![Add Stock Dialog](screenshots/bikare_ss9.png)
+![Add Stock Dialog](Screenshots/bikare_ss9.png)
 
-![Request-Deduction Approval Dialog](screenshots/bikare_ss10.png)
+![Request-Deduction Approval Dialog](Screenshots/bikare_ss10.png)
 
-![Activity Logs Screen (non-Dark)](screenshots/bikare_ss11.png)
+![Activity Logs Screen (non-Dark)](Screenshots/bikare_ss11.png)
 
-![Users Screen (non-Dark)](screenshots/bikare_ss12.png)
+![Users Screen (non-Dark)](Screenshots/bikare_ss12.png)
 
-![Inventory Screen (non-Dark)](screenshots/bikare_ss13.png)
+![Inventory Screen (non-Dark)](Screenshots/bikare_ss13.png)
 
-![Update Inventory Item Screen (non-Dark)](screenshots/bikare_ss14.png)
+![Update Inventory Item Screen (non-Dark)](Screenshots/bikare_ss14.png)
 
 ## Dependencies
 
