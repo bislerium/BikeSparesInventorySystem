@@ -1,4 +1,4 @@
-﻿@page "/incomeSummary"
+﻿@page "/dailyIncome"
 @layout MainLayout
 
 @inject BikeSparesInventorySystem.Data.Repositories.Repository<Miners> MinersRepository
@@ -11,24 +11,24 @@
 @inject IDialogService DialogService
 
 <MudTable Items="@_Sales"
-        FixedHeader="@Fixed_header" 
-        FixedFooter="@Fixed_footer" 
-        Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")" 
-        Dense="@Dense" 
-        Hover="@Hover" 
-        ReadOnly="@ReadOnly" 
-        Filter="new Func<Sales,bool>(FilterFunc)"
-        HorizontalScrollbar="true"
-        @bind-SelectedItem="SelectedItem"
-        SortLabel="Sort By"
-        CommitEditTooltip="Commit Edit"
-        RowsPerPage="25"
-        OnCommitEditClick="@Update"
-        RowEditPreview="BackupItem"
-        IsEditRowSwitchingBlocked="@BlockSwitch"
-        ApplyButtonPosition="@ApplyButtonPosition"
-        EditButtonPosition="@EditButtonPosition"
-        EditTrigger="TableEditTrigger.EditButton">
+          FixedHeader="@Fixed_header"
+          FixedFooter="@Fixed_footer"
+          Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
+          Dense="@Dense"
+          Hover="@Hover"
+          ReadOnly="@ReadOnly"
+          Filter="new Func<Sales,bool>(FilterFunc)"
+          HorizontalScrollbar="true"
+@bind-SelectedItem="SelectedItem"
+          SortLabel="Sort By"
+          CommitEditTooltip="Commit Edit"
+          RowsPerPage="25"
+          OnCommitEditClick="@Update"
+          RowEditPreview="BackupItem"
+          IsEditRowSwitchingBlocked="@BlockSwitch"
+          ApplyButtonPosition="@ApplyButtonPosition"
+          EditButtonPosition="@EditButtonPosition"
+          EditTrigger="TableEditTrigger.EditButton">
     <ToolBarContent>
         @if (AuthService.IsUserAdmin())
         {
@@ -51,11 +51,11 @@
         </MudStack>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.MinersDate)">Date</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.DailyDate)">Date</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.GrossSale)">Gross Sales</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.Purchases)">Purchases</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.Expenses)">Expenses</MudTableSortLabel></MudTh>
-        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.NetSale)">Net Sales</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.DailyNetIncome)">Net Sales</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;">
             <MudTableSortLabel SortBy="new Func<Sales, object>(x => x.Tithes)">
                 <div class="d-flex flex-column justify-content-center">
@@ -68,20 +68,27 @@
             <MudTableSortLabel SortBy="new Func<Sales, object>(x => x.Charity)">
                 <div class="d-flex flex-column justify-content-center">
                     <MudText Typo="Typo.body1" Class="p-0 m-0">Charity</MudText>
-                    <MudText Typo="Typo.overline" Class="p-0 m-0">-10%</MudText>
+                    <MudText Typo="Typo.overline" Class="p-0 m-0">-5%</MudText>
                 </div>
             </MudTableSortLabel>
         </MudTh>
-        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.Car)">Car</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;">
+            <MudTableSortLabel SortBy="new Func<Sales, object>(x => x.Car)">
+                <div class="d-flex flex-column justify-content-center">
+                    <MudText Typo="Typo.body1" Class="p-0 m-0">Car</MudText>
+                    <MudText Typo="Typo.overline" Class="p-0 m-0">-5%</MudText>
+                </div>
+            </MudTableSortLabel>
+        </MudTh>
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<Sales, object>(x => x.Profit)">Profit</MudTableSortLabel></MudTh>
         <MudTh Style="white-space: nowrap;"></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd Style="white-space: nowrap;" DataLabel="Miners Date">@context.MinersDate.ToString("dd/MM/yyyy")</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Miners Date">@context.DailyDate.ToString("dd/MM/yyyy")</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Gross Sale">@context.GrossSale</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Purchases">@context.Purchases</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Expenses">@context.Expenses</MudTd>
-        <MudTd Style="white-space: nowrap;" DataLabel="Net Sale">@context.NetSale</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Net Sale">@context.DailyNetIncome</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Thithes">@context.Tithes</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Charity">@context.Charity</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Car">@context.Car</MudTd>
@@ -90,28 +97,28 @@
     </RowTemplate>
     <RowEditingTemplate>
         <MudTd DataLabel="Miners Date">
-                @context.MinersDate
+            @context.DailyDate
         </MudTd>
         <MudTd DataLabel="Gross Sale">
-                @context.GrossSale
+            @context.GrossSale
         </MudTd>
         <MudTd DataLabel="Miners Date">
             <MudSelect @bind-Value="_purchaseId">
                 @foreach (var purchase in _Purchases)
                 {
-                    <MudSelectItem Value="@purchase.Id">@purchase.CreatedAt</MudSelectItem>
+                    <MudSelectItem Value="@purchase.Id">@purchase.CreatedAt.ToString("MMM dd, yyyy")</MudSelectItem>
                 }
             </MudSelect>
         </MudTd>
         <MudTd DataLabel="Expenses">
-                <MudSelect @bind-Value="_expenseId">
+            <MudSelect @bind-Value="_expenseId">
                 @foreach (var expense in _Expenses)
                 {
-                    <MudSelectItem Value="expense.Id">@expense.CreatedAt</MudSelectItem>
+                    <MudSelectItem Value="expense.Id">@(expense.DateOfExpense.HasValue ? expense.DateOfExpense.Value.ToString("MMM dd, yyyy") : "N/A")</MudSelectItem>
                 }
-                </MudSelect>
+            </MudSelect>
         </MudTd>
-        <MudTd DataLabel="Net Sale">@context.NetSale</MudTd>
+        <MudTd DataLabel="Net Sale">@context.DailyNetIncome</MudTd>
         <MudTd DataLabel="Thithes">@context.Tithes</MudTd>
         <MudTd DataLabel="Charity">@context.Charity</MudTd>
         <MudTd DataLabel="Car">@context.Car</MudTd>
@@ -120,5 +127,5 @@
     <PagerContent>
         <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100, 200, 300,}" />
     </PagerContent>
-    </MudTable>
+</MudTable>
 

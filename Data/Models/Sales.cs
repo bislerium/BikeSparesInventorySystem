@@ -6,7 +6,9 @@ public class Sales : IModel, ICloneable
     public Guid PurchaseId { get; set; }
     public Guid MinerId { get; set; }
     public decimal GrossSale { get; set; }
-    public decimal NetSale { get; set; }
+    public decimal DailyNetIncome { get; set; }
+    public decimal WeeklyProfit { get; set; }
+    public decimal MonthlyProfit { get; set; }
     public decimal Tithes { get; set; }
     public decimal Charity { get; set; }
     public decimal Expenses { get; set; }
@@ -14,7 +16,7 @@ public class Sales : IModel, ICloneable
     public decimal Profit { get; set; }
     public decimal SalesEntry { get; set; }
     public decimal Purchases { get; set; }
-    public DateTime MinersDate { get; set; }
+    public DateTime DailyDate { get; set; }
     public DateTime PurchaseDate { get; set; }
     public DateTime? CreatedAt { get; set; }
 
@@ -26,7 +28,7 @@ public class Sales : IModel, ICloneable
             PurchaseId = PurchaseId,
             MinerId = MinerId,
             GrossSale = GrossSale,
-            NetSale = NetSale,
+            DailyNetIncome = DailyNetIncome,
             Tithes = Tithes,
             Charity = Charity,
             Expenses = Expenses,
@@ -34,7 +36,7 @@ public class Sales : IModel, ICloneable
             Profit = Profit,
             SalesEntry = SalesEntry,
             Purchases = Purchases,
-            MinersDate = MinersDate,
+            DailyDate = DailyDate,
             CreatedAt = CreatedAt,
         };
     }

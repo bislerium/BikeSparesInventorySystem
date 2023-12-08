@@ -5,7 +5,7 @@
         <MudGrid>
             <MudForm @ref="mudForm">
                 <MudItem xs="12">
-                    <MudTextField @bind-Value="@name" T="string" Placeholder="Category Name" Label="Category Name" Required />
+                    <MudTextField @bind-Value="@name" T="string" Placeholder="Expenses Namr" Label="Expenses Name" />
                  </MudItem>
                 <MudItem xs="12">
                     <MudTextField @bind-Value="@directCost" 
@@ -28,7 +28,7 @@
          <MudButton OnClick="AddExpense"
                     Variant="Variant.Filled"
                     Color="Color.Primary">
-             Add Category
+             Add Expenses
          </MudButton>
      </DialogActions>
  </MudDialog>
