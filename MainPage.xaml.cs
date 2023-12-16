@@ -1,9 +1,10 @@
-﻿namespace BikeSparesInventorySystem;
-
-public partial class MainPage : ContentPage
+﻿namespace BikeSparesInventorySystem
 {
-    public MainPage()
+    public partial class MainPage : ContentPage
     {
-        InitializeComponent();
+        public MainPage()
+        {
+            InitializeComponent();
+        }
     }
 }

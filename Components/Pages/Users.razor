@@ -1,0 +1,98 @@
+﻿@attribute [Route(Users.Route)]
+@layout MainLayout
+
+@inject BikeSparesInventorySystem.Repositories.Repository<User> UserRepository;
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<MudTable 
+    Elevation="0"
+    Items="@Elements"
+    FixedHeader="@Fixed_header"
+    FixedFooter="@Fixed_footer"
+    Height="@(Fixed_header || Fixed_footer ? "calc(100vh - 64px - 64px - 64px)" : "")"
+    Dense="@Dense"
+    Hover="@Hover"    
+    ReadOnly="@ReadOnly"
+    CanCancelEdit="@VanCancelEdit"
+    Filter="new Func<User,bool>(FilterFunc)"
+        SortLabel="Sort By"
+        RowsPerPage="25"
+        CommitEditTooltip="Commit Edit"
+        HorizontalScrollbar="true"
+        OnCommitEditClick="@(() => Snackbar.Add("User Updated!", Severity.Success))"
+        RowEditPreview="BackupItem"
+        RowEditCancel="ResetItemToOriginalValues"
+        IsEditRowSwitchingBlocked="@BlockSwitch"
+        ApplyButtonPosition="@ApplyButtonPosition"
+        EditButtonPosition="@EditButtonPosition"
+        EditTrigger="@EditTrigger">
+    <ToolBarContent>
+        <MudFab class="me-4" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" Label="Add User" DisableElevation="true" OnClick="AddDialog" />
+        <MudStack Row="true"> 
+            <ImportButton T="User" ChangeParentState="Reload" />
+            <ExportButton T="User"/>
+        </MudStack>
+        <MudSpacer />
+        <MudTextField @bind-Value="SearchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" Clearable="true"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Id)">ID</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.UserName)">User Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Email)">Email</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.FullName)">Full Name</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.PasswordHash)">Password Hash</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.Role)">Role</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.HasInitialPassword)">Initial Password</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedAt)">Created At</MudTableSortLabel></MudTh>
+        <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedBy)">Created By</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd Class="row-cols-md-auto" DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
+        <MudTd DataLabel="User Name">@context.UserName</MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Full Name">@context.FullName</MudTd>
+        <MudTd DataLabel="Password Hash"><MudChip>@context.PasswordHash</MudChip></MudTd>
+        <MudTd DataLabel="Role">
+            @if (@context.Role == UserRole.Admin)
+            {
+                <MudChip Size="Size.Small" Color="Color.Warning">Admin</MudChip>
+            } else
+            {
+                <MudChip Size="Size.Small" Color="Color.Default">Staff</MudChip>
+            }
+        </MudTd>
+        <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Created At">@context.CreatedAt</MudTd>
+        <MudTd DataLabel="Created By">
+            <MudChip>@GetUserName(@context.CreatedBy)</MudChip>
+        </MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>       
+        <MudTd DataLabel="User Name">@context.UserName</MudTd>
+        <MudTd DataLabel="Email">
+            <MudTextField @bind-Value="@context.Email" Required/>
+        </MudTd>
+        <MudTd DataLabel="Full Name">
+            <MudTextField @bind-Value="@context.FullName" Required />
+        </MudTd>
+        <MudTd DataLabel="Password Hash"><MudChip>@context.PasswordHash</MudChip></MudTd>
+        <MudTd DataLabel="Role">
+            <MudSelect @bind-Value="@context.Role" Label="State">
+                @foreach (UserRole item in Enum.GetValues(typeof(UserRole)))
+                {
+                    <MudSelectItem Value="@item">@Enum.GetName(typeof(UserRole), item)</MudSelectItem>
+                }
+            </MudSelect>         
+        </MudTd>
+        <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
+        <MudTd Style="white-space: nowrap;" DataLabel="Created At">@context.CreatedAt</MudTd>
+        <MudTd DataLabel="Created By"><MudChip>@context.CreatedBy</MudChip></MudTd>        
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 25, 50, 75, 100}" />
+    </PagerContent>
+</MudTable>
+
+

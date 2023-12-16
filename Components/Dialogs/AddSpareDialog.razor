@@ -1,0 +1,20 @@
+﻿@inject ISnackbar Snackbar
+@inject BikeSparesInventorySystem.Services.AuthService AuthService
+@inject BikeSparesInventorySystem.Repositories.Repository<Spare> SpareRepository;
+
+<MudDialog>
+    <DialogContent>
+        <MudForm @ref="form">
+            <MudTextField T="string" @bind-Value="@Name" Label="Spare Name" Required="true" RequiredError="Spare name is required!" />
+            <MudTextField T="string" @bind-Value="@Description" Label="Description" Required="true" RequiredError="Description is required!" Lines="5" />
+            <MudTextField T="string" @bind-Value="@Company" Label="Company" Required="true" RequiredError="Company is required!" />
+            <MudTextField T="Decimal" @bind-Value="@Price" Label="Price" Variant="Variant.Text" Adornment="Adornment.End" AdornmentText="NPR" Validation="@(new RangeAttribute(1, 10000000) { ErrorMessage = "Price must be between 1 and 10000000"})" />
+            <MudNumericField @bind-Value="@AvailableQuantity" Required="true" Label="Quantity" Variant="Variant.Text" Min="0" Max="100000" Validation="@(new RangeAttribute(1, 100000) { ErrorMessage = "Quantity must be between 1 and 100000"})" />
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" DisableElevation="true" OnClick="@(()=> form.ResetAsync())" Class="mx-2">Reset</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@AddSpare">Add</MudButton>
+    </DialogActions>
+</MudDialog>

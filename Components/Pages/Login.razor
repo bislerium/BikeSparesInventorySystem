@@ -1,0 +1,26 @@
+﻿@attribute [Route(Login.Route)]
+@layout EmptyLayout
+
+@inject BikeSparesInventorySystem.Services.AuthService _authService
+@inject Microsoft.AspNetCore.Components.NavigationManager _navigationManager
+
+@inject ISnackbar SnackBar;
+
+<SeedButton SetSeedUser="SetSeedUser" />
+
+<div style="height: calc(100vh - 64px)" class="d-flex justify-center align-center">
+    <MudPaper Class="pa-6" Width="50vh">
+        <MudStack Class="mb-4" Row="true" AlignItems="AlignItems.Center" Justify="Justify.Center" Spacing="2">
+            <MudIcon Icon="@Icons.Material.Filled.BikeScooter" Color="Color.Primary" Size="Size.Large" />
+            <MudText Color="Color.Primary" Typo="Typo.h4" Style="font-weight: bold">Bikare</MudText>
+        </MudStack>
+        <MudForm @ref="_form">
+            <MudTextField T="string" Label="Username" @bind-Value="@_username" InputType="InputType.Text" Required="true" />
+            <MudTextField T="string" Label="Password" @bind-Value="@_password" Required="true" InputType="@_passwordInput" Adornment="Adornment.End" AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
+            <MudStack Row="true" Class="mt-6 justify-space-between">
+                <MudCheckBox @bind-Checked="@_stayLoggedIn" Label="Stay logged in" Color="Color.Primary"></MudCheckBox>                
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@LoginHandler">Login</MudButton>
+            </MudStack>
+        </MudForm>
+    </MudPaper>
+</div>
