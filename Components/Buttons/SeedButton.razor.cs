@@ -7,8 +7,8 @@ public partial class SeedButton
     private async Task SeedData()
     {
         await _seederService.SeedAsync();
-        SetSeedUser.Invoke(UserRepository.Get(x => x.Id, Guid.Empty).UserName);
-        Seeder.OnDebugConsoleWriteUserNames(UserRepository.GetAll());
+        SetSeedUser.Invoke(UserRepository.Get(x => x.Id, Guid.Empty)!.UserName);
+        UserRepository.OnDebugConsoleWriteUserNames();
         SnackBar.Add("Seeding Succesfull", Severity.Success);
     }
 }

@@ -19,7 +19,6 @@ public partial class Login
 
             SnackBar.Add("Initial user created!", Severity.Info);
         }
-        Seeder.OnDebugConsoleWriteUserNames(UserRepository.GetAll());
     }
 
     private void SetSeedUser(string username)

@@ -20,6 +20,8 @@ public partial class Index
 
         await Task.Delay(1000);
 
+        _userRepository.OnDebugConsoleWriteUserNames();
+
         if (_authService.CurrentUser is null)
         {
             _navigationManager.NavigateTo(Login.Route);

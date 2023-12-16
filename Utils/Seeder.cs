@@ -4,7 +4,7 @@ internal static class Seeder
 {
     public static ICollection<User> GenerateUsers(int min, int max)
     {
-        List<Guid> adminIDs = new();
+        List<Guid> adminIDs = [];
         DateTime dateTime = DateTime.Now.Subtract(TimeSpan.FromDays(365));
         Faker<User> userFaker = new Faker<User>()
             .RuleFor(x => x.Id, y => adminIDs.Count == 0 ? Guid.Empty : Guid.NewGuid())
@@ -66,13 +66,5 @@ internal static class Seeder
                 y.ActedBy = user.Id;
             });
         return activityLogFaker.GenerateBetween(min, max);
-    }
-
-    public static void OnDebugConsoleWriteUserNames(ICollection<User> collection)
-    {
-        foreach (User i in collection)
-        {
-            System.Diagnostics.Debug.WriteLine($"{i.UserName} | {i.HasInitialPassword} | {i.Role}");
-        }
     }
 }

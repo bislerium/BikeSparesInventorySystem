@@ -18,7 +18,7 @@ public partial class Inventory
     private readonly TableEditButtonPosition EditButtonPosition = TableEditButtonPosition.End;
     private readonly TableEditTrigger EditTrigger = TableEditTrigger.RowClick;
     private IEnumerable<Spare> Elements;
-    private readonly Dictionary<Guid, bool> SpareDescTracks = new();
+    private readonly Dictionary<Guid, bool> SpareDescTracks = [];
 
     [CascadingParameter]
     private Action<string> SetAppBarTitle { get; set; }

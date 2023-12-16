@@ -1,18 +1,12 @@
 ﻿namespace BikeSparesInventorySystem.Services;
 
-internal class AuthService
+internal class AuthService(Repository<User> userRepository, SessionService sessionService)
 {
-    private readonly Repository<User> _userRepository;
+    private readonly Repository<User> _userRepository = userRepository;
 
-    private readonly SessionService _sessionService;
+    private readonly SessionService _sessionService = sessionService;
 
     public User? CurrentUser { get; private set; }
-
-    public AuthService(Repository<User> userRepository, SessionService sessionService)
-    {
-        _userRepository = userRepository;
-        _sessionService = sessionService;
-    }
 
     public async Task<string?> SeedInitialUser()
     {

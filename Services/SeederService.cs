@@ -1,6 +1,6 @@
 ﻿namespace BikeSparesInventorySystem.Services;
 
-internal class SeederService
+internal class SeederService(Repository<User> userRepository, Repository<Spare> spareRepository, Repository<ActivityLog> activityLogRepository)
 {
     internal int MinUsers { get; set; } = 30;
     internal int MaxUsers { get; set; } = 44;
@@ -9,16 +9,9 @@ internal class SeederService
     internal int MinActivityLogs { get; set; } = 1650;
     internal int MaxActivityLogs { get; set; } = 3200;
 
-    private readonly Repository<User> _userRepository;
-    private readonly Repository<Spare> _spareRepository;
-    private readonly Repository<ActivityLog> _activityLogRepository;
-
-    public SeederService(Repository<User> userRepository, Repository<Spare> spareRepository, Repository<ActivityLog> activityLogRepository)
-    {
-        _userRepository = userRepository;
-        _spareRepository = spareRepository;
-        _activityLogRepository = activityLogRepository;
-    }
+    private readonly Repository<User> _userRepository = userRepository;
+    private readonly Repository<Spare> _spareRepository = spareRepository;
+    private readonly Repository<ActivityLog> _activityLogRepository = activityLogRepository;
 
     public async Task SeedAsync()
     {

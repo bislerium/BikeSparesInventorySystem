@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace BikeSparesInventorySystem.Providers;
+﻿namespace BikeSparesInventorySystem.Providers;
 
 internal class JsonFileProvider<TSource> : FileProvider<TSource> where TSource : IModel
 {

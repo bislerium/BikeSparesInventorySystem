@@ -1,6 +1,6 @@
 ﻿namespace BikeSparesInventorySystem.Utils;
 
-internal static class Hasher
+internal static partial class Hasher
 {
     private const char SEGMENT_DELIMITER = ':';
     private const int SALT_SIZE = 16;
@@ -49,43 +49,34 @@ internal static class Hasher
             yield return "Required!";
             yield break;
         }
+
         if (pw.Length < 8)
         {
             yield return "Password must be at least of length 8";
         }
 
-        if (!Regex.IsMatch(pw, @"[A-Z]"))
+        if (!CaptialLetterRegex().IsMatch(pw))
         {
             yield return "Password must contain at least one capital letter";
         }
 
-        if (!Regex.IsMatch(pw, @"[a-z]"))
+        if (!LowerLetterRegex().IsMatch(pw))
         {
             yield return "Password must contain at least one lowercase letter";
         }
 
-        if (!Regex.IsMatch(pw, @"[0-9]"))
+        if (!DigitRegex().IsMatch(pw))
         {
             yield return "Password must contain at least one digit";
         }
     }
 
-    /*        public static string GetAppDirectoryPath()
-            {
-                return Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "Islington-Todo"
-                );
-            }
+    [GeneratedRegex(@"[A-Z]")]
+    private static partial Regex CaptialLetterRegex();
 
-            public static string GetAppUsersFilePath()
-            {
-                return Path.Combine(GetAppDirectoryPath(), "users.json");
-            }
+    [GeneratedRegex(@"[a-z]")]
+    private static partial Regex LowerLetterRegex();
 
-            public static string GetTodosFilePath(Guid userId)
-            {
-                return Path.Combine(GetAppDirectoryPath(), userId.ToString() + "_todos.json");
-            }*/
-
+    [GeneratedRegex(@"[0-9]")]
+    private static partial Regex DigitRegex();
 }

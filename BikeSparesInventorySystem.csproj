@@ -71,9 +71,9 @@
     </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Bogus" Version="34.0.2" />
+		<PackageReference Include="Bogus" Version="35.0.1" />
 		<PackageReference Include="CsvHelper" Version="30.0.1" />
-		<PackageReference Include="ExcelMapper" Version="5.2.542" />
+		<PackageReference Include="ExcelMapper" Version="5.2.564" />
 		<PackageReference Include="MudBlazor" Version="6.11.1" />
 		<PackageReference Include="PSC.Blazor.Components.Chartjs" Version="6.0.43" />
 	</ItemGroup>
