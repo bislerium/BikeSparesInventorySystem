@@ -6,4 +6,12 @@ internal static class Repository
     {
         return userRepository.Contains(x => x.UserName, userName);
     }
+
+    public static void OnDebugConsoleWriteUserNames(this Repository<User> userRepository)
+    {
+        foreach (User i in userRepository.GetAll())
+        {
+            System.Diagnostics.Debug.WriteLine($"{{ Username = {i.UserName} , InitialPassword = {i.HasInitialPassword} , Role = {i.Role}}}");
+        }
+    }
 }

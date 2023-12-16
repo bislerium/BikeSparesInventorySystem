@@ -67,12 +67,4 @@ internal static class Seeder
             });
         return activityLogFaker.GenerateBetween(min, max);
     }
-
-    public static void OnDebugConsoleWriteUserNames(ICollection<User> collection)
-    {
-        foreach (User i in collection)
-        {
-            System.Diagnostics.Debug.WriteLine($"{i.UserName} | {i.HasInitialPassword} | {i.Role}");
-        }
-    }
 }

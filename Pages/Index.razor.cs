@@ -13,10 +13,12 @@ public partial class Index
         }
         catch (Exception ex)
         {
-            Snackbar.Add(ex.Message, MudBlazor.Severity.Error);
+            Snackbar.Add(ex.Message, Severity.Error);
         }
 
         await Task.Delay(1000);
+
+        _userRepository.OnDebugConsoleWriteUserNames();
 
         if (_authService.CurrentUser is null)
         {
