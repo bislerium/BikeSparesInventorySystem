@@ -5,14 +5,14 @@
 <MudDialog>
     <DialogContent>
         <MudForm @ref="form">
-            <MudTextField T="string" @bind-Value="@UserName" Label="Username" Required="true" Validation="@(new Func<string, IEnumerable<string>>(UserNameValidation))" />
-            <MudTextField T="string" @bind-Value="@Email" Label="Email" Required="true" RequiredError="Email is required!"
+            <MudTextField  @bind-Value="@UserName" Label="Username" Required="true" Validation="@(new Func<string, IEnumerable<string>>(UserNameValidation))" />
+            <MudTextField @bind-Value="@Email" Label="Email" Required="true" RequiredError="Email is required!"
                           Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />
-            <MudTextField T="string" @bind-Value="@FullName" Label="Fullname" Required="true" RequiredError="Fullname is required!" />
+            <MudTextField @bind-Value="@FullName" Label="Fullname" Required="true" RequiredError="Fullname is required!" />
             <div class="d-flex">
                 <MudRadioGroup T="string" @bind-SelectedOption="@Role" Required="true" RequiredError="User Role is required!">
-                    <MudRadio Option="@("Admin")">Admin</MudRadio>
-                    <MudRadio Option="@("Staff")">Staff</MudRadio>
+                    <MudRadio Value="@("Admin")">Admin</MudRadio>
+                    <MudRadio Value="@("Staff")">Staff</MudRadio>
                 </MudRadioGroup>
             </div>            
         </MudForm>

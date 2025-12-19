@@ -2,10 +2,11 @@
 
 <MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@IsDarkMode" />
 <MudDialogProvider MaxWidth="MaxWidth.ExtraSmall"
-                   DisableBackdropClick="true"
+                   BackdropClick="false"
                    Position="DialogPosition.Center"
                    CloseOnEscapeKey="true" />
 <MudSnackbarProvider />
+<MudPopoverProvider />
 
 <MudLayout>
     <CascadingValue Value="this">

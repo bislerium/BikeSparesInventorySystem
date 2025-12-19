@@ -2,7 +2,7 @@
 
 public partial class ApproveDialog
 {
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
 
     [Parameter] public Action ChangeParentState { get; set; }
 

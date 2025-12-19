@@ -54,7 +54,7 @@
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<ActivityLog, object>(x=>x.ApprovalStatusOn)">On</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
+        <MudTd DataLabel="ID"><MudChip T="string">@context.Id</MudChip></MudTd>
         <MudTd DataLabel="Spare">
             <SpareChip SpareName="@GetSpareName(context.SpareID)" />
         </MudTd>
@@ -76,7 +76,7 @@
         </MudTd>
         @if (AuthService.IsUserAdmin())
         {
-            <MudTd DataLabel="Acted By"><UserChip user="GetUser(context.ActedBy)"/></MudTd>
+            <MudTd DataLabel="Acted By"><UserChip User="GetUser(context.ActedBy)"/></MudTd>
         }
         <MudTd Style="white-space: nowrap;" DataLabel="Action On">@context.ActionOn</MudTd>
         <MudTd DataLabel="Is Approved">
@@ -107,7 +107,7 @@
                 }
                 else
                 {
-                    <UserChip user="GetUser(context.Approver)" />
+                    <UserChip User="GetUser(context.Approver)" />
                 }
             </MudTd>
         }

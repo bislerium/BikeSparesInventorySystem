@@ -66,18 +66,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)"/>
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0"/>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.20" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.20" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Bogus" Version="35.0.1"/>
-        <PackageReference Include="CsvHelper" Version="30.0.1"/>
-        <PackageReference Include="ExcelMapper" Version="5.2.564"/>
-        <PackageReference Include="MudBlazor" Version="6.11.1"/>
-        <PackageReference Include="PSC.Blazor.Components.Chartjs" Version="6.0.43"/>
+        <PackageReference Include="Bogus" Version="35.6.5" />
+        <PackageReference Include="CsvHelper" Version="33.1.0" />
+        <PackageReference Include="ExcelMapper" Version="6.0.614" />
+        <PackageReference Include="MudBlazor" Version="8.15.0" />
+        <PackageReference Include="PSC.Blazor.Components.Chartjs" Version="8.0.8" />
     </ItemGroup>
 
 </Project>

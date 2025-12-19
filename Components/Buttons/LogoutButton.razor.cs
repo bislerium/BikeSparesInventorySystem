@@ -8,13 +8,13 @@ public partial class LogoutButton
         {
             { "ContentText", "Do you really want to Logout?" },
             { "ButtonText", "Logout" },
-            { "Color", MudBlazor.Color.Error }
+            { "Color", MudBlazor.Color.Error },
         };
 
-        IDialogReference dialog = await DialogService.ShowAsync<Dialog>("Logout", parameters);
-        DialogResult result = await dialog.Result;
+        var dialog = await DialogService.ShowAsync<Dialog>("Logout", parameters);
+        var result = await dialog.Result;
 
-        if (!result.Canceled)
+        if (!result!.Canceled)
         {
             AuthService.LogOut();
             Snackbar.Clear();

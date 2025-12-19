@@ -48,28 +48,28 @@
         <MudTh Style="white-space: nowrap;"><MudTableSortLabel SortBy="new Func<User, object>(x=>x.CreatedBy)">Created By</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd Class="row-cols-md-auto" DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>
+        <MudTd Class="row-cols-md-auto" DataLabel="ID"><MudChip T="string">@context.Id</MudChip></MudTd>
         <MudTd DataLabel="User Name">@context.UserName</MudTd>
         <MudTd DataLabel="Email">@context.Email</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Full Name">@context.FullName</MudTd>
-        <MudTd DataLabel="Password Hash"><MudChip>@context.PasswordHash</MudChip></MudTd>
+        <MudTd DataLabel="Password Hash"><MudChip T="string">@context.PasswordHash</MudChip></MudTd>
         <MudTd DataLabel="Role">
             @if (@context.Role == UserRole.Admin)
             {
-                <MudChip Size="Size.Small" Color="Color.Warning">Admin</MudChip>
+                <MudChip T="string" Size="Size.Small" Color="Color.Warning">Admin</MudChip>
             } else
             {
-                <MudChip Size="Size.Small" Color="Color.Default">Staff</MudChip>
+                <MudChip T="string" Size="Size.Small" Color="Color.Default">Staff</MudChip>
             }
         </MudTd>
         <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Created At">@context.CreatedAt</MudTd>
         <MudTd DataLabel="Created By">
-            <MudChip>@GetUserName(@context.CreatedBy)</MudChip>
+            <MudChip T="string">@GetUserName(@context.CreatedBy)</MudChip>
         </MudTd>
     </RowTemplate>
     <RowEditingTemplate>
-        <MudTd DataLabel="ID"><MudChip>@context.Id</MudChip></MudTd>       
+        <MudTd DataLabel="ID"><MudChip T="string">@context.Id</MudChip></MudTd>       
         <MudTd DataLabel="User Name">@context.UserName</MudTd>
         <MudTd DataLabel="Email">
             <MudTextField @bind-Value="@context.Email" Required/>
@@ -77,7 +77,7 @@
         <MudTd DataLabel="Full Name">
             <MudTextField @bind-Value="@context.FullName" Required />
         </MudTd>
-        <MudTd DataLabel="Password Hash"><MudChip>@context.PasswordHash</MudChip></MudTd>
+        <MudTd DataLabel="Password Hash"><MudChip T="string">@context.PasswordHash</MudChip></MudTd>
         <MudTd DataLabel="Role">
             <MudSelect @bind-Value="@context.Role" Label="State">
                 @foreach (UserRole item in Enum.GetValues(typeof(UserRole)))
@@ -88,7 +88,7 @@
         </MudTd>
         <MudTd DataLabel="Initial Password">@context.HasInitialPassword</MudTd>
         <MudTd Style="white-space: nowrap;" DataLabel="Created At">@context.CreatedAt</MudTd>
-        <MudTd DataLabel="Created By"><MudChip>@context.CreatedBy</MudChip></MudTd>        
+        <MudTd DataLabel="Created By"><MudChip T="string">@context.CreatedBy</MudChip></MudTd>        
     </RowEditingTemplate>
     <PagerContent>
         <MudTablePager PageSizeOptions="new int[] { 25, 50, 75, 100}" />

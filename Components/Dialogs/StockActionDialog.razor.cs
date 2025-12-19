@@ -2,7 +2,7 @@
 
 public partial class StockActionDialog
 {
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
     [Parameter] public StockAction StockAction { get; set; }
     [Parameter] public Spare Spare { get; set; }
     [Parameter] public Action ChangeParentState { get; set; }

@@ -18,7 +18,7 @@
             <MudTextField T="string" Label="Username" @bind-Value="@_username" InputType="InputType.Text" Required="true" />
             <MudTextField T="string" Label="Password" @bind-Value="@_password" Required="true" InputType="@_passwordInput" Adornment="Adornment.End" AdornmentIcon="@_passwordInputIcon" OnAdornmentClick="ButtonTestclick" AdornmentAriaLabel="Show Password" />
             <MudStack Row="true" Class="mt-6 justify-space-between">
-                <MudCheckBox @bind-Checked="@_stayLoggedIn" Label="Stay logged in" Color="Color.Primary"></MudCheckBox>                
+                <MudCheckBox @bind-Value="@_stayLoggedIn" Label="Stay logged in" Color="Color.Primary"></MudCheckBox>                
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@LoginHandler">Login</MudButton>
             </MudStack>
         </MudForm>

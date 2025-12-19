@@ -2,7 +2,7 @@
 
 public partial class AddSpareDialog
 {
-    [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
     [Parameter] public Action ChangeParentState { get; set; }
 
     private MudForm form;

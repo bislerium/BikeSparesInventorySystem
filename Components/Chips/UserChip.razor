@@ -1,13 +1,13 @@
-﻿@if (user.Item2 is null)
+﻿@if (User.Item2 is null)
 {
     <MudIcon Icon="@Icons.Material.Filled.QuestionMark" Title="Null" />    
 } else
 {
-    <MudChip Variant="Variant.Text" Icon="@Icons.Material.Filled.AccountCircle" Color="@(user.Item1 ? Color.Warning : Color.Default)" Text="@user.Item2" />
+    <MudChip T="string"  Variant="Variant.Text" Icon="@Icons.Material.Filled.AccountCircle" Color="@(User.Item1 ? Color.Warning : Color.Default)" Text="@User.Item2" />
 }
 
 
 @code {
     [Parameter]
-    public required Tuple<bool, string> user { get; set; }
+    public required Tuple<bool, string?> User { get; set; }
 }

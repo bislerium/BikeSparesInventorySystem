@@ -24,7 +24,7 @@
                 config.SnackbarConfiguration.HideTransitionDuration = 200;
                 config.SnackbarConfiguration.ShowTransitionDuration = 200;
                 config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
-                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomStart;
+                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomEnd;
             });
 
             // builder.Services.AddCsvFileProvider();

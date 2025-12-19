@@ -3,9 +3,9 @@
 
 <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined"> 
     <MudFileUpload Class="mt-0" T="IBrowserFile" Accept=".json, .csv, .xlsx" FilesChanged="ImportFile">
-        <ButtonTemplate>
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" HtmlTag="label" StartIcon="@Icons.Material.Filled.Upload" for="@context">Import</MudButton>
-        </ButtonTemplate>
+        <ActivatorContent>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" HtmlTag="label" StartIcon="@Icons.Material.Filled.Upload">Import</MudButton>
+        </ActivatorContent>
     </MudFileUpload>
     <MudTooltip title="@(Append ? "Append" : "Append as New")">
         <MudToggleIconButton Icon="@Icons.Material.Filled.KeyboardArrowDown" Color="@Color.Primary" @bind-Toggled="@Append"

@@ -8,7 +8,7 @@
     <MudSpacer />
     <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
         <MudTooltip Text="@Enum.GetName(AuthService.CurrentUser.Role)">
-            <MudChip Icon="@Icons.Material.Filled.AccountCircle" Color="@(AuthService.CurrentUser.Role == UserRole.Admin ? Color.Warning : Color.Default)">                
+            <MudChip T="string" Icon="@Icons.Material.Filled.AccountCircle" Color="@(AuthService.CurrentUser.Role == UserRole.Admin ? Color.Warning : Color.Default)">                
                 <MudText Typo="Typo.body1">@AuthService.CurrentUser.FullName</MudText>                
             </MudChip>
         </MudTooltip>
