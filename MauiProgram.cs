@@ -1,45 +1,44 @@
-﻿namespace BikeSparesInventorySystem
+﻿namespace BikeSparesInventorySystem;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                });
-
-            builder.Services.AddMauiBlazorWebView();
-
-#if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
-#endif
-            builder.Services.AddMudServices(config =>
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
             {
-                config.SnackbarConfiguration.VisibleStateDuration = 4000;
-                config.SnackbarConfiguration.HideTransitionDuration = 200;
-                config.SnackbarConfiguration.ShowTransitionDuration = 200;
-                config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
-                config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomEnd;
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             });
 
-            // builder.Services.AddCsvFileProvider();
-            // builder.Services.AddExcelFileProvider();
-            builder.Services.AddJsonFileProvider();
+        builder.Services.AddMauiBlazorWebView();
 
-            builder.Services.AddRepository();
+#if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Logging.AddDebug();
+#endif
+        builder.Services.AddMudServices(config =>
+        {
+            config.SnackbarConfiguration.VisibleStateDuration = 4000;
+            config.SnackbarConfiguration.HideTransitionDuration = 200;
+            config.SnackbarConfiguration.ShowTransitionDuration = 200;
+            config.SnackbarConfiguration.MaxDisplayedSnackbars = 6;
+            config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomEnd;
+        });
 
-            builder.Services.AddSeeder();
+        // builder.Services.AddCsvFileProvider();
+        // builder.Services.AddExcelFileProvider();
+        builder.Services.AddJsonFileProvider();
 
-            builder.Services.AddSession();
+        builder.Services.AddRepository();
 
-            builder.Services.AddAuth();
+        builder.Services.AddSeeder();
 
-            return builder.Build();
-        }
+        builder.Services.AddSession();
+
+        builder.Services.AddAuth();
+
+        return builder.Build();
     }
 }
